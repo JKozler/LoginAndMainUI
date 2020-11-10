@@ -1,0 +1,14 @@
+﻿<Window x:Class="LoginAndMainUI.MainUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        xmlns:local="clr-namespace:LoginAndMainUI"
+        mc:Ignorable="d"
+        Title="MainUI" Height="450" Width="800">
+    <Grid>
+        
+    </Grid>
+</Window>
