@@ -9,6 +9,6 @@
         mc:Ignorable="d"
         Title="MainUI" Height="450" Width="800">
     <Grid>
-        
+        <Label>Ahoj</Label>
     </Grid>
 </Window>
