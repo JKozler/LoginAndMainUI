@@ -23,5 +23,10 @@ namespace LoginAndMainUI
         {
             InitializeComponent();
         }
+
+        private void gloraHome_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

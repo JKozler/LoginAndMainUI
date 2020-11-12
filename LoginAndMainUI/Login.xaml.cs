@@ -23,6 +23,13 @@ namespace LoginAndMainUI
         public MainWindow()
         {
             InitializeComponent();
+            MainUI mainUI = new MainUI();
+            mainUI.Show();
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
     }
 }
