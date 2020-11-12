@@ -28,5 +28,22 @@ namespace LoginAndMainUI
         {
 
         }
+
+        private void settingHome_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void startWorkTime_Click(object sender, RoutedEventArgs e)
+        {
+            startTime.Visibility = Visibility.Hidden;
+            stopTime.Visibility = Visibility.Visible;
+        }
+
+        private void stopWorkingTime_Click(object sender, RoutedEventArgs e)
+        {
+            stopTime.Visibility = Visibility.Hidden;
+            startTime.Visibility = Visibility.Visible;
+        }
     }
 }
