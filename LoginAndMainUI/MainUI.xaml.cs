@@ -45,5 +45,22 @@ namespace LoginAndMainUI
             stopTime.Visibility = Visibility.Hidden;
             startTime.Visibility = Visibility.Visible;
         }
+
+        private void informationBar_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void informationBarZero_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Button btn = (Button)sender;
+            btn.Background = new SolidColorBrush(Colors.Gray);
+        }
+
+        private void settingHome_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Button btn = (Button)sender;
+            btn.Background = mainElementPanel.Background;
+        }
     }
 }
