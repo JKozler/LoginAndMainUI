@@ -9,6 +9,8 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -19,6 +21,8 @@ namespace LoginAndMainUI
     /// </summary>
     public partial class MainUI : Window
     {
+        int notificationCounter = 0;
+        bool menuGloraIsEnabled = false;
         public MainUI()
         {
             InitializeComponent();
@@ -26,7 +30,18 @@ namespace LoginAndMainUI
 
         private void gloraHome_Click(object sender, RoutedEventArgs e)
         {
-
+            if (menuGloraIsEnabled)
+            {
+                DoubleAnimation widthProp = new DoubleAnimation(248, 0, new Duration(TimeSpan.FromSeconds(0.2)));
+                menuGloraIsEnabled = false;
+                menuGlora.BeginAnimation(WidthProperty, widthProp);
+            }
+            else
+            {
+                DoubleAnimation widthProp = new DoubleAnimation(0, 248, new Duration(TimeSpan.FromSeconds(0.2)));
+                menuGlora.BeginAnimation(WidthProperty, widthProp);
+                menuGloraIsEnabled = true;
+            }
         }
 
         private void settingHome_Click(object sender, RoutedEventArgs e)
@@ -48,7 +63,8 @@ namespace LoginAndMainUI
 
         private void informationBar_Click(object sender, RoutedEventArgs e)
         {
-
+            DoubleAnimation blurEnable = new DoubleAnimation(0, 0.6, new Duration(TimeSpan.FromSeconds(0.5)));
+            informationProperities.BeginAnimation(OpacityProperty, blurEnable);
         }
 
         private void informationBarZero_MouseEnter(object sender, MouseEventArgs e)
@@ -61,6 +77,22 @@ namespace LoginAndMainUI
         {
             Button btn = (Button)sender;
             btn.Background = mainElementPanel.Background;
+        }
+
+        private void closeNoti_Click(object sender, RoutedEventArgs e)
+        {
+            DoubleAnimation blurEnable = new DoubleAnimation(0.6, 0, new Duration(TimeSpan.FromSeconds(0.5)));
+            informationProperities.BeginAnimation(OpacityProperty, blurEnable);
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.G)
+                gloraHome_Click(sender, e);
+            else if (e.Key == Key.I)
+                informationBar_Click(sender, e);
+            else if (e.Key == Key.Escape)
+                closeNoti_Click(sender, e);
         }
     }
 }
