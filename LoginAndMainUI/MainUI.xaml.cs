@@ -63,7 +63,7 @@ namespace LoginAndMainUI
 
         private void informationBar_Click(object sender, RoutedEventArgs e)
         {
-            DoubleAnimation blurEnable = new DoubleAnimation(0, 0.6, new Duration(TimeSpan.FromSeconds(0.5)));
+            DoubleAnimation blurEnable = new DoubleAnimation(0, 0.9, new Duration(TimeSpan.FromSeconds(0.5)));
             informationProperities.BeginAnimation(OpacityProperty, blurEnable);
         }
 
@@ -81,7 +81,7 @@ namespace LoginAndMainUI
 
         private void closeNoti_Click(object sender, RoutedEventArgs e)
         {
-            DoubleAnimation blurEnable = new DoubleAnimation(0.6, 0, new Duration(TimeSpan.FromSeconds(0.5)));
+            DoubleAnimation blurEnable = new DoubleAnimation(0.9, 0, new Duration(TimeSpan.FromSeconds(0.5)));
             informationProperities.BeginAnimation(OpacityProperty, blurEnable);
         }
 
