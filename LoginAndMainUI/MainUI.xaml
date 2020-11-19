@@ -7,7 +7,7 @@
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         xmlns:local="clr-namespace:LoginAndMainUI"
         mc:Ignorable="d"
-        Title="MainUI" WindowStyle="None" KeyDown="Window_KeyDown" WindowState="Maximized" WindowStartupLocation="CenterScreen">
+        Title="MainUI" Width="1280" Height="720" WindowStyle="None" KeyDown="Window_KeyDown" WindowState="Maximized" WindowStartupLocation="CenterScreen">
     <Border x:Name="mainBorder">
         <Border.Background>
             <ImageBrush ImageSource="BackForTry.JPG" Stretch="UniformToFill"/>
@@ -94,18 +94,20 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Border Grid.Row="0" Grid.Column="0" Background="#FFEAEAEA" Opacity="0.94" Margin="20,20,20,0" CornerRadius="20" Height="135" VerticalAlignment="Top">
+                            <Border ToolTip="Information about tasks" Grid.Row="0" Grid.Column="0" Background="White" Opacity="0.94" Margin="20,20,20,0" CornerRadius="10" Height="135" VerticalAlignment="Top">
                                 <Border.Effect>
                                     <BlurEffect Radius="2"/>
                                 </Border.Effect>
                             </Border>
-                            <Border Grid.Row="0" Grid.Column="0" Margin="20,20,20,0" CornerRadius="20" Height="135" VerticalAlignment="Top">
+                            <Border ToolTip="Information about tasks" Grid.Row="0" Grid.Column="0" Margin="20,20,20,0" CornerRadius="20" Height="135" VerticalAlignment="Top">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -123,9 +125,24 @@
                                         </Border.Effect>
                                         <materialDesign:PackIcon Height="45" Width="50" Margin="0,0,0,0" Kind="CalendarTask" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                                     </Border>
+                                    <Label Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Grid.RowSpan="2" Grid.Column="1" x:Name="numberOfEnableTask" Content="0/0" FontSize="56" FontFamily="Dubai Light" Margin="0,4,0,0"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Content="Number of task done" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="12" FontFamily="Dubai Medium"/>
+                                    <Border CornerRadius="0,0,0,10" Grid.Row="2" Grid.Column="0" Background="#FF80D1FF">
+                                        <Grid>
+                                            <Label VerticalAlignment="Top" Content="Task in progress" FontSize="12" FontFamily="Dubai Medium" Background="{x:Null}"/>
+                                            <Label x:Name="numberOfProgressTasks" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="0/0" FontSize="18" FontFamily="Dubai Light" Background="{x:Null}" Height="35" Margin="17,0"/>
+                                        </Grid>
+                                    </Border>
+                                    <Border CornerRadius="0,0,10,0" Grid.Row="2" Grid.Column="3" Background="#FFFF8080">
+                                        <Grid>
+                                            <Label VerticalAlignment="Top" Content="Failed task" FontSize="12" FontFamily="Dubai Medium" Background="{x:Null}"/>
+                                            <Label x:Name="numberOfFailedTask" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="0" FontSize="18" FontFamily="Dubai Light" Background="{x:Null}" Height="35" Margin="17,0"/>
+                                        </Grid>
+                                    </Border>
+                                    <materialDesign:PackIcon MouseLeave="moreInfoTask_MouseLeave" MouseEnter="moreInfoTask_MouseEnter" ToolTip="For more information about tasks click" x:Name="moreInfoTask" MouseDown="moreInfoTask_MouseDown" Grid.Row="2" Grid.Column="1" Kind="MoreCircle" Height="auto" Width="auto" HorizontalAlignment="Stretch" Margin="0,0,0,0" Foreground="#2E86C1"/>
                                 </Grid>
                             </Border>
-                            <Border Grid.Row="0" Grid.Column="1" Background="#FFEAEAEA" Opacity="0.94" Margin="20,20,20,0" CornerRadius="20" Height="135" VerticalAlignment="Top">
+                            <Border Grid.Row="0" Grid.Column="1" Background="White" Opacity="0.94" Margin="20,20,20,0" CornerRadius="10" Height="135" VerticalAlignment="Top">
                                 <Border.Effect>
                                     <BlurEffect Radius="2"/>
                                 </Border.Effect>
@@ -150,7 +167,7 @@
                                     </Border>
                                 </Grid>
                             </Border>
-                            <Border Grid.Row="0" Grid.Column="3" Background="#FFEAEAEA" Opacity="0.94" Margin="20,20,20,0" CornerRadius="20" Height="135" VerticalAlignment="Top">
+                            <Border Grid.Row="0" Grid.Column="2" Background="White" Opacity="0.94" Margin="20,20,20,0" CornerRadius="10" Height="135" VerticalAlignment="Top">
                                 <Border.Effect>
                                     <BlurEffect Radius="2"/>
                                 </Border.Effect>
@@ -175,7 +192,44 @@
                                     </Border>
                                 </Grid>
                             </Border>
-
+                            <Border Panel.ZIndex="2" x:Name="taskBarWholeInfo" Grid.Row="1" Grid.RowSpan="2" Margin="10" Grid.Column="4" Background="White" CornerRadius="10,0,0,0">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#FF818181"/>
+                                </Border.Effect>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="10*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Label FontFamily="Dubai Medium" Grid.Row="0" VerticalAlignment="Center" Content="Tasks" FontSize="24"/>
+                                    <Button ToolTip="Minimaze task bar" x:Name="minimzeTask" Click="minimzeTask_Click" VerticalAlignment="Top" HorizontalAlignment="Right" Background="#FFFFB109" Height="10" ></Button>
+                                    <ListBox Grid.Row="1" Margin="5" x:Name="lbTask"></ListBox>
+                                    <Border Grid.Row="2">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button Click="doneTaskLb_Click" ToolTip="Done task" Margin="5" Grid.Column="0" x:Name="doneTaskLb" Width="auto" Height="auto" Background="#FF57FF32">
+                                                <materialDesign:PackIcon Kind="Done" Width="auto" Height="auto" />
+                                            </Button>
+                                            <Button Click="progressTaskLb_Click" ToolTip="Progress task" Margin="5" Grid.Column="1" x:Name="progressTaskLb" Width="auto" Height="auto" Background="#FF51B8FF">
+                                                <materialDesign:PackIcon Kind="ProgressCheck" Width="auto" Height="auto" />
+                                            </Button>
+                                            <Button Click="createTaskLb_Click" ToolTip="Create task" Margin="5" Grid.Column="2" x:Name="createTaskLb" Width="auto" Height="auto" Background="#FFECFF32">
+                                                <materialDesign:PackIcon Kind="CreateOutline" Width="auto" Height="auto" />
+                                            </Button>
+                                            <Button Click="failedTaskLb_Click" ToolTip="Failed/delete task" Margin="5" Grid.Column="3" x:Name="failedTaskLb" Width="auto" Height="auto" Background="#FFFF5757">
+                                                <materialDesign:PackIcon Kind="DeleteOutline" Width="auto" Height="auto" />
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                            <Button ToolTip="Show task bar" Panel.ZIndex="2" Visibility="Hidden" x:Name="showTaskBar" Click="showTaskBar_Click" Grid.Row="2" Grid.Column="4" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" Height="10" Margin="199,0,0,0" Foreground="{x:Null}" Background="#FFFFB109"></Button>
                         </Grid>
                     </Border>
                 </Grid>
