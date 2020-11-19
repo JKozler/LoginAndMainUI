@@ -100,9 +100,9 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Border Grid.Row="0" Grid.Column="0" Background="#FFEAEAEA" Opacity="0.9" Margin="20,20,20,0" CornerRadius="20" Height="135" VerticalAlignment="Top">
+                            <Border Grid.Row="0" Grid.Column="0" Background="#FFEAEAEA" Opacity="0.94" Margin="20,20,20,0" CornerRadius="20" Height="135" VerticalAlignment="Top">
                                 <Border.Effect>
-                                    <BlurEffect/>
+                                    <BlurEffect Radius="2"/>
                                 </Border.Effect>
                             </Border>
                             <Border Grid.Row="0" Grid.Column="0" Margin="20,20,20,0" CornerRadius="20" Height="135" VerticalAlignment="Top">
@@ -117,17 +117,17 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <Border CornerRadius="0,0,20,0" Margin="0,0,20,0" Background="#FFFFAF1D">
+                                    <Border CornerRadius="0,0,20,0" Background="#FFFFAF1D" HorizontalAlignment="Left" Width="50" Height="45" VerticalAlignment="Bottom">
                                         <Border.Effect>
                                             <DropShadowEffect Color="#FFA8A8A8"/>
                                         </Border.Effect>
-                                        <materialDesign:PackIcon Height="auto" Width="auto" Margin="0,0,0,0" Kind="CalendarTask" HorizontalAlignment="Stretch"/>
+                                        <materialDesign:PackIcon Height="45" Width="50" Margin="0,0,0,0" Kind="CalendarTask" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                                     </Border>
                                 </Grid>
                             </Border>
-                            <Border Grid.Row="0" Grid.Column="1" Background="#FFEAEAEA" Opacity="0.9" Margin="20,20,20,0" CornerRadius="20" Height="135" VerticalAlignment="Top">
+                            <Border Grid.Row="0" Grid.Column="1" Background="#FFEAEAEA" Opacity="0.94" Margin="20,20,20,0" CornerRadius="20" Height="135" VerticalAlignment="Top">
                                 <Border.Effect>
-                                    <BlurEffect/>
+                                    <BlurEffect Radius="2"/>
                                 </Border.Effect>
                             </Border>
                             <Border Grid.Row="0" Grid.Column="1" Margin="20,20,20,0" CornerRadius="20" Height="135" VerticalAlignment="Top">
@@ -142,17 +142,17 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <Border CornerRadius="0,0,20,0" Margin="0,0,20,0" Background="#FF1D79FF">
+                                    <Border CornerRadius="0,0,20,0" Background="#FF1D79FF" HorizontalAlignment="Left" Width="49" Height="45" VerticalAlignment="Bottom">
                                         <Border.Effect>
                                             <DropShadowEffect Color="#FFA8A8A8"/>
                                         </Border.Effect>
-                                        <materialDesign:PackIcon Height="auto" Width="auto" Margin="0,0,0,0" Kind="Person" HorizontalAlignment="Stretch"/>
+                                        <materialDesign:PackIcon Height="auto" Width="49" Margin="0,0,0,0" Kind="Person" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                                     </Border>
                                 </Grid>
                             </Border>
-                            <Border Grid.Row="0" Grid.Column="3" Background="#FFEAEAEA" Opacity="0.9" Margin="20,20,20,0" CornerRadius="20" Height="135" VerticalAlignment="Top">
+                            <Border Grid.Row="0" Grid.Column="3" Background="#FFEAEAEA" Opacity="0.94" Margin="20,20,20,0" CornerRadius="20" Height="135" VerticalAlignment="Top">
                                 <Border.Effect>
-                                    <BlurEffect/>
+                                    <BlurEffect Radius="2"/>
                                 </Border.Effect>
                             </Border>
                             <Border Grid.Row="0" Grid.Column="2" Margin="20,20,20,0" CornerRadius="20" Height="135" VerticalAlignment="Top">
@@ -167,11 +167,11 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <Border CornerRadius="0,0,20,0" Margin="0,0,20,0" Background="#FF32FF1D">
+                                    <Border CornerRadius="0,0,20,0" Background="#FF32FF1D" HorizontalAlignment="Left" Width="49" Height="45" VerticalAlignment="Bottom">
                                         <Border.Effect>
                                             <DropShadowEffect Color="#FFA8A8A8"/>
                                         </Border.Effect>
-                                        <materialDesign:PackIcon Height="auto" Width="auto" Margin="0,0,0,0" Kind="Clock" HorizontalAlignment="Stretch"/>
+                                        <materialDesign:PackIcon Height="auto" Width="49" Margin="0,0,0,0" Kind="Clock" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                                     </Border>
                                 </Grid>
                             </Border>
