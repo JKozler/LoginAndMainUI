@@ -24,10 +24,16 @@ namespace LoginAndMainUI
         int notificationCounter = 0;
         bool menuGloraIsEnabled = false;
         bool infoGloraIsEnable = false;
-        bool taskBarIsShowen = true;
+        bool taskBarIsShowen;
         public MainUI()
         {
             InitializeComponent();
+            taskBarWholeInfo.Opacity = 0;
+            taskBarIsShowen = false;
+            doneTaskLb.IsEnabled = false;
+            progressTaskLb.IsEnabled = false;
+            createTaskLb.IsEnabled = false;
+            failedTaskLb.IsEnabled = false;
         }
 
         private void gloraHome_Click(object sender, RoutedEventArgs e)
@@ -146,6 +152,10 @@ namespace LoginAndMainUI
             DoubleAnimation blurEnable = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromSeconds(0.3)));
             taskBarWholeInfo.BeginAnimation(OpacityProperty, blurEnable);
             taskBarIsShowen = false;
+            doneTaskLb.IsEnabled = false;
+            progressTaskLb.IsEnabled = false;
+            createTaskLb.IsEnabled = false;
+            failedTaskLb.IsEnabled = false;
             showTaskBar.Visibility = Visibility.Visible;
         }
 
@@ -154,6 +164,10 @@ namespace LoginAndMainUI
             DoubleAnimation blurEnable = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(0.3)));
             taskBarWholeInfo.BeginAnimation(OpacityProperty, blurEnable);
             taskBarIsShowen = true;
+            doneTaskLb.IsEnabled = true;
+            progressTaskLb.IsEnabled = true;
+            createTaskLb.IsEnabled = true;
+            failedTaskLb.IsEnabled = true;
             showTaskBar.Visibility = Visibility.Hidden;
         }
     }
