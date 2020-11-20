@@ -165,6 +165,8 @@
                                         </Border.Effect>
                                         <materialDesign:PackIcon Height="auto" Width="49" Margin="0,0,0,0" Kind="Person" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                                     </Border>
+                                    <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Content="Number of members" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="12" FontFamily="Dubai Medium"/>
+                                    <Label FontFamily="Dubai Light" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Content="0" FontSize="56" VerticalAlignment="Bottom" HorizontalAlignment="Center" x:Name="numberOfMemners"></Label>
                                 </Grid>
                             </Border>
                             <Border Grid.Row="0" Grid.Column="2" Background="White" Opacity="0.94" Margin="20,20,20,0" CornerRadius="10" Height="135" VerticalAlignment="Top">
@@ -190,6 +192,8 @@
                                         </Border.Effect>
                                         <materialDesign:PackIcon Height="auto" Width="49" Margin="0,0,0,0" Kind="Clock" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                                     </Border>
+                                    <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Content="Time spent on the project" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="12" FontFamily="Dubai Medium"/>
+                                    <Label FontFamily="Dubai Light" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Content="0" FontSize="56" VerticalAlignment="Bottom" HorizontalAlignment="Center" x:Name="countOfTime"></Label>
                                 </Grid>
                             </Border>
                             <Border Panel.ZIndex="2" x:Name="taskBarWholeInfo" Grid.Row="1" Grid.RowSpan="2" Margin="100,10,10,10" Grid.Column="4" Background="White" CornerRadius="10,0,0,0">
