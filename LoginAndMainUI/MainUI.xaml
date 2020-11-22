@@ -63,7 +63,7 @@
                         </Button>
                     </Border>
                     <Border x:Name="stopTime" Visibility="Hidden" Grid.Row="21">
-                        <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Stop working time" Width="auto" Height="auto" x:Name="stopWorkingTime" Click="stopWorkingTime_Click" Padding="0" Background="{x:Null}">
+                        <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Stop working time" Width="auto" Height="auto" x:Name="stopWorkingTime" Click="stopWorkingTime_Click" Padding="0" Background="{x:Null}" BorderBrush="#FF747474">
                             <materialDesign:PackIcon Width="auto" Height="auto" Kind="StopCircle"/>
                         </Button>
                     </Border>
@@ -77,6 +77,11 @@
                             <materialDesign:PackIcon Width="auto" Height="auto" Kind="InfoCircle"/>
                         </Button>
                     </Border>
+                    <Border Grid.Row="19">
+                        <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Glora text asistent" Width="auto" Height="auto" x:Name="gloraTextAsistent" Click="gloraTextAsistent_Click" Padding="0" Background="{x:Null}" BorderBrush="#FF747474">
+                            <materialDesign:PackIcon Width="auto" Height="auto" Kind="Assistant"/>
+                        </Button>
+                    </Border>
                 </Grid>
             </Border>
             <Border Grid.Column="1">
@@ -86,7 +91,28 @@
                         <ColumnDefinition Width="5*"/>
                     </Grid.ColumnDefinitions>
                     <Border Panel.ZIndex="2" Grid.Column="0" Background="#FF555555" Opacity="0.9" x:Name="menuGlora" Width="0" HorizontalAlignment="Left">
-
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="8*"/>
+                            </Grid.RowDefinitions>
+                            <Button ToolTip="G-Web" Background="Orange" x:Name="gWeb" Click="gWeb_Click" Grid.Column="0" Grid.Row="0" Width="auto" Height="41" Margin="5,5,5,0" VerticalAlignment="Top">
+                                <materialDesign:PackIcon Kind="Web" Width="auto" Height="auto"/>
+                            </Button>
+                            <Button ToolTip="G-Reminder" Background="#FF5EE2FF" x:Name="gReminder" Click="gReminder_Click" Grid.Column="1" Grid.Row="0" Width="auto" Height="41" Margin="5,5,5,0" VerticalAlignment="Top">
+                                <materialDesign:PackIcon Kind="CalendarAlert" Width="auto" Height="auto"/>
+                            </Button>
+                        </Grid>
                     </Border>
                     <Border Grid.Column="0" Grid.ColumnSpan="2">
                         <Grid>
@@ -102,6 +128,9 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
+                            <Border IsEnabled="False" Opacity="0" x:Name="GloraTextAssistentProp" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3">
+                                <local:GloraTextAssistant Width="auto" Height="auto"></local:GloraTextAssistant>
+                            </Border>
                             <Border ToolTip="Information about tasks" Grid.Row="0" Grid.Column="0" Background="White" Opacity="0.94" Margin="20,20,20,0" CornerRadius="10" Height="135" VerticalAlignment="Top">
                                 <Border.Effect>
                                     <BlurEffect Radius="2"/>
@@ -207,7 +236,7 @@
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
                                     <Label FontFamily="Dubai Medium" Grid.Row="0" VerticalAlignment="Center" Content="Tasks" FontSize="24"/>
-                                    <Button ToolTip="Minimaze task bar" x:Name="minimzeTask" Click="minimzeTask_Click" VerticalAlignment="Top" HorizontalAlignment="Right" Background="#FFFFB109" Height="10" ></Button>
+                                    <Button ToolTip="Minimaze task bar" x:Name="minimzeTask" Click="minimzeTask_Click" VerticalAlignment="Top" HorizontalAlignment="Right" Background="#FFE9FF09" Height="10" ></Button>
                                     <ListBox Grid.Row="1" Margin="5" x:Name="lbTask"></ListBox>
                                     <Border Grid.Row="2">
                                         <Grid>
@@ -233,7 +262,7 @@
                                     </Border>
                                 </Grid>
                             </Border>
-                            <Button ToolTip="Show task bar" Panel.ZIndex="2" x:Name="showTaskBar" Click="showTaskBar_Click" Grid.Row="2" Grid.Column="4" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" Height="10" Margin="199,0,0,0" Foreground="{x:Null}" Background="#FFFFB109"></Button>
+                            <Button ToolTip="Show task bar" Panel.ZIndex="2" x:Name="showTaskBar" Click="showTaskBar_Click" Grid.Row="2" Grid.Column="4" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" Height="10" Foreground="{x:Null}" Background="#FFE9FF09" HorizontalAlignment="Right" Width="50"/>
                         </Grid>
                     </Border>
                 </Grid>

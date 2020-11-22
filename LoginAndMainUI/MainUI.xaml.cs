@@ -25,6 +25,7 @@ namespace LoginAndMainUI
         bool menuGloraIsEnabled = false;
         bool infoGloraIsEnable = false;
         bool taskBarIsShowen;
+        bool gloraTextIsShowen = false;
         public MainUI()
         {
             InitializeComponent();
@@ -97,16 +98,61 @@ namespace LoginAndMainUI
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.G)
-                gloraHome_Click(sender, e);
-            else if (e.Key == Key.I)
-                informationBar_Click(sender, e);
-            else if (e.Key == Key.Escape)
+            if (gloraTextIsShowen)
             {
-                if (infoGloraIsEnable)
-                    closeNoti_Click(sender, e);
-                if (menuGloraIsEnabled)
+                if (e.Key == Key.G && Keyboard.Modifiers == ModifierKeys.Control)
                     gloraHome_Click(sender, e);
+                else if (e.Key == Key.I && Keyboard.Modifiers == ModifierKeys.Control)
+                {
+                    if (!infoGloraIsEnable)
+                        informationBar_Click(sender, e);
+                    else if (infoGloraIsEnable)
+                        closeNoti_Click(sender, e);
+                }
+                else if (e.Key == Key.T && Keyboard.Modifiers == ModifierKeys.Control)
+                {
+                    if (!taskBarIsShowen)
+                        showTaskBar_Click(sender, e);
+                    else if (taskBarIsShowen)
+                        minimzeTask_Click(sender, e);
+                }
+                else if (e.Key == Key.Escape)
+                {
+                    if (infoGloraIsEnable)
+                        closeNoti_Click(sender, e);
+                    if (menuGloraIsEnabled)
+                        gloraHome_Click(sender, e);
+                    if (taskBarIsShowen)
+                        minimzeTask_Click(sender, e);
+                }
+            }
+            else
+            {
+                if (e.Key == Key.G)
+                    gloraHome_Click(sender, e);
+                else if (e.Key == Key.I)
+                {
+                    if (!infoGloraIsEnable)
+                        informationBar_Click(sender, e);
+                    else if (infoGloraIsEnable)
+                        closeNoti_Click(sender, e);
+                }
+                else if (e.Key == Key.T)
+                {
+                    if (!taskBarIsShowen)
+                        showTaskBar_Click(sender, e);
+                    else if (taskBarIsShowen)
+                        minimzeTask_Click(sender, e);
+                }
+                else if (e.Key == Key.Escape)
+                {
+                    if (infoGloraIsEnable)
+                        closeNoti_Click(sender, e);
+                    if (menuGloraIsEnabled)
+                        gloraHome_Click(sender, e);
+                    if (taskBarIsShowen)
+                        minimzeTask_Click(sender, e);
+                }
             }
         }
 
@@ -169,6 +215,34 @@ namespace LoginAndMainUI
             createTaskLb.IsEnabled = true;
             failedTaskLb.IsEnabled = true;
             showTaskBar.Visibility = Visibility.Hidden;
+        }
+
+        private void gWeb_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void gReminder_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void gloraTextAsistent_Click(object sender, RoutedEventArgs e)
+        {
+            if (!gloraTextIsShowen)
+            {
+                DoubleAnimation blurEnable = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(0.3)));
+                GloraTextAssistentProp.BeginAnimation(OpacityProperty, blurEnable);
+                GloraTextAssistentProp.IsEnabled = true;
+                gloraTextIsShowen = true;
+            }
+            else
+            {
+                DoubleAnimation blurEnable = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromSeconds(0.3)));
+                GloraTextAssistentProp.BeginAnimation(OpacityProperty, blurEnable);
+                GloraTextAssistentProp.IsEnabled = false;
+                gloraTextIsShowen = false;
+            }
         }
     }
 }
