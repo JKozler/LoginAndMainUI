@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace LoginAndMainUI
 {
@@ -21,6 +22,9 @@ namespace LoginAndMainUI
     /// </summary>
     public partial class MainUI : Window
     {
+        DateTime timeStart = new DateTime();
+        DateTime timeStop = new DateTime();
+        TimeSpan totalTime = new TimeSpan();
         int notificationCounter = 0;
         bool menuGloraIsEnabled = false;
         bool infoGloraIsEnable = false;
@@ -32,11 +36,14 @@ namespace LoginAndMainUI
             InitializeComponent();
             taskBarWholeInfo.Opacity = 0;
             taskCreateStats.Opacity = 0;
+            selectedWork.Items.Add("Your own work.");
+            selectedWork.SelectedItem = "Your own work.";
             taskBarIsShowen = false;
             doneTaskLb.IsEnabled = false;
             progressTaskLb.IsEnabled = false;
             createTaskLb.IsEnabled = false;
             failedTaskLb.IsEnabled = false;
+            CheckIfWorkHasMoreThenOneStations();
         }
 
         private void gloraHome_Click(object sender, RoutedEventArgs e)
@@ -64,12 +71,24 @@ namespace LoginAndMainUI
         {
             startTime.Visibility = Visibility.Hidden;
             stopTime.Visibility = Visibility.Visible;
+            timeStart = DateTime.Now;
+            DoubleAnimation widthProp = new DoubleAnimation(0, 10, new Duration(TimeSpan.FromSeconds(0.2)));
+            DoubleAnimation heightProp = new DoubleAnimation(0, 10, new Duration(TimeSpan.FromSeconds(0.2)));
+            elRec.BeginAnimation(WidthProperty, widthProp);
+            elRec.BeginAnimation(HeightProperty, heightProp);
         }
 
         private void stopWorkingTime_Click(object sender, RoutedEventArgs e)
         {
             stopTime.Visibility = Visibility.Hidden;
             startTime.Visibility = Visibility.Visible;
+            timeStop = DateTime.Now;
+            totalTime = (timeStop - timeStart) + totalTime;
+            countOfTime.Content = totalTime.Hours + ":" + totalTime.Minutes + ":" + totalTime.Seconds;
+            DoubleAnimation widthProp = new DoubleAnimation(10, 0, new Duration(TimeSpan.FromSeconds(0.2)));
+            DoubleAnimation heightProp = new DoubleAnimation(10, 0, new Duration(TimeSpan.FromSeconds(0.2)));
+            elRec.BeginAnimation(WidthProperty, widthProp);
+            elRec.BeginAnimation(HeightProperty, heightProp);
         }
 
         private void informationBar_Click(object sender, RoutedEventArgs e)
@@ -232,6 +251,25 @@ namespace LoginAndMainUI
         }
 
         private void createNewTask_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void CheckIfWorkHasMoreThenOneStations()
+        {
+            if (selectedWork.Items.Count == 1 || selectedWork.Items.Count == 0)
+            {
+                selectedWork.IsEnabled = false;
+                applyOrg.IsEnabled = false;
+            }
+        }
+
+        private void applyOrg_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void connectToOrg_Click(object sender, RoutedEventArgs e)
         {
 
         }

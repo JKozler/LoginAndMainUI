@@ -88,16 +88,16 @@
                 <Border Background="Black"></Border>
                 <Label Margin="10,0,0,0" Grid.Row="1" Content="Pin app bar" FontSize="24" FontWeight="Bold"></Label>
                 <materialDesign:PackIcon Grid.Row="1" Kind="Pin" ToolTip="There you can pin everything you want." HorizontalAlignment="Right" VerticalAlignment="Center" Width="50" Height="50"/>
-                <Button x:Name="plus1" Click="plus1_Click" ToolTip="Add item to pin bar" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF57A416">
+                <Button x:Name="plus1" Click="plus1_Click" ToolTip="Add item to pin bar" Grid.Row="2" Background="#FF57A416">
                     <materialDesign:PackIcon Kind="Plus" Width="30" Height="30"/>
                 </Button>
-                <Button x:Name="plus2" Click="plus1_Click" ToolTip="Add item to pin bar" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF57A416">
+                <Button x:Name="plus2" Click="plus1_Click" ToolTip="Add item to pin bar" Grid.Row="3" Background="#FF57A416">
                     <materialDesign:PackIcon Kind="Plus" Width="30" Height="30"/>
                 </Button>
-                <Button x:Name="plus3" Click="plus1_Click" ToolTip="Add item to pin bar" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF57A416">
+                <Button x:Name="plus3" Click="plus1_Click" ToolTip="Add item to pin bar" Grid.Row="4" Background="#FF57A416">
                     <materialDesign:PackIcon Kind="Plus" Width="30" Height="30"/>
                 </Button>
-                <Button x:Name="plus4" Click="plus1_Click" ToolTip="Add item to pin bar" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF57A416">
+                <Button x:Name="plus4" Click="plus1_Click" ToolTip="Add item to pin bar" Grid.Row="5" Background="#FF57A416">
                     <materialDesign:PackIcon Kind="Plus" Width="30" Height="30"/>
                 </Button>
                 <Button x:Name="plus1Btn" Click="plus1Btn_Click" Grid.Row="2" Visibility="Hidden" Background="#FFDDDDDD"></Button>

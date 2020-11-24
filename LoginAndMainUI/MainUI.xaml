@@ -105,12 +105,23 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="8*"/>
+                                <RowDefinition Height="0.5*"/>
+                                <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Button ToolTip="G-Web" Background="Orange" x:Name="gWeb" Click="gWeb_Click" Grid.Column="0" Grid.Row="0" Width="auto" Height="41" Margin="5,5,5,0" VerticalAlignment="Top">
                                 <materialDesign:PackIcon Kind="Web" Width="auto" Height="auto"/>
                             </Button>
                             <Button ToolTip="G-Reminder" Background="#FF5EE2FF" x:Name="gReminder" Click="gReminder_Click" Grid.Column="1" Grid.Row="0" Width="auto" Height="41" Margin="5,5,5,0" VerticalAlignment="Top">
                                 <materialDesign:PackIcon Kind="CalendarAlert" Width="auto" Height="auto"/>
+                            </Button>
+                            <ComboBox ToolTip="You do not have any organization" Margin="5" x:Name="selectedWork" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Background="#FF7A7A7A" BorderBrush="#FF868686"></ComboBox>
+                            <Button VerticalAlignment="Center" x:Name="applyOrg" Click="applyOrg_Click" ToolTip="Apply this organization" Grid.Column="2" Grid.Row="1" Margin="5,0,0,5" Height="37" Background="#FF57FF32" HorizontalAlignment="Left" Width="59">
+                                <materialDesign:PackIcon Width="auto" Height="auto" Kind="Done"/>
+                            </Button>
+                            <Label VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Dubai Bold" Grid.Row="7" Grid.ColumnSpan="3" Content="Here you can connect with code to ORG." Foreground="#DDFFFFFF"/>
+                            <TextBox FontFamily="Dubai Medium" FontSize="18" HorizontalContentAlignment="Center" ToolTip="Write code here" x:Name="connectToOrg" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,5,5" Background="#FF868686" Height="37" VerticalAlignment="Bottom"></TextBox>
+                            <Button x:Name="connectToOrgBtn" Click="connectToOrg_Click" ToolTip="Connect to this organization" Grid.Column="2" Grid.Row="8" Margin="5,0,5,5" Width="auto" Height="37" Background="#FF57FF32" VerticalAlignment="Bottom">
+                                <materialDesign:PackIcon Width="auto" Height="auto" Kind="Done"/>
                             </Button>
                         </Grid>
                     </Border>
@@ -221,8 +232,9 @@
                                         </Border.Effect>
                                         <materialDesign:PackIcon Height="auto" Width="49" Margin="0,0,0,0" Kind="Clock" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                                     </Border>
+                                    <Ellipse x:Name="elRec" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Width="0" ToolTip="Time is recording" Height="0" Fill="#FFFF2727"></Ellipse>
                                     <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Content="Time spent on the project" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="12" FontFamily="Dubai Medium"/>
-                                    <Label FontFamily="Dubai Light" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Content="0" FontSize="56" VerticalAlignment="Bottom" HorizontalAlignment="Center" x:Name="countOfTime"></Label>
+                                    <Label Grid.ColumnSpan="3" FontFamily="Dubai Light" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Content="0" FontSize="56" VerticalAlignment="Bottom" HorizontalAlignment="Center" x:Name="countOfTime"></Label>
                                 </Grid>
                             </Border>
                             <Border Panel.ZIndex="2" x:Name="taskBarWholeInfo" Grid.Row="1" Grid.RowSpan="2" Margin="100,10,10,10" Grid.Column="4" Background="White" CornerRadius="10,0,0,0">
