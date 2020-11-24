@@ -33,7 +33,7 @@ namespace LoginAndMainUI
         {
             ss.SpeakAsync("I am closing myself and I am watching your computer.");
             string[] args = Environment.GetCommandLineArgs();
-            args[0] = "E:\\";
+            args[0] = "C:\\";
             Thread.Sleep(1000);
             using (FileSystemWatcher fsw = new FileSystemWatcher())
             {

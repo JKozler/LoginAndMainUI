@@ -26,10 +26,12 @@ namespace LoginAndMainUI
         bool infoGloraIsEnable = false;
         bool taskBarIsShowen;
         bool gloraTextIsShowen = false;
+        bool createNewTaskIsShowen = false;
         public MainUI()
         {
             InitializeComponent();
             taskBarWholeInfo.Opacity = 0;
+            taskCreateStats.Opacity = 0;
             taskBarIsShowen = false;
             doneTaskLb.IsEnabled = false;
             progressTaskLb.IsEnabled = false;
@@ -98,61 +100,32 @@ namespace LoginAndMainUI
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (gloraTextIsShowen)
+            if (e.Key == Key.G && Keyboard.Modifiers == ModifierKeys.Control)
+                gloraHome_Click(sender, e);
+            else if (e.Key == Key.I && Keyboard.Modifiers == ModifierKeys.Control)
             {
-                if (e.Key == Key.G && Keyboard.Modifiers == ModifierKeys.Control)
-                    gloraHome_Click(sender, e);
-                else if (e.Key == Key.I && Keyboard.Modifiers == ModifierKeys.Control)
-                {
-                    if (!infoGloraIsEnable)
-                        informationBar_Click(sender, e);
-                    else if (infoGloraIsEnable)
-                        closeNoti_Click(sender, e);
-                }
-                else if (e.Key == Key.T && Keyboard.Modifiers == ModifierKeys.Control)
-                {
-                    if (!taskBarIsShowen)
-                        showTaskBar_Click(sender, e);
-                    else if (taskBarIsShowen)
-                        minimzeTask_Click(sender, e);
-                }
-                else if (e.Key == Key.Escape)
-                {
-                    if (infoGloraIsEnable)
-                        closeNoti_Click(sender, e);
-                    if (menuGloraIsEnabled)
-                        gloraHome_Click(sender, e);
-                    if (taskBarIsShowen)
-                        minimzeTask_Click(sender, e);
-                }
+                if (!infoGloraIsEnable)
+                    informationBar_Click(sender, e);
+                else if (infoGloraIsEnable)
+                    closeNoti_Click(sender, e);
             }
-            else
+            else if (e.Key == Key.T && Keyboard.Modifiers == ModifierKeys.Control)
             {
-                if (e.Key == Key.G)
+                if (!taskBarIsShowen)
+                    showTaskBar_Click(sender, e);
+                else if (taskBarIsShowen)
+                    minimzeTask_Click(sender, e);
+            }
+            else if (e.Key == Key.Escape)
+            {
+                if (infoGloraIsEnable)
+                    closeNoti_Click(sender, e);
+                if (menuGloraIsEnabled)
                     gloraHome_Click(sender, e);
-                else if (e.Key == Key.I)
-                {
-                    if (!infoGloraIsEnable)
-                        informationBar_Click(sender, e);
-                    else if (infoGloraIsEnable)
-                        closeNoti_Click(sender, e);
-                }
-                else if (e.Key == Key.T)
-                {
-                    if (!taskBarIsShowen)
-                        showTaskBar_Click(sender, e);
-                    else if (taskBarIsShowen)
-                        minimzeTask_Click(sender, e);
-                }
-                else if (e.Key == Key.Escape)
-                {
-                    if (infoGloraIsEnable)
-                        closeNoti_Click(sender, e);
-                    if (menuGloraIsEnabled)
-                        gloraHome_Click(sender, e);
-                    if (taskBarIsShowen)
-                        minimzeTask_Click(sender, e);
-                }
+                if (taskBarIsShowen)
+                    minimzeTask_Click(sender, e);
+                if (createNewTaskIsShowen)
+                    createTaskLb_Click(sender, e);
             }
         }
 
@@ -185,7 +158,20 @@ namespace LoginAndMainUI
 
         private void createTaskLb_Click(object sender, RoutedEventArgs e)
         {
-
+            if (!createNewTaskIsShowen)
+            {
+                DoubleAnimation blurEnable = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(0.3)));
+                taskCreateStats.BeginAnimation(OpacityProperty, blurEnable);
+                taskCreateStats.IsEnabled = true;
+                createNewTaskIsShowen = true;
+            }
+            else
+            {
+                DoubleAnimation blurEnable = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromSeconds(0.3)));
+                taskCreateStats.BeginAnimation(OpacityProperty, blurEnable);
+                taskCreateStats.IsEnabled = false;
+                createNewTaskIsShowen = false;
+            }
         }
 
         private void failedTaskLb_Click(object sender, RoutedEventArgs e)
@@ -243,6 +229,11 @@ namespace LoginAndMainUI
                 GloraTextAssistentProp.IsEnabled = false;
                 gloraTextIsShowen = false;
             }
+        }
+
+        private void createNewTask_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
