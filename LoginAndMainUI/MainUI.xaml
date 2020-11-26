@@ -82,6 +82,16 @@
                             <materialDesign:PackIcon Width="auto" Height="auto" Kind="Assistant"/>
                         </Button>
                     </Border>
+                    <Border Grid.Row="18">
+                        <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Create new Team" Width="auto" Height="auto" x:Name="createNewProject" Click="createNewProject_Click" Padding="0" Background="{x:Null}" BorderBrush="#FF747474">
+                            <materialDesign:PackIcon Width="auto" Height="auto" Kind="DeveloperBoard"/>
+                        </Button>
+                    </Border>
+                    <Border Grid.Row="17">
+                        <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Add application to work team (max. 12)" Width="auto" Height="auto" x:Name="addWorkingApp" Click="addWorkingApp_Click" Padding="0" Background="{x:Null}" BorderBrush="#FF747474">
+                            <materialDesign:PackIcon Width="auto" Height="auto" Kind="ApplicationExport"/>
+                        </Button>
+                    </Border>
                 </Grid>
             </Border>
             <Border Grid.Column="1">
@@ -100,6 +110,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
+                                <RowDefinition Height="0.5*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -118,11 +129,24 @@
                             <Button VerticalAlignment="Center" x:Name="applyOrg" Click="applyOrg_Click" ToolTip="Apply this organization" Grid.Column="2" Grid.Row="1" Margin="5,0,0,5" Height="37" Background="#FF57FF32" HorizontalAlignment="Left" Width="59">
                                 <materialDesign:PackIcon Width="auto" Height="auto" Kind="Done"/>
                             </Button>
-                            <Label VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Dubai Bold" Grid.Row="7" Grid.ColumnSpan="3" Content="Here you can connect with code to ORG." Foreground="#DDFFFFFF"/>
-                            <TextBox FontFamily="Dubai Medium" FontSize="18" HorizontalContentAlignment="Center" ToolTip="Write code here" x:Name="connectToOrg" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,5,5" Background="#FF868686" Height="37" VerticalAlignment="Bottom"></TextBox>
-                            <Button x:Name="connectToOrgBtn" Click="connectToOrg_Click" ToolTip="Connect to this organization" Grid.Column="2" Grid.Row="8" Margin="5,0,5,5" Width="auto" Height="37" Background="#FF57FF32" VerticalAlignment="Bottom">
+                            <Label VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="Dubai Bold" Grid.Row="2" Grid.ColumnSpan="3" Content="Here is yours working apps." Foreground="#DDFFFFFF"/>
+                            <Label VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Dubai Bold" Grid.Row="8" Grid.ColumnSpan="3" Content="Here you can connect with code to ORG." Foreground="#DDFFFFFF"/>
+                            <TextBox FontFamily="Dubai Medium" FontSize="18" HorizontalContentAlignment="Center" ToolTip="Write code here" x:Name="connectToOrg" Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,5,5" Background="#FF868686" Height="37" VerticalAlignment="Bottom"></TextBox>
+                            <Button x:Name="connectToOrgBtn" Click="connectToOrg_Click" ToolTip="Connect to this organization" Grid.Column="2" Grid.Row="9" Margin="5,0,5,5" Width="auto" Height="37" Background="#FF57FF32" VerticalAlignment="Bottom">
                                 <materialDesign:PackIcon Width="auto" Height="auto" Kind="Done"/>
                             </Button>
+                            <Button Visibility="Hidden" x:Name="appWork1" Click="appWorks_Click" Grid.Column="0" Grid.Row="3" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork2" Click="appWorks_Click" Grid.Column="1" Grid.Row="3" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork3" Click="appWorks_Click" Grid.Column="2" Grid.Row="3" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork4" Click="appWorks_Click" Grid.Column="0" Grid.Row="4" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork5" Click="appWorks_Click" Grid.Column="1" Grid.Row="4" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork6" Click="appWorks_Click" Grid.Column="2" Grid.Row="4" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork7" Click="appWorks_Click" Grid.Column="0" Grid.Row="5" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork8" Click="appWorks_Click" Grid.Column="1" Grid.Row="5" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork9" Click="appWorks_Click" Grid.Column="2" Grid.Row="5" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork10" Click="appWorks_Click" Grid.Column="0" Grid.Row="6" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork11" Click="appWorks_Click" Grid.Column="1" Grid.Row="6" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork12" Click="appWorks_Click" Grid.Column="2" Grid.Row="6" Background="White" ></Button>
                         </Grid>
                     </Border>
                     <Border Grid.Column="0" Grid.ColumnSpan="2">

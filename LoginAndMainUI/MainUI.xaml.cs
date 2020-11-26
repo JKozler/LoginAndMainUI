@@ -9,11 +9,14 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using Microsoft.Win32;
+using System.IO;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Diagnostics;
 
 namespace LoginAndMainUI
 {
@@ -26,6 +29,7 @@ namespace LoginAndMainUI
         DateTime timeStop = new DateTime();
         TimeSpan totalTime = new TimeSpan();
         int notificationCounter = 0;
+        byte usingWorkingApps = 0;
         bool menuGloraIsEnabled = false;
         bool infoGloraIsEnable = false;
         bool taskBarIsShowen;
@@ -44,6 +48,7 @@ namespace LoginAndMainUI
             createTaskLb.IsEnabled = false;
             failedTaskLb.IsEnabled = false;
             CheckIfWorkHasMoreThenOneStations();
+            CheckForExistingWorkingApps();
         }
 
         private void gloraHome_Click(object sender, RoutedEventArgs e)
@@ -272,6 +277,225 @@ namespace LoginAndMainUI
         private void connectToOrg_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void createNewProject_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void addWorkingApp_Click(object sender, RoutedEventArgs e)
+        {
+            if (usingWorkingApps <= 11)
+            {
+                OpenFileDialog opf = new OpenFileDialog();
+                if (opf.ShowDialog() == true)
+                {
+                    switch (++usingWorkingApps)
+                    {
+                        case 1:
+                            appWork1.Visibility = Visibility.Visible;
+                            appWork1.Content = System.IO.Path.GetFileName(opf.FileName);
+                            appWork1.ToolTip = System.IO.Path.GetFileName(opf.FileName);
+                            WriteAboutWorkApps("appWork1.pos", System.IO.Path.GetFileName(opf.FileName), opf.FileName);
+                            break;
+                        case 2:
+                            appWork2.Visibility = Visibility.Visible;
+                            appWork2.Content = System.IO.Path.GetFileName(opf.FileName);
+                            appWork2.ToolTip = System.IO.Path.GetFileName(opf.FileName);
+                            WriteAboutWorkApps("appWork2.pos", System.IO.Path.GetFileName(opf.FileName), opf.FileName);
+                            break;
+                        case 3:
+                            appWork3.Visibility = Visibility.Visible;
+                            appWork3.Content = System.IO.Path.GetFileName(opf.FileName);
+                            appWork3.ToolTip = System.IO.Path.GetFileName(opf.FileName);
+                            WriteAboutWorkApps("appWork3.pos", System.IO.Path.GetFileName(opf.FileName), opf.FileName);
+                            break;
+                        case 4:
+                            appWork4.Visibility = Visibility.Visible;
+                            appWork4.Content = System.IO.Path.GetFileName(opf.FileName);
+                            appWork4.ToolTip = System.IO.Path.GetFileName(opf.FileName);
+                            WriteAboutWorkApps("appWork4.pos", System.IO.Path.GetFileName(opf.FileName), opf.FileName);
+                            break;
+                        case 5:
+                            appWork5.Visibility = Visibility.Visible;
+                            appWork5.Content = System.IO.Path.GetFileName(opf.FileName);
+                            appWork5.ToolTip = System.IO.Path.GetFileName(opf.FileName);
+                            WriteAboutWorkApps("appWork5.pos", System.IO.Path.GetFileName(opf.FileName), opf.FileName);
+                            break;
+                        case 6:
+                            appWork6.Visibility = Visibility.Visible;
+                            appWork6.Content = System.IO.Path.GetFileName(opf.FileName);
+                            appWork6.ToolTip = System.IO.Path.GetFileName(opf.FileName);
+                            WriteAboutWorkApps("appWork6.pos", System.IO.Path.GetFileName(opf.FileName), opf.FileName);
+                            break;
+                        case 7:
+                            appWork7.Visibility = Visibility.Visible;
+                            appWork7.Content = System.IO.Path.GetFileName(opf.FileName);
+                            appWork7.ToolTip = System.IO.Path.GetFileName(opf.FileName);
+                            WriteAboutWorkApps("appWork7.pos", System.IO.Path.GetFileName(opf.FileName), opf.FileName);
+                            break;
+                        case 8:
+                            appWork8.Visibility = Visibility.Visible;
+                            appWork8.Content = System.IO.Path.GetFileName(opf.FileName);
+                            appWork8.ToolTip = System.IO.Path.GetFileName(opf.FileName);
+                            WriteAboutWorkApps("appWork8.pos", System.IO.Path.GetFileName(opf.FileName), opf.FileName);
+                            break;
+                        case 9:
+                            appWork9.Visibility = Visibility.Visible;
+                            appWork9.Content = System.IO.Path.GetFileName(opf.FileName);
+                            appWork9.ToolTip = System.IO.Path.GetFileName(opf.FileName);
+                            WriteAboutWorkApps("appWork9.pos", System.IO.Path.GetFileName(opf.FileName), opf.FileName);
+                            break;
+                        case 10:
+                            appWork10.Visibility = Visibility.Visible;
+                            appWork10.Content = System.IO.Path.GetFileName(opf.FileName);
+                            appWork10.ToolTip = System.IO.Path.GetFileName(opf.FileName);
+                            WriteAboutWorkApps("appWork10.pos", System.IO.Path.GetFileName(opf.FileName), opf.FileName);
+                            break;
+                        case 11:
+                            appWork11.Visibility = Visibility.Visible;
+                            appWork11.Content = System.IO.Path.GetFileName(opf.FileName);
+                            appWork11.ToolTip = System.IO.Path.GetFileName(opf.FileName);
+                            WriteAboutWorkApps("appWork11.pos", System.IO.Path.GetFileName(opf.FileName), opf.FileName);
+                            break;
+                        case 12:
+                            appWork12.Visibility = Visibility.Visible;
+                            appWork12.Content = System.IO.Path.GetFileName(opf.FileName);
+                            appWork12.ToolTip = System.IO.Path.GetFileName(opf.FileName);
+                            WriteAboutWorkApps("appWork12.pos", System.IO.Path.GetFileName(opf.FileName), opf.FileName);
+                            break;
+                        default:
+                            MessageBox.Show("Error during loading working apps", "Error Working app", MessageBoxButton.OK, MessageBoxImage.Error);
+                            break;
+                    }
+                }
+            }
+            else
+                MessageBox.Show("You allready use max. of apps. Please upgrade.");
+
+            DoubleAnimation widthProp = new DoubleAnimation(0, 248, new Duration(TimeSpan.FromSeconds(0.2)));
+            menuGlora.BeginAnimation(WidthProperty, widthProp);
+            menuGloraIsEnabled = true;
+        }
+
+        private void appWorks_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = (Button)sender;
+            using (StreamReader sr = new StreamReader(btn.Name + ".pos"))
+            {
+                string line;
+                int i = 0;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (i == 1)
+                        Process.Start(line);
+                    i++;
+                }
+            }
+        }
+
+        public void CheckForExistingWorkingApps()
+        {
+            string baseName = "appWork";
+            for (int i = 1; i <= 12; i++)
+            {
+                if (File.Exists(baseName + i + ".pos"))
+                {
+                    switch (i)
+                    {
+                        case 1:
+                            appWork1.Visibility = Visibility.Visible;
+                            usingWorkingApps = 1;
+                            ReadAboutWorkApps("appWork1.pos", appWork1);
+                            break;
+                        case 2:
+                            appWork2.Visibility = Visibility.Visible;
+                            usingWorkingApps = 2;
+                            ReadAboutWorkApps("appWork2.pos", appWork2);
+                            break;
+                        case 3:
+                            appWork3.Visibility = Visibility.Visible;
+                            usingWorkingApps = 3;
+                            ReadAboutWorkApps("appWork3.pos", appWork3);
+                            break;
+                        case 4:
+                            appWork4.Visibility = Visibility.Visible;
+                            usingWorkingApps = 4;
+                            ReadAboutWorkApps("appWork4.pos", appWork4);
+                            break;
+                        case 5:
+                            appWork5.Visibility = Visibility.Visible;
+                            usingWorkingApps = 5;
+                            ReadAboutWorkApps("appWork5.pos", appWork5);
+                            break;
+                        case 6:
+                            appWork6.Visibility = Visibility.Visible;
+                            usingWorkingApps = 6;
+                            ReadAboutWorkApps("appWork6.pos", appWork6);
+                            break;
+                        case 7:
+                            appWork7.Visibility = Visibility.Visible;
+                            usingWorkingApps = 7;
+                            ReadAboutWorkApps("appWork7.pos", appWork7);
+                            break;
+                        case 8:
+                            appWork8.Visibility = Visibility.Visible;
+                            usingWorkingApps = 8;
+                            ReadAboutWorkApps("appWork8.pos", appWork8);
+                            break;
+                        case 9:
+                            appWork9.Visibility = Visibility.Visible;
+                            usingWorkingApps = 9;
+                            ReadAboutWorkApps("appWork9.pos", appWork8);
+                            break;
+                        case 10:
+                            appWork10.Visibility = Visibility.Visible;
+                            usingWorkingApps = 10;
+                            ReadAboutWorkApps("appWork10.pos", appWork10);
+                            break;
+                        case 11:
+                            appWork11.Visibility = Visibility.Visible;
+                            usingWorkingApps = 11;
+                            ReadAboutWorkApps("appWork11.pos", appWork11);
+                            break;
+                        case 12:
+                            appWork12.Visibility = Visibility.Visible;
+                            usingWorkingApps = 12;
+                            ReadAboutWorkApps("appWork12.pos", appWork12);
+                            break;
+                        default:
+                            MessageBox.Show("Error during loading working apps", "Error Working app", MessageBoxButton.OK, MessageBoxImage.Error);
+                            break;
+                    }
+                }
+                else { }
+            }
+        }
+        public void WriteAboutWorkApps(string file, string title, string app)
+        {
+            Stream stream = new FileStream(file, FileMode.Create);
+            using (StreamWriter sw = new StreamWriter(stream))
+            {
+                sw.WriteLine(title);
+                sw.WriteLine(app);
+            }
+        }
+        public void ReadAboutWorkApps(string file, Button btn)
+        {
+            using (StreamReader sr = new StreamReader(file))
+            {
+                string line;
+                int i = 0;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (i == 0) {
+                        btn.Content = line;
+                        btn.ToolTip = line;
+                    }
+                    i++;
+                }
+            }
         }
     }
 }
