@@ -35,6 +35,7 @@ namespace LoginAndMainUI
         bool taskBarIsShowen;
         bool gloraTextIsShowen = false;
         bool gWebIsShowen = false;
+        bool infomrationCenterIsShowen = false;
         bool createNewTaskIsShowen = false;
         public MainUI()
         {
@@ -99,9 +100,18 @@ namespace LoginAndMainUI
 
         private void informationBar_Click(object sender, RoutedEventArgs e)
         {
-            DoubleAnimation blurEnable = new DoubleAnimation(0, 0.9, new Duration(TimeSpan.FromSeconds(0.5)));
-            informationProperities.BeginAnimation(OpacityProperty, blurEnable);
-            infoGloraIsEnable = true;
+            if (!infomrationCenterIsShowen)
+            {
+                DoubleAnimation widthProp = new DoubleAnimation(0, 250, new Duration(TimeSpan.FromSeconds(0.2)));
+                informationCenterBar.BeginAnimation(WidthProperty, widthProp);
+                infomrationCenterIsShowen = true;
+            }
+            else
+            {
+                DoubleAnimation widthProp = new DoubleAnimation(250, 0, new Duration(TimeSpan.FromSeconds(0.2)));
+                informationCenterBar.BeginAnimation(WidthProperty, widthProp);
+                infomrationCenterIsShowen = false;
+            }
         }
 
         private void informationBarZero_MouseEnter(object sender, MouseEventArgs e)
@@ -151,6 +161,8 @@ namespace LoginAndMainUI
                     minimzeTask_Click(sender, e);
                 if (createNewTaskIsShowen)
                     createTaskLb_Click(sender, e);
+                if (infomrationCenterIsShowen)
+                    informationBar_Click(sender, e);
             }
         }
 

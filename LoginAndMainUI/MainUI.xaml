@@ -359,6 +359,7 @@
                                 </Grid>
                             </Border>
                             <Button ToolTip="Show task bar" Panel.ZIndex="2" x:Name="showTaskBar" Click="showTaskBar_Click" Grid.Row="2" Grid.Column="4" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" Height="10" Foreground="{x:Null}" Background="#FFE9FF09" HorizontalAlignment="Right" Width="50"/>
+                            <Border Background="#FF5F5F5F" Opacity="0.9" Panel.ZIndex="3"  x:Name="informationCenterBar" Grid.Row="0" Grid.Column="4" Grid.RowSpan="3" HorizontalAlignment="Right" Width="0"/>
                         </Grid>
                     </Border>
                 </Grid>
