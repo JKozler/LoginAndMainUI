@@ -364,7 +364,7 @@
                     </Border>
                 </Grid>
             </Border>
-            <Border Panel.ZIndex="2" Grid.Column="1" x:Name="informationProperities" Margin="0,10,10,0" Opacity="0.0" Height="89" VerticalAlignment="Top" HorizontalAlignment="Right" Width="231" Background="#FF474747">
+            <Border Panel.ZIndex="1" Grid.Column="1" x:Name="informationProperities" Margin="0,10,10,0" Opacity="0.0" Height="89" VerticalAlignment="Top" HorizontalAlignment="Right" Width="231" Background="#FF474747">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>

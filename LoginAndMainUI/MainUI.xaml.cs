@@ -128,9 +128,18 @@ namespace LoginAndMainUI
 
         private void closeNoti_Click(object sender, RoutedEventArgs e)
         {
-            DoubleAnimation blurEnable = new DoubleAnimation(0.9, 0, new Duration(TimeSpan.FromSeconds(0.5)));
-            informationProperities.BeginAnimation(OpacityProperty, blurEnable);
-            infoGloraIsEnable = false;
+            if (!infoGloraIsEnable)
+            {
+                DoubleAnimation blurEnable = new DoubleAnimation(0, 0.9, new Duration(TimeSpan.FromSeconds(0.5)));
+                informationProperities.BeginAnimation(OpacityProperty, blurEnable);
+                infoGloraIsEnable = true;
+            }
+            else
+            {
+                DoubleAnimation blurEnable = new DoubleAnimation(0.9, 0, new Duration(TimeSpan.FromSeconds(0.5)));
+                informationProperities.BeginAnimation(OpacityProperty, blurEnable);
+                infoGloraIsEnable = false;
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -138,12 +147,7 @@ namespace LoginAndMainUI
             if (e.Key == Key.G && Keyboard.Modifiers == ModifierKeys.Control)
                 gloraHome_Click(sender, e);
             else if (e.Key == Key.I && Keyboard.Modifiers == ModifierKeys.Control)
-            {
-                if (!infoGloraIsEnable)
-                    informationBar_Click(sender, e);
-                else if (infoGloraIsEnable)
-                    closeNoti_Click(sender, e);
-            }
+                closeNoti_Click(sender, e);
             else if (e.Key == Key.T && Keyboard.Modifiers == ModifierKeys.Control)
             {
                 if (!taskBarIsShowen)
