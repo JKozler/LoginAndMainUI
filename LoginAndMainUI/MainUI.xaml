@@ -37,7 +37,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="0.05*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -52,6 +52,12 @@
                             </Button.Background>
                         </Button>
                     </Border>
+                    <Border Grid.Row="1">
+                        <Button IsEnabled="False" Opacity="0" MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="G-Web for fast access" Width="auto" Height="auto" x:Name="btnMainPanel1" Click="btnMainPanel1_Click_1" Padding="0" Background="{x:Null}">
+                            <materialDesign:PackIcon Width="auto" Height="auto" Kind="Web"/>
+                        </Button>
+                    </Border>
+                    <Border Grid.Row="16" Background="Black" ></Border>
                     <Border Grid.Row="22">
                         <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Setting for Glora" Width="auto" Height="auto" x:Name="settingHome" Click="settingHome_Click" Padding="0" Background="{x:Null}">
                             <materialDesign:PackIcon Width="auto" Height="auto" Kind="Settings"/>
@@ -88,7 +94,7 @@
                         </Button>
                     </Border>
                     <Border Grid.Row="17">
-                        <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Add application to work team (max. 12)" Width="auto" Height="auto" x:Name="addWorkingApp" Click="addWorkingApp_Click" Padding="0" Background="{x:Null}" BorderBrush="#FF747474">
+                        <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Add working applications (max. 12)" Width="auto" Height="auto" x:Name="addWorkingApp" Click="addWorkingApp_Click" Padding="0" Background="{x:Null}" BorderBrush="#FF747474">
                             <materialDesign:PackIcon Width="auto" Height="auto" Kind="ApplicationExport"/>
                         </Button>
                     </Border>
@@ -100,7 +106,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="5*"/>
                     </Grid.ColumnDefinitions>
-                    <Border Panel.ZIndex="2" Grid.Column="0" Background="#FF555555" Opacity="0.9" x:Name="menuGlora" Width="0" HorizontalAlignment="Left">
+                    <Border Width="0" HorizontalAlignment="Left" Panel.ZIndex="2" Grid.Column="0" Background="#FF555555" Opacity="0.9" x:Name="menuGlora">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -129,7 +135,7 @@
                             <Button VerticalAlignment="Center" x:Name="applyOrg" Click="applyOrg_Click" ToolTip="Apply this organization" Grid.Column="2" Grid.Row="1" Margin="5,0,0,5" Height="37" Background="#FF57FF32" HorizontalAlignment="Left" Width="59">
                                 <materialDesign:PackIcon Width="auto" Height="auto" Kind="Done"/>
                             </Button>
-                            <Label VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="Dubai Bold" Grid.Row="2" Grid.ColumnSpan="3" Content="Here is yours working apps." Foreground="#DDFFFFFF"/>
+                            <Label VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="Dubai Bold" Grid.Row="2" Grid.ColumnSpan="3" Content="Your apps." Foreground="#DDFFFFFF"/>
                             <Label VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Dubai Bold" Grid.Row="8" Grid.ColumnSpan="3" Content="Here you can connect with code to ORG." Foreground="#DDFFFFFF"/>
                             <TextBox FontFamily="Dubai Medium" FontSize="18" HorizontalContentAlignment="Center" ToolTip="Write code here" x:Name="connectToOrg" Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,5,5" Background="#FF868686" Height="37" VerticalAlignment="Bottom"></TextBox>
                             <Button x:Name="connectToOrgBtn" Click="connectToOrg_Click" ToolTip="Connect to this organization" Grid.Column="2" Grid.Row="9" Margin="5,0,5,5" Width="auto" Height="37" Background="#FF57FF32" VerticalAlignment="Bottom">
@@ -165,6 +171,9 @@
                             </Grid.RowDefinitions>
                             <Border IsEnabled="False" Opacity="0" x:Name="GloraTextAssistentProp" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3">
                                 <local:GloraTextAssistant Width="auto" Height="auto"></local:GloraTextAssistant>
+                            </Border>
+                            <Border IsEnabled="False" Opacity="0" x:Name="GWebPlace" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3">
+                                <!--Place for G-Web-->
                             </Border>
                             <Border ToolTip="Information about tasks" Grid.Row="0" Grid.Column="0" Background="White" Opacity="0.94" Margin="20,20,20,0" CornerRadius="10" Height="135" VerticalAlignment="Top">
                                 <Border.Effect>

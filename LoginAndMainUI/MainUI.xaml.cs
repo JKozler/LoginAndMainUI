@@ -34,6 +34,7 @@ namespace LoginAndMainUI
         bool infoGloraIsEnable = false;
         bool taskBarIsShowen;
         bool gloraTextIsShowen = false;
+        bool gWebIsShowen = false;
         bool createNewTaskIsShowen = false;
         public MainUI()
         {
@@ -229,7 +230,14 @@ namespace LoginAndMainUI
 
         private void gWeb_Click(object sender, RoutedEventArgs e)
         {
-
+            if (!gWebIsShowen)
+            {
+                gWebIsShowen = true;
+                btnMainPanel1.IsEnabled = true;
+                DoubleAnimation blurEnable = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(0.8)));
+                btnMainPanel1.BeginAnimation(OpacityProperty, blurEnable);
+                gloraHome_Click(sender, e);
+            }
         }
 
         private void gReminder_Click(object sender, RoutedEventArgs e)
@@ -496,6 +504,11 @@ namespace LoginAndMainUI
                     i++;
                 }
             }
+        }
+
+        private void btnMainPanel1_Click_1(object sender, RoutedEventArgs e)
+        {
+            gWeb_Click(sender, e);
         }
     }
 }
