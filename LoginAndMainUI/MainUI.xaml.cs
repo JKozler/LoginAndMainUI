@@ -37,9 +37,11 @@ namespace LoginAndMainUI
         bool gWebIsShowen = false;
         bool infomrationCenterIsShowen = false;
         bool createNewTaskIsShowen = false;
+        bool settingsGloraIsShowen = false;
         public MainUI()
         {
             InitializeComponent();
+            taskCreateStats.Visibility = Visibility.Hidden;
             taskBarWholeInfo.Opacity = 0;
             taskCreateStats.Opacity = 0;
             selectedWork.Items.Add("Your own work.");
@@ -71,7 +73,23 @@ namespace LoginAndMainUI
 
         private void settingHome_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (!settingsGloraIsShowen)
+            {
+                CloseEverythingAndShowThatWin("settings");
+                GloraTextAssistentProp.Visibility = Visibility.Hidden;
+                SettingsGlora.Visibility = Visibility.Visible;
+                DoubleAnimation blurEnable = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(0.3)));
+                SettingsGlora.BeginAnimation(OpacityProperty, blurEnable);
+                SettingsGlora.IsEnabled = true;
+                settingsGloraIsShowen = true;
+            }
+            else
+            {
+                DoubleAnimation blurEnable = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromSeconds(0.3)));
+                SettingsGlora.BeginAnimation(OpacityProperty, blurEnable);
+                SettingsGlora.IsEnabled = false;
+                settingsGloraIsShowen = false;
+            }
         }
 
         private void startWorkTime_Click(object sender, RoutedEventArgs e)
@@ -201,6 +219,7 @@ namespace LoginAndMainUI
         {
             if (!createNewTaskIsShowen)
             {
+                taskCreateStats.Visibility = Visibility.Visible;
                 DoubleAnimation blurEnable = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(0.3)));
                 taskCreateStats.BeginAnimation(OpacityProperty, blurEnable);
                 taskCreateStats.IsEnabled = true;
@@ -212,6 +231,7 @@ namespace LoginAndMainUI
                 taskCreateStats.BeginAnimation(OpacityProperty, blurEnable);
                 taskCreateStats.IsEnabled = false;
                 createNewTaskIsShowen = false;
+                taskCreateStats.Visibility = Visibility.Hidden;
             }
         }
 
@@ -265,6 +285,9 @@ namespace LoginAndMainUI
         {
             if (!gloraTextIsShowen)
             {
+                CloseEverythingAndShowThatWin("gloraText");
+                SettingsGlora.Visibility = Visibility.Hidden;
+                GloraTextAssistentProp.Visibility = Visibility.Visible;
                 DoubleAnimation blurEnable = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(0.3)));
                 GloraTextAssistentProp.BeginAnimation(OpacityProperty, blurEnable);
                 GloraTextAssistentProp.IsEnabled = true;
@@ -419,6 +442,11 @@ namespace LoginAndMainUI
             }
         }
 
+        private void btnMainPanel1_Click_1(object sender, RoutedEventArgs e)
+        {
+            gWeb_Click(sender, e);
+        }
+
         public void CheckForExistingWorkingApps()
         {
             string baseName = "appWork";
@@ -521,10 +549,28 @@ namespace LoginAndMainUI
                 }
             }
         }
-
-        private void btnMainPanel1_Click_1(object sender, RoutedEventArgs e)
+        public void CloseEverythingAndShowThatWin(string what)
         {
-            gWeb_Click(sender, e);
+            if (what == "settings" && gloraTextIsShowen)
+            {
+                taskCreateStats.Visibility = Visibility.Hidden;
+                createNewTaskIsShowen = false;
+                taskCreateStats.IsEnabled = false;
+                DoubleAnimation blurEnable = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromSeconds(0.3)));
+                GloraTextAssistentProp.BeginAnimation(OpacityProperty, blurEnable);
+                GloraTextAssistentProp.IsEnabled = false;
+                gloraTextIsShowen = false;
+            }
+            else if (what == "gloraText" && settingsGloraIsShowen)
+            {
+                taskCreateStats.Visibility = Visibility.Hidden;
+                createNewTaskIsShowen = false;
+                taskCreateStats.IsEnabled = false;
+                DoubleAnimation blurEnable = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromSeconds(0.3)));
+                SettingsGlora.BeginAnimation(OpacityProperty, blurEnable);
+                SettingsGlora.IsEnabled = false;
+                settingsGloraIsShowen = false;
+            }
         }
     }
 }

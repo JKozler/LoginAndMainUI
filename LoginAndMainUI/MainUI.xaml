@@ -18,7 +18,7 @@
                 <ColumnDefinition Width="50*"/>
             </Grid.ColumnDefinitions>
 
-            <Border x:Name="mainElementPanel" Background="#FF363636">
+            <Border x:Name="mainElementPanel" Panel.ZIndex="2" Background="#FF363636">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -106,7 +106,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="5*"/>
                     </Grid.ColumnDefinitions>
-                    <Border Width="0" HorizontalAlignment="Left" Panel.ZIndex="2" Grid.Column="0" Background="#FF555555" Opacity="0.9" x:Name="menuGlora">
+                    <Border Width="0" HorizontalAlignment="Left" Visibility="Hidden" Panel.ZIndex="2" Grid.Column="0" Background="#FF555555" Opacity="0.9" x:Name="menuGlora">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -155,7 +155,7 @@
                             <Button Visibility="Hidden" x:Name="appWork12" Click="appWorks_Click" Grid.Column="2" Grid.Row="6" Background="White" ></Button>
                         </Grid>
                     </Border>
-                    <Border Grid.Column="0" Grid.ColumnSpan="2">
+                    <Border x:Name="workPanelElement" Grid.Column="0" Grid.ColumnSpan="2">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -169,10 +169,13 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Border IsEnabled="False" Opacity="0" x:Name="GloraTextAssistentProp" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3">
+                            <Border Visibility="Hidden" IsEnabled="False" Opacity="0" x:Name="GloraTextAssistentProp" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3">
                                 <local:GloraTextAssistant Width="auto" Height="auto"></local:GloraTextAssistant>
                             </Border>
-                            <Border IsEnabled="False" Opacity="0" x:Name="GWebPlace" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3">
+                            <Border Visibility="Hidden" IsEnabled="False" Opacity="0" x:Name="SettingsGlora" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3">
+                                <local:SettGloraSystem Width="auto" Height="auto"></local:SettGloraSystem>
+                            </Border>
+                            <Border Visibility="Hidden" IsEnabled="False" Opacity="0" x:Name="GWebPlace" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3">
                                 <!--Place for G-Web-->
                             </Border>
                             <Border ToolTip="Information about tasks" Grid.Row="0" Grid.Column="0" Background="White" Opacity="0.94" Margin="20,20,20,0" CornerRadius="10" Height="135" VerticalAlignment="Top">

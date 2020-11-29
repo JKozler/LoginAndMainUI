@@ -75,6 +75,9 @@
     <Compile Include="Savings.xaml.cs">
       <DependentUpon>Savings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SettGloraSystem.xaml.cs">
+      <DependentUpon>SettGloraSystem.xaml</DependentUpon>
+    </Compile>
     <Page Include="FileW.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -110,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Savings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettGloraSystem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
