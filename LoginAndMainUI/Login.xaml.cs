@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using System.Security.Cryptography;
 
 namespace LoginAndMainUI
 {
@@ -20,14 +22,17 @@ namespace LoginAndMainUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        string Adresa = string.Empty;
         public MainWindow()
         {
             InitializeComponent();
+            Adresa = "username.gte";
             MainUI mainUI = new MainUI();
             mainUI.Show();
             tbName.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
             tbName.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
             tbPasswordReally.Visibility = Visibility.Collapsed;
+            if (!File.Exists(Adresa)) File.WriteAllText(Adresa, string.Empty);
         }
         private void tb_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
@@ -57,10 +62,52 @@ namespace LoginAndMainUI
         {
             DragMove();
         }
-
+        /*public static byte[] GetHash(string input)
+        {
+            using (HashAlgorithm Algoritmus = SHA256.Create()) return Algoritmus.ComputeHash(Encoding.UTF8.GetBytes(input));
+        }
+        public static string GetHashString(string input)
+        {
+            StringBuilder SB = new StringBuilder();
+            foreach (byte B in GetHash(input)) SB.Append(B.ToString("X2"));
+            return SB.ToString();
+        }*/
         private void btnAccept_Click(object sender, RoutedEventArgs e)
         {
             PHFraze = "Název účtu";
+            string name = tbName.Text;
+            string password = tbPassword.Password;
+
+            string nameHash = name.GetHashCode().ToString().Replace("-", String.Empty);
+            string passwordHash = password.GetHashCode().ToString().Replace("-", String.Empty);
+            bool Bad = false;
+            bool Good = false;
+            string[] nameHashText;
+            string currentName = string.Empty;
+            string currentPassword = string.Empty;
+            switch (IsRegistration)
+            {
+                case false:
+                    nameHashText = File.ReadAllLines(Adresa);
+                    for (int i = 1; i < nameHashText.Length; i++)
+                    {
+                        currentName = nameHashText[i].Split(' ')[0];
+                        currentPassword = nameHashText[i].Split(' ')[1];
+                        if (currentName.Equals(nameHash))
+                        {
+                            if (currentPassword.Equals(passwordHash)) { MessageBox.Show("Úspěšné přihlášení! //nezapomenout smazat", "Povedlo se!"); Good = true; break; }
+                            else Bad = true;
+                        }
+                        else Bad = true;
+                    }
+                    break;
+                case true:
+                    File.WriteAllText(Adresa, $"{File.ReadAllText(Adresa)}\n{name.GetHashCode().ToString().Replace("-", String.Empty)} {password.GetHashCode().ToString().Replace("-", String.Empty)}");
+                    break;
+            }
+            if (Bad && Good == false) MessageBox.Show("Neúspěšné přihlášení! //nezapomenout smazat", "Nepovedlo se!");
+            
+            //File.SetAttributes(@"C:\usernames.gte", FileAttributes.Hidden);
             Close();
         }
         bool IsRegistration = false;
