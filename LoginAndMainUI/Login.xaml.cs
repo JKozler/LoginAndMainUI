@@ -77,6 +77,7 @@ namespace LoginAndMainUI
             PHFraze = "Název účtu";
             string name = tbName.Text;
             string password = tbPassword.Password;
+            string passwordReally = tbPasswordReally.Password;
 
             string nameHash = name.GetHashCode().ToString().Replace("-", String.Empty);
             string passwordHash = password.GetHashCode().ToString().Replace("-", String.Empty);
@@ -95,23 +96,30 @@ namespace LoginAndMainUI
                         currentPassword = nameHashText[i].Split(' ')[1];
                         if (currentName.Equals(nameHash))
                         {
-                            if (currentPassword.Equals(passwordHash)) { MessageBox.Show("Úspěšné přihlášení! //nezapomenout smazat", "Povedlo se!"); Good = true; break; }
+                            if (currentPassword.Equals(passwordHash)) 
+                            { 
+                                MessageBox.Show("Úspěšné přihlášení! //nezapomenout smazat", "Povedlo se!"); Good = true;
+                                Close(); 
+                                break; 
+                            }
                             else Bad = true;
                         }
                         else Bad = true;
                     }
                     break;
                 case true:
-                    File.WriteAllText(Adresa, $"{File.ReadAllText(Adresa)}\n{name.GetHashCode().ToString().Replace("-", String.Empty)} {password.GetHashCode().ToString().Replace("-", String.Empty)}");
+                    if (!passwordReally.Equals(password)) MessageBox.Show("Nezadal jste identická hesla!", "Chybné heslo!");
+                    else
+                    {
+                        File.WriteAllText(Adresa, $"{File.ReadAllText(Adresa)}\n{name.GetHashCode().ToString().Replace("-", String.Empty)} {password.GetHashCode().ToString().Replace("-", String.Empty)}");
+                        ClickBorder();
+                    }
                     break;
             }
             if (Bad && Good == false) MessageBox.Show("Neúspěšné přihlášení! //nezapomenout smazat", "Nepovedlo se!");
-            
-            //File.SetAttributes(@"C:\usernames.gte", FileAttributes.Hidden);
-            Close();
         }
         bool IsRegistration = false;
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        void ClickBorder() 
         {
             tbName.Foreground = Brushes.Gray;
             tbPassword.Focus();
@@ -138,7 +146,7 @@ namespace LoginAndMainUI
                 IsRegistration = true;
                 borderRegister.ToolTip = "Přihlásit se";
             }
-            else 
+            else
             {
                 PHFraze = "Název účtu";
                 tbPasswordReally.Visibility = Visibility.Collapsed;
@@ -160,6 +168,10 @@ namespace LoginAndMainUI
                 IsRegistration = false;
                 borderRegister.ToolTip = "Registrovat";
             }
+        }
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ClickBorder();
         }
     }
 }
