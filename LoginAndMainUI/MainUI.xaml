@@ -106,7 +106,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="5*"/>
                     </Grid.ColumnDefinitions>
-                    <Border Width="0" HorizontalAlignment="Left" Visibility="Hidden" Panel.ZIndex="2" Grid.Column="0" Background="#FF555555" Opacity="0.9" x:Name="menuGlora">
+                    <Border Width="0" HorizontalAlignment="Left" Panel.ZIndex="2" Grid.Column="0" Background="#FF555555" Opacity="0.9" x:Name="menuGlora">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
