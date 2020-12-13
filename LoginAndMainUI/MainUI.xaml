@@ -141,18 +141,18 @@
                             <Button x:Name="connectToOrgBtn" Click="connectToOrg_Click" ToolTip="Connect to this organization" Grid.Column="2" Grid.Row="9" Margin="5,0,5,5" Width="auto" Height="37" Background="#FF57FF32" VerticalAlignment="Bottom">
                                 <materialDesign:PackIcon Width="auto" Height="auto" Kind="Done"/>
                             </Button>
-                            <Button Visibility="Hidden" x:Name="appWork1" Click="appWorks_Click" Grid.Column="0" Grid.Row="3" Background="White" ></Button>
-                            <Button Visibility="Hidden" x:Name="appWork2" Click="appWorks_Click" Grid.Column="1" Grid.Row="3" Background="White" ></Button>
-                            <Button Visibility="Hidden" x:Name="appWork3" Click="appWorks_Click" Grid.Column="2" Grid.Row="3" Background="White" ></Button>
-                            <Button Visibility="Hidden" x:Name="appWork4" Click="appWorks_Click" Grid.Column="0" Grid.Row="4" Background="White" ></Button>
-                            <Button Visibility="Hidden" x:Name="appWork5" Click="appWorks_Click" Grid.Column="1" Grid.Row="4" Background="White" ></Button>
-                            <Button Visibility="Hidden" x:Name="appWork6" Click="appWorks_Click" Grid.Column="2" Grid.Row="4" Background="White" ></Button>
-                            <Button Visibility="Hidden" x:Name="appWork7" Click="appWorks_Click" Grid.Column="0" Grid.Row="5" Background="White" ></Button>
-                            <Button Visibility="Hidden" x:Name="appWork8" Click="appWorks_Click" Grid.Column="1" Grid.Row="5" Background="White" ></Button>
-                            <Button Visibility="Hidden" x:Name="appWork9" Click="appWorks_Click" Grid.Column="2" Grid.Row="5" Background="White" ></Button>
-                            <Button Visibility="Hidden" x:Name="appWork10" Click="appWorks_Click" Grid.Column="0" Grid.Row="6" Background="White" ></Button>
-                            <Button Visibility="Hidden" x:Name="appWork11" Click="appWorks_Click" Grid.Column="1" Grid.Row="6" Background="White" ></Button>
-                            <Button Visibility="Hidden" x:Name="appWork12" Click="appWorks_Click" Grid.Column="2" Grid.Row="6" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork1" MouseRightButtonDown="appWork1_KeyDown" Click="appWorks_Click" Grid.Column="0" Grid.Row="3" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork2" MouseRightButtonDown="appWork1_KeyDown" Click="appWorks_Click" Grid.Column="1" Grid.Row="3" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork3" MouseRightButtonDown="appWork1_KeyDown" Click="appWorks_Click" Grid.Column="2" Grid.Row="3" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork4" MouseRightButtonDown="appWork1_KeyDown" Click="appWorks_Click" Grid.Column="0" Grid.Row="4" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork5" MouseRightButtonDown="appWork1_KeyDown" Click="appWorks_Click" Grid.Column="1" Grid.Row="4" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork6" MouseRightButtonDown="appWork1_KeyDown" Click="appWorks_Click" Grid.Column="2" Grid.Row="4" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork7" MouseRightButtonDown="appWork1_KeyDown" Click="appWorks_Click" Grid.Column="0" Grid.Row="5" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork8" MouseRightButtonDown="appWork1_KeyDown" Click="appWorks_Click" Grid.Column="1" Grid.Row="5" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork9" MouseRightButtonDown="appWork1_KeyDown" Click="appWorks_Click" Grid.Column="2" Grid.Row="5" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork10" MouseRightButtonDown="appWork1_KeyDown" Click="appWorks_Click" Grid.Column="0" Grid.Row="6" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork11" MouseRightButtonDown="appWork1_KeyDown" Click="appWorks_Click" Grid.Column="1" Grid.Row="6" Background="White" ></Button>
+                            <Button Visibility="Hidden" x:Name="appWork12" MouseRightButtonDown="appWork1_KeyDown" Click="appWorks_Click" Grid.Column="2" Grid.Row="6" Background="White" ></Button>
                         </Grid>
                     </Border>
                     <Border x:Name="workPanelElement" Grid.Column="0" Grid.ColumnSpan="2">

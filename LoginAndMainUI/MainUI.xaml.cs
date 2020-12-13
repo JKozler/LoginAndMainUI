@@ -572,5 +572,94 @@ namespace LoginAndMainUI
                 settingsGloraIsShowen = false;
             }
         }
+
+        public void HideDisabledItem()
+        {
+            switch (usingWorkingApps)
+            {
+                case 1:
+                    appWork1.Visibility = Visibility.Hidden;
+                    break;
+                case 2:
+                    appWork2.Visibility = Visibility.Hidden;
+                    break;
+                case 3:
+                    appWork3.Visibility = Visibility.Hidden;
+                    break;
+                case 4:
+                    appWork4.Visibility = Visibility.Hidden;
+                    break;
+                case 5:
+                    appWork5.Visibility = Visibility.Hidden;
+                    break;
+                case 6:
+                    appWork6.Visibility = Visibility.Hidden;
+                    break;
+                case 7:
+                    appWork7.Visibility = Visibility.Hidden;
+                    break;
+                case 8:
+                    appWork8.Visibility = Visibility.Hidden;
+                    break;
+                case 9:
+                    appWork9.Visibility = Visibility.Hidden;
+                    break;
+                case 10:
+                    appWork10.Visibility = Visibility.Hidden;
+                    break;
+                case 11:
+                    appWork11.Visibility = Visibility.Hidden;
+                    break;
+                case 12:
+                    appWork12.Visibility = Visibility.Hidden;
+                    break;
+                default:
+                    MessageBox.Show("Error during loading working apps", "Error Working app", MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+            }
+        }
+
+        private void appWork1_KeyDown(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult mr = MessageBox.Show("Are you sure to delete this app from pOS?", "Warning", MessageBoxButton.YesNo);
+            if (mr == MessageBoxResult.Yes)
+            {
+                Button btn = (Button)sender;
+                int index = Convert.ToInt32(btn.Name.ToString().Replace("appWork", ""));
+                if (usingWorkingApps > index)
+                {
+                    for (int i = index; i < usingWorkingApps; i++)
+                    {
+                        Stream stream = new FileStream("appWork" + i + ".pos", FileMode.Create);
+                        using (StreamWriter sw = new StreamWriter(stream))
+                        {
+                            using (StreamReader sr = new StreamReader("appWork" + (i + 1).ToString() + ".pos"))
+                            {
+                                string line;
+                                int y = 0;
+                                while ((line = sr.ReadLine()) != null)
+                                {
+                                    if (y == 0)
+                                        sw.WriteLine(line);
+                                    else
+                                        sw.WriteLine(line);
+                                    y++;
+                                }
+                            }
+                        }
+                    }
+                    HideDisabledItem();
+                    File.Delete("appWork" + usingWorkingApps + ".pos");
+                    CheckForExistingWorkingApps();
+                    Console.WriteLine(usingWorkingApps);
+                }
+                else
+                {
+                    usingWorkingApps--;
+                    btn.Visibility = Visibility.Hidden;
+                    File.Delete(btn.Name.ToString() + ".pos");
+                }
+            }
+        }
     }
 }
