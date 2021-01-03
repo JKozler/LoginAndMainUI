@@ -176,7 +176,7 @@
                                 <local:SettGloraSystem Width="auto" Height="auto"></local:SettGloraSystem>
                             </Border>
                             <Border Visibility="Hidden" IsEnabled="False" Opacity="0" x:Name="GWebPlace" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3">
-                                <!--Place for G-Web-->
+                                <!--<local:GloraChromium Width="auto" Height="auto"/>-->
                             </Border>
                             <Border ToolTip="Information about tasks" Grid.Row="0" Grid.Column="0" Background="White" Opacity="0.94" Margin="20,20,20,0" CornerRadius="10" Height="135" VerticalAlignment="Top">
                                 <Border.Effect>

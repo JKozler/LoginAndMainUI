@@ -270,6 +270,7 @@ namespace LoginAndMainUI
             {
                 gWebIsShowen = true;
                 btnMainPanel1.IsEnabled = true;
+                GWebPlace.Visibility = Visibility.Visible;
                 DoubleAnimation blurEnable = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(0.8)));
                 btnMainPanel1.BeginAnimation(OpacityProperty, blurEnable);
                 gloraHome_Click(sender, e);

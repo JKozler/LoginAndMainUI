@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Security.Cryptography;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
 
 namespace LoginAndMainUI
 {
@@ -27,8 +29,6 @@ namespace LoginAndMainUI
         {
             InitializeComponent();
             Adresa = "username.gte";
-            MainUI mainUI = new MainUI();
-            mainUI.Show();
             tbName.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
             tbName.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
             tbPasswordReally.Visibility = Visibility.Collapsed;
@@ -72,51 +72,75 @@ namespace LoginAndMainUI
             foreach (byte B in GetHash(input)) SB.Append(B.ToString("X2"));
             return SB.ToString();
         }*/
+        public async Task CheckUser() {
+            HttpClient http = new HttpClient();
+            try
+            {
+                string password = tbPassword.Password.ToString();
+                string url = "http://www.g-pos.8u.cz/api/get-user-detail/{\"name\":\"" + tbName.Text + "\",\"password\":\"" + password + "\"}";
+                HttpResponseMessage response = await http.GetAsync(url);
+                string res = await response.Content.ReadAsStringAsync();
+                JObject jo = JObject.Parse(res);
+                if (jo["name"].ToString() == tbName.Text)
+                {
+                    MainUI mainUI = new MainUI();
+                    mainUI.Show();
+                }
+            }
+            catch (Exception)
+            {
+                btnAccept.Content = "Bad name/password";
+            }
+        }
         private void btnAccept_Click(object sender, RoutedEventArgs e)
         {
             PHFraze = "Název účtu";
-            string name = tbName.Text;
-            string password = tbPassword.Password;
-            string passwordReally = tbPasswordReally.Password;
-
-            string nameHash = name.GetHashCode().ToString().Replace("-", String.Empty);
-            string passwordHash = password.GetHashCode().ToString().Replace("-", String.Empty);
-            bool Bad = false;
-            bool Good = false;
-            string[] nameHashText;
-            string currentName = string.Empty;
-            string currentPassword = string.Empty;
-            switch (IsRegistration)
+            if (tbName.Text != null && tbPasswordReally.Password != null)
             {
-                case false:
-                    nameHashText = File.ReadAllLines(Adresa);
-                    for (int i = 1; i < nameHashText.Length; i++)
-                    {
-                        currentName = nameHashText[i].Split(' ')[0];
-                        currentPassword = nameHashText[i].Split(' ')[1];
-                        if (currentName.Equals(nameHash))
-                        {
-                            if (currentPassword.Equals(passwordHash)) 
-                            { 
-                                MessageBox.Show("Úspěšné přihlášení! //nezapomenout smazat", "Povedlo se!"); Good = true;
-                                Close(); 
-                                break; 
-                            }
-                            else Bad = true;
-                        }
-                        else Bad = true;
-                    }
-                    break;
-                case true:
-                    if (!passwordReally.Equals(password)) MessageBox.Show("Nezadal jste identická hesla!", "Chybné heslo!");
-                    else
-                    {
-                        File.WriteAllText(Adresa, $"{File.ReadAllText(Adresa)}\n{name.GetHashCode().ToString().Replace("-", String.Empty)} {password.GetHashCode().ToString().Replace("-", String.Empty)}");
-                        ClickBorder();
-                    }
-                    break;
+                CheckUser();
             }
-            if (Bad && Good == false) MessageBox.Show("Neúspěšné přihlášení! //nezapomenout smazat", "Nepovedlo se!");
+            //string name = tbName.Text;
+            //string password = tbPassword.Password;
+            //string passwordReally = tbPasswordReally.Password;
+
+            //string nameHash = name.GetHashCode().ToString().Replace("-", String.Empty);
+            //string passwordHash = password.GetHashCode().ToString().Replace("-", String.Empty);
+            //bool Bad = false;
+            //bool Good = false;
+            //string[] nameHashText;
+            //string currentName = string.Empty;
+            //string currentPassword = string.Empty;
+            //switch (IsRegistration)
+            //{
+            //    case false:
+            //        nameHashText = File.ReadAllLines(Adresa);
+            //        for (int i = 1; i < nameHashText.Length; i++)
+            //        {
+            //            currentName = nameHashText[i].Split(' ')[0];
+            //            currentPassword = nameHashText[i].Split(' ')[1];
+            //            if (currentName.Equals(nameHash))
+            //            {
+            //                if (currentPassword.Equals(passwordHash)) 
+            //                { 
+            //                    MessageBox.Show("Úspěšné přihlášení! //nezapomenout smazat", "Povedlo se!"); Good = true;
+            //                    Close(); 
+            //                    break; 
+            //                }
+            //                else Bad = true;
+            //            }
+            //            else Bad = true;
+            //        }
+            //        break;
+            //    case true:
+            //        if (!passwordReally.Equals(password)) MessageBox.Show("Nezadal jste identická hesla!", "Chybné heslo!");
+            //        else
+            //        {
+            //            File.WriteAllText(Adresa, $"{File.ReadAllText(Adresa)}\n{name.GetHashCode().ToString().Replace("-", String.Empty)} {password.GetHashCode().ToString().Replace("-", String.Empty)}");
+            //            ClickBorder();
+            //        }
+            //        break;
+            //}
+            //if (Bad && Good == false) MessageBox.Show("Neúspěšné přihlášení! //nezapomenout smazat", "Nepovedlo se!");
         }
         bool IsRegistration = false;
         void ClickBorder() 
