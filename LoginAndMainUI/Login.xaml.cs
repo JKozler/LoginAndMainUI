@@ -78,10 +78,10 @@ namespace LoginAndMainUI
             {
                 string password = tbPassword.Password.ToString();
                 string url = "http://www.g-pos.8u.cz/api/get-user-detail/{\"name\":\"" + tbName.Text + "\",\"password\":\"" + password + "\"}";
-                HttpResponseMessage response = await http.GetAsync(url);
+                HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                 string res = await response.Content.ReadAsStringAsync();
                 JObject jo = JObject.Parse(res);
-                if (jo["name"].ToString() == tbName.Text)
+                if (jo["user"]["name"] != null)
                 {
                     MainUI mainUI = new MainUI();
                     mainUI.Show();
