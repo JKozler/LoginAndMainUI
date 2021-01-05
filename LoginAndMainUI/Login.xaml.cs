@@ -92,13 +92,41 @@ namespace LoginAndMainUI
                 btnAccept.Content = "Bad name/password";
             }
         }
+
+        public async Task RegisterUser()
+        {
+            HttpClient http = new HttpClient();
+            try
+            {
+                string password = tbPassword.Password.ToString();
+                string url = "http://www.g-pos.8u.cz/api/post-user/{\"name\":\"" + tbName.Text + "\",\"email\":\"null\",\"teamId\":0,\"password\":\"" + tbPassword.Password + "\"}";
+                HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                string res = await response.Content.ReadAsStringAsync();
+                JObject jo = JObject.Parse(res);
+                if (jo["name"] != null)
+                {
+                    MainUI mainUI = new MainUI();
+                    mainUI.Show();
+                }
+            }
+            catch (Exception)
+            {
+                btnAccept.Content = "Bad name/password";
+            }
+        }
         private void btnAccept_Click(object sender, RoutedEventArgs e)
         {
             PHFraze = "Název účtu";
-            if (tbName.Text != null && tbPasswordReally.Password != null)
+            if (tbName.Text != null && tbPasswordReally.Password != null && !IsRegistration)
             {
                 CheckUser();
             }
+            else if(tbName.Text != null && tbPasswordReally.Password != null && tbPassword.Password !=null && tbPassword.Password == tbPasswordReally.Password && IsRegistration)
+            {
+                RegisterUser();
+            }
+            else
+                MessageBox.Show("Neúspěšné přihlášení!", "Nepovedlo se!");
             //string name = tbName.Text;
             //string password = tbPassword.Password;
             //string passwordReally = tbPasswordReally.Password;
