@@ -83,7 +83,7 @@ namespace LoginAndMainUI
                 JObject jo = JObject.Parse(res);
                 if (jo["user"]["name"] != null)
                 {
-                    MainUI mainUI = new MainUI();
+                    MainUI mainUI = new MainUI(jo);
                     mainUI.Show();
                 }
             }
@@ -99,13 +99,13 @@ namespace LoginAndMainUI
             try
             {
                 string password = tbPassword.Password.ToString();
-                string url = "http://www.g-pos.8u.cz/api/post-user/{\"name\":\"" + tbName.Text + "\",\"email\":\"null\",\"teamId\":0,\"password\":\"" + tbPassword.Password + "\"}";
+                string url = "http://www.g-pos.8u.cz/api/post-user/{\"name\":\"" + tbName.Text + "\",\"email\":\"null\",\"teamId\":0,\"password\":\"" + tbPassword.Password + "\",\"time\":0}";
                 HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                 string res = await response.Content.ReadAsStringAsync();
                 JObject jo = JObject.Parse(res);
-                if (jo["name"] != null)
+                if (jo["user"]["name"] != null)
                 {
-                    MainUI mainUI = new MainUI();
+                    MainUI mainUI = new MainUI(jo);
                     mainUI.Show();
                 }
             }

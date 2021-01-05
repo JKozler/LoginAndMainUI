@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Diagnostics;
+using Newtonsoft.Json.Linq;
 
 namespace LoginAndMainUI
 {
@@ -38,7 +39,7 @@ namespace LoginAndMainUI
         bool infomrationCenterIsShowen = false;
         bool createNewTaskIsShowen = false;
         bool settingsGloraIsShowen = false;
-        public MainUI()
+        public MainUI(JObject jo)
         {
             InitializeComponent();
             taskCreateStats.Visibility = Visibility.Hidden;
@@ -51,6 +52,7 @@ namespace LoginAndMainUI
             progressTaskLb.IsEnabled = false;
             createTaskLb.IsEnabled = false;
             failedTaskLb.IsEnabled = false;
+            LoadInfoHourSpend(Convert.ToInt32(jo["user"]["time"]));
             CheckIfWorkHasMoreThenOneStations();
             CheckForExistingWorkingApps();
         }
@@ -109,7 +111,10 @@ namespace LoginAndMainUI
             startTime.Visibility = Visibility.Visible;
             timeStop = DateTime.Now;
             totalTime = (timeStop - timeStart) + totalTime;
-            countOfTime.Content = totalTime.Hours + ":" + totalTime.Minutes + ":" + totalTime.Seconds;
+            if (totalTime.Seconds > 30)
+                countOfTime.Content = totalTime.Hours + ":" + (totalTime.Minutes + 1);
+            else
+                countOfTime.Content = totalTime.Hours + ":" + totalTime.Minutes;
             DoubleAnimation widthProp = new DoubleAnimation(10, 0, new Duration(TimeSpan.FromSeconds(0.2)));
             DoubleAnimation heightProp = new DoubleAnimation(10, 0, new Duration(TimeSpan.FromSeconds(0.2)));
             elRec.BeginAnimation(WidthProperty, widthProp);
@@ -661,6 +666,18 @@ namespace LoginAndMainUI
                     File.Delete(btn.Name.ToString() + ".pos");
                 }
             }
+        }
+
+        public void LoadInfoHourSpend(int time)
+        {
+            if (time >= 60)
+            {
+                int hours = time / 60;
+                int minutes = time % 60;
+                countOfTime.Content = hours + ":" + minutes;
+            }
+            else
+                countOfTime.Content = "0:" + time;
         }
     }
 }
