@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
+using System.Net.Http;
 
 namespace LoginAndMainUI
 {
@@ -39,9 +40,11 @@ namespace LoginAndMainUI
         bool infomrationCenterIsShowen = false;
         bool createNewTaskIsShowen = false;
         bool settingsGloraIsShowen = false;
+        JObject user = new JObject();
         public MainUI(JObject jo)
         {
             InitializeComponent();
+            user = jo;
             taskCreateStats.Visibility = Visibility.Hidden;
             taskBarWholeInfo.Opacity = 0;
             taskCreateStats.Opacity = 0;
@@ -53,6 +56,7 @@ namespace LoginAndMainUI
             createTaskLb.IsEnabled = false;
             failedTaskLb.IsEnabled = false;
             LoadInfoHourSpend(Convert.ToInt32(jo["user"]["time"]));
+            CheckInformationsAboutUser();
             CheckIfWorkHasMoreThenOneStations();
             CheckForExistingWorkingApps();
         }
@@ -327,9 +331,38 @@ namespace LoginAndMainUI
 
         }
 
+        public async Task ConnectToTeam(string code)
+        {
+            HttpClient http = new HttpClient();
+            try
+            {
+                string url = "http://www.g-pos.8u.cz/api/get-team-detail/" + code;
+                HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                string res = await response.Content.ReadAsStringAsync();
+                JObject jo = JObject.Parse(res);
+                if (jo["name"] != null)
+                {
+                    string url2 = "http://www.g-pos.8u.cz/api/put-user/{\"name\":\"" + user["user"]["name"].ToString() + "\",\"email\":\"null\",\"teamId\":0,\"password\":\"" + user["user"]["password"].ToString() + "\",\"time\":" + user["user"]["time"].ToString() + ",\"email\":\"" + user["user"]["email"].ToString() + "\",\"team\":" + jo["id"].ToString() + "}";
+                    HttpResponseMessage response2 = await http.GetAsync(url2, HttpCompletionOption.ResponseContentRead);
+                    string res2 = await response2.Content.ReadAsStringAsync();
+                    JObject jo2 = JObject.Parse(res2);
+                    user["user"] = jo2;
+                    MessageBox.Show("Successfully added to team.");
+                }
+                CheckInformationsAboutUser();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+            }
+        }
+
         private void connectToOrg_Click(object sender, RoutedEventArgs e)
         {
-
+            if (connectToOrg.Text != null)
+            {
+                ConnectToTeam(connectToOrg.Text);
+            }
         }
 
         private void createNewProject_Click(object sender, RoutedEventArgs e)
@@ -678,6 +711,40 @@ namespace LoginAndMainUI
             }
             else
                 countOfTime.Content = "0:" + time;
+        }
+
+        public async Task CheckInformationsAboutUser() 
+        {
+            HttpClient http = new HttpClient();
+            if (user["user"]["team"] != null)
+            {
+                try
+                {
+                    string url = "http://www.g-pos.8u.cz/api/get-team/" + user["user"]["team"];
+                    HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                    string res = await response.Content.ReadAsStringAsync();
+                    JObject jo = JObject.Parse(res);
+                    connectToOrg.Text = jo["code"].ToString();
+                    connectToOrg.IsEnabled = false;
+                    selectedWork.SelectedItem = jo["name"];
+                    selectedWork.IsEnabled = true;
+                    selectedWork.Items.Add(jo["name"]);
+
+                    string url2 = "http://www.g-pos.8u.cz/api/get-number-of-user/" + user["user"]["team"];
+                    HttpResponseMessage response2 = await http.GetAsync(url2, HttpCompletionOption.ResponseContentRead);
+                    string res2 = await response2.Content.ReadAsStringAsync();
+                    JObject jo2 = JObject.Parse(res2);
+                    numberOfMemners.Content = jo2["COUNT(*)"];
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+                }
+            }
+            else
+            {
+
+            }
         }
     }
 }
