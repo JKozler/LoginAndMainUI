@@ -41,6 +41,7 @@ namespace LoginAndMainUI
         bool createNewTaskIsShowen = false;
         bool settingsGloraIsShowen = false;
         JObject user = new JObject();
+        JObject team = new JObject();
         public MainUI(JObject jo)
         {
             InitializeComponent();
@@ -224,7 +225,22 @@ namespace LoginAndMainUI
 
         }
 
-        private void createTaskLb_Click(object sender, RoutedEventArgs e)
+        public async Task GetAllUsers(int id)
+        {
+            HttpClient http = new HttpClient();
+            userAssign.Items.Clear();
+            string url = "http://www.g-pos.8u.cz/api/get-all-users-from-team/" + id;
+            HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+            string res = await response.Content.ReadAsStringAsync();
+            JObject jo = JObject.Parse(res);
+            JArray array = (JArray)jo["users"];
+            for (int i = 0; i < array.Count; i++)
+            {
+                userAssign.Items.Add(jo["users"][i]["name"]);
+            }
+        }
+
+        private async void createTaskLb_Click(object sender, RoutedEventArgs e)
         {
             if (!createNewTaskIsShowen)
             {
@@ -233,6 +249,14 @@ namespace LoginAndMainUI
                 taskCreateStats.BeginAnimation(OpacityProperty, blurEnable);
                 taskCreateStats.IsEnabled = true;
                 createNewTaskIsShowen = true;
+                try
+                {
+                    await GetAllUsers(Convert.ToInt32(user["user"]["team"]));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+                }
             }
             else
             {
@@ -312,9 +336,40 @@ namespace LoginAndMainUI
             }
         }
 
-        private void createNewTask_Click(object sender, RoutedEventArgs e)
+        public async Task AssignTaskToUser()
         {
+            HttpClient http = new HttpClient();
+            string urlUserId = "http://www.g-pos.8u.cz/api/user-id-by-name/" + userAssign.SelectedItem.ToString();
+            HttpResponseMessage responseUser = await http.GetAsync(urlUserId, HttpCompletionOption.ResponseContentRead);
+            string res = await responseUser.Content.ReadAsStringAsync();
+            JObject jo = JObject.Parse(res);
+            try
+            {
+                string url = "http://www.g-pos.8u.cz/api/post-task/{\"teamCode\":\"" + team["code"].ToString() + "\",\"name\":\"" + taskName.Text + "\",\"description\":\"" + taskDescription.Text + "\",\"userId\":\"" + jo["id"].ToString() + "\",\"dateFrom\":\"" + Convert.ToDateTime(taskDateFrom.SelectedDate).ToString("yyyy-MM-dd") + "\",\"dateTo\":\"" + Convert.ToDateTime(taskDateTo.SelectedDate).ToString("yyyy-MM-dd") + "\",\"state\":\"New\"}";
+                HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                string res2 = await response.Content.ReadAsStringAsync();
+                JObject jo2 = JObject.Parse(res2);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+            }
+        }
 
+        private async void createNewTask_Click(object sender, RoutedEventArgs e)
+        {
+            if (userAssign.SelectedItem.ToString() != null && taskName.Text != null && taskDescription.Text != null) 
+            {
+                await AssignTaskToUser();
+                taskName.Text = "";
+                userAssign.SelectedItem = "";
+                taskDescription.Text = "";
+                taskDateFrom.SelectedDate = null;
+                taskDateTo.SelectedDate = null;
+                MessageBox.Show("Task was successfully create.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+                MessageBox.Show("You must fill every box (instead of dates).", "Error", MessageBoxButton.OK);
         }
 
         public void CheckIfWorkHasMoreThenOneStations()
@@ -349,7 +404,7 @@ namespace LoginAndMainUI
                     user["user"] = jo2;
                     MessageBox.Show("Successfully added to team.");
                 }
-                CheckInformationsAboutUser();
+                await CheckInformationsAboutUser();
             }
             catch (Exception ex)
             {
@@ -357,11 +412,11 @@ namespace LoginAndMainUI
             }
         }
 
-        private void connectToOrg_Click(object sender, RoutedEventArgs e)
+        private async void connectToOrg_Click(object sender, RoutedEventArgs e)
         {
             if (connectToOrg.Text != null)
             {
-                ConnectToTeam(connectToOrg.Text);
+                await ConnectToTeam(connectToOrg.Text);
             }
         }
 
@@ -729,6 +784,7 @@ namespace LoginAndMainUI
                     selectedWork.SelectedItem = jo["name"];
                     selectedWork.IsEnabled = true;
                     selectedWork.Items.Add(jo["name"]);
+                    team = jo;
 
                     string url2 = "http://www.g-pos.8u.cz/api/get-number-of-user/" + user["user"]["team"];
                     HttpResponseMessage response2 = await http.GetAsync(url2, HttpCompletionOption.ResponseContentRead);

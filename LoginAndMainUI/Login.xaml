@@ -37,11 +37,11 @@
             <TextBox x:Name="tbName" Text="Název účtu" FontSize="30" Padding="7, 0, 0, 0" Foreground="Gray"/>
         </Border>
         <Border x:Name="borderTBPassword" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Column="1" Height="50" Width="300" Grid.Row="2" Grid.RowSpan="1">
-            <PasswordBox x:Name="tbPassword" FontSize="30" Padding="7, 0, 0, 0" Foreground="White"/>
+            <PasswordBox KeyDown="tbPasswordReally_KeyDown" x:Name="tbPassword" FontSize="30" Padding="7, 0, 0, 0" Foreground="White"/>
         </Border>
 
         <Border x:Name="borderTBPasswordReally" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Column="1" Height="50" Width="300" Grid.Row="2" Grid.RowSpan="1">
-            <PasswordBox x:Name="tbPasswordReally" FontSize="30" Padding="7, 0, 0, 0" Foreground="White"/>
+            <PasswordBox KeyDown="tbPasswordReally_KeyDown" x:Name="tbPasswordReally" FontSize="30" Padding="7, 0, 0, 0" Foreground="White"/>
         </Border>
 
         <Button x:Name="btnAccept" Content="Přihlásit se" FontSize="30" Grid.Row="3" Grid.RowSpan="1" Grid.Column="1" Height="50" Width="300" Background="#FF6EDAA1" Foreground="White" Click="btnAccept_Click"/>

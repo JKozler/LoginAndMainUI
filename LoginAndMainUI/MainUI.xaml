@@ -318,7 +318,9 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="0.3*"/>
                                         <RowDefinition Height="0.011*"/>
-                                        <RowDefinition Height="0.5*"/>
+                                        <RowDefinition Height="0.55*"/>
+                                        <RowDefinition Height="0.011*"/>
+                                        <RowDefinition Height="0.55*"/>
                                         <RowDefinition Height="0.012*"/>
                                         <RowDefinition Height="0.5*"/>
                                         <RowDefinition Height="0.012*"/>
@@ -335,10 +337,13 @@
                                         </Border.Effect>
                                         <materialDesign:PackIcon  Width="auto" Height="auto" Kind="Create"/>
                                     </Border>
-                                    <Label Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="Dubai Medium" Content="Task name" FontSize="18"></Label>
-                                    <TextBox x:Name="taskName" Grid.Row="2" Margin="10,0,10,0" VerticalAlignment="Center" Background="#FFECECEC"></TextBox>
+                                    <Label Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="Dubai Medium" Content="User" FontSize="18"></Label>
+                                    <ComboBox Grid.Row="2" VerticalAlignment="Bottom" Margin="10,0,10,10" x:Name="userAssign" Background="#FFECECEC"></ComboBox>
                                     <Border Grid.Row="3" Background="Black"></Border>
-                                    <Border Grid.Row="4">
+                                    <Label Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="Dubai Medium" Content="Task name" FontSize="18"></Label>
+                                    <TextBox x:Name="taskName" Grid.Row="4" Margin="10,0,10,0" VerticalAlignment="Center" Background="#FFECECEC"></TextBox>
+                                    <Border Grid.Row="5" Background="Black"></Border>
+                                    <Border Grid.Row="6">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
@@ -352,11 +357,11 @@
                                             <DatePicker Grid.Column="2" x:Name="taskDateTo"></DatePicker>
                                         </Grid>
                                     </Border>
-                                    <Border Grid.Row="5" Background="Black"></Border>
-                                    <Label Grid.Row="6" VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="Dubai Medium" Content="Task description" FontSize="18"></Label>
-                                    <RichTextBox x:Name="taskDescription" Grid.Row="6" Margin="5,35,5,5" Background="#FFECECEC"></RichTextBox>
                                     <Border Grid.Row="7" Background="Black"></Border>
-                                    <Button ToolTip="Create new task" Grid.Row="8" Background="#FF57FF32" x:Name="createNewTask" Click="createNewTask_Click">
+                                    <Label Grid.Row="8" VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="Dubai Medium" Content="Task description" FontSize="18"></Label>
+                                    <TextBox x:Name="taskDescription" Grid.Row="8" Margin="5,35,5,5" Background="#FFECECEC"></TextBox>
+                                    <Border Grid.Row="9" Background="Black"></Border>
+                                    <Button ToolTip="Create new task" Grid.Row="10" Background="#FF57FF32" x:Name="createNewTask" Click="createNewTask_Click">
                                         <materialDesign:PackIcon Width="auto" Height="auto" Kind="CreateNewFolder"/>
                                     </Button>
                                 </Grid>

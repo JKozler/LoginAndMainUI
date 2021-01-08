@@ -225,5 +225,13 @@ namespace LoginAndMainUI
         {
             ClickBorder();
         }
+
+        private void tbPasswordReally_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnAccept_Click(sender, e);
+            }
+        }
     }
 }
