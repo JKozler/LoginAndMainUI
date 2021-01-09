@@ -42,6 +42,7 @@ namespace LoginAndMainUI
         bool settingsGloraIsShowen = false;
         JObject user = new JObject();
         JObject team = new JObject();
+        JObject task = new JObject();
         public MainUI(JObject jo)
         {
             InitializeComponent();
@@ -367,6 +368,7 @@ namespace LoginAndMainUI
                 taskDateFrom.SelectedDate = null;
                 taskDateTo.SelectedDate = null;
                 MessageBox.Show("Task was successfully create.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                await CheckInformationsAboutUser();
             }
             else
                 MessageBox.Show("You must fill every box (instead of dates).", "Error", MessageBoxButton.OK);
@@ -797,9 +799,25 @@ namespace LoginAndMainUI
                     MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
                 }
             }
-            else
-            {
+            else{}
 
+            try
+            {
+                string url = "http://www.g-pos.8u.cz/api/get-task-detail/" + user["user"]["id"];
+                HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                string res = await response.Content.ReadAsStringAsync();
+                JObject jo = JObject.Parse(res);
+                task = jo;
+                JArray array = (JArray)jo["task"];
+                for (int i = 0; i < array.Count; i++)
+                {
+                    if (jo["task"][i]["state"].ToString() == "New")
+                        lbTask.Items.Add(jo["task"][i]["name"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
             }
         }
     }
