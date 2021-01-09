@@ -31,6 +31,8 @@ namespace LoginAndMainUI
         DateTime timeStop = new DateTime();
         TimeSpan totalTime = new TimeSpan();
         int notificationCounter = 0;
+        int numberOfTask = 0;
+        int numberOfTaskDone = 0;
         byte usingWorkingApps = 0;
         bool menuGloraIsEnabled = false;
         bool infoGloraIsEnable = false;
@@ -809,11 +811,18 @@ namespace LoginAndMainUI
                 JObject jo = JObject.Parse(res);
                 task = jo;
                 JArray array = (JArray)jo["task"];
+                lbTask.Items.Clear();
+                numberOfTask = 0;
+                numberOfTaskDone = 0;
                 for (int i = 0; i < array.Count; i++)
                 {
                     if (jo["task"][i]["state"].ToString() == "New")
                         lbTask.Items.Add(jo["task"][i]["name"]);
+                    if (jo["task"][i]["state"].ToString() == "Done")
+                        numberOfTaskDone++;
+                    numberOfTask++;
                 }
+                numberOfEnableTask.Content = numberOfTaskDone + "/" + numberOfTask;
             }
             catch (Exception ex)
             {
