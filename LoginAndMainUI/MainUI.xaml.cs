@@ -102,6 +102,23 @@ namespace LoginAndMainUI
             }
         }
 
+        public async Task UpdateUser(string name, string email, string password, int team, int time) 
+        {
+            HttpClient http = new HttpClient();
+            try
+            {
+                string url = "http://www.g-pos.8u.cz/api/put-user/{\"name\":\"" + name + "\",\"email\":\"" + email + "\",\"password\":\"" + password + "\",\"team\":\"" + team + "\",\"time\":\"" + time + "\"}";
+                HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                string res2 = await response.Content.ReadAsStringAsync();
+                JObject jo2 = JObject.Parse(res2);
+                await CheckInformationsAboutUser();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+            }
+        }
+
         private void startWorkTime_Click(object sender, RoutedEventArgs e)
         {
             startTime.Visibility = Visibility.Hidden;
@@ -113,16 +130,38 @@ namespace LoginAndMainUI
             elRec.BeginAnimation(HeightProperty, heightProp);
         }
 
-        private void stopWorkingTime_Click(object sender, RoutedEventArgs e)
+        private async void stopWorkingTime_Click(object sender, RoutedEventArgs e)
         {
             stopTime.Visibility = Visibility.Hidden;
             startTime.Visibility = Visibility.Visible;
             timeStop = DateTime.Now;
+            int hourBefore = Convert.ToInt32(countOfTime.Content.ToString().Remove(countOfTime.Content.ToString().IndexOf(":"), countOfTime.Content.ToString().Length - 1));
+            int minBefore = Convert.ToInt32(countOfTime.Content.ToString().Remove(0, countOfTime.Content.ToString().IndexOf(":") + 1));
             totalTime = (timeStop - timeStart) + totalTime;
             if (totalTime.Seconds > 30)
-                countOfTime.Content = totalTime.Hours + ":" + (totalTime.Minutes + 1);
-            else
-                countOfTime.Content = totalTime.Hours + ":" + totalTime.Minutes;
+            {
+                if (totalTime.Minutes + 1 + minBefore >= 60 && (totalTime.Minutes + minBefore - 60).ToString().Length == 1)
+                    countOfTime.Content = (totalTime.Hours + hourBefore + 1) + ":0" + (totalTime.Minutes + minBefore - 60);
+                else if (totalTime.Minutes + 1 + minBefore >= 60 && (totalTime.Minutes + minBefore).ToString().Length == 1)
+                    countOfTime.Content = (totalTime.Hours + hourBefore) + ":0" + (totalTime.Minutes + minBefore);
+                else if (totalTime.Minutes + 1 + minBefore >= 60)
+                    countOfTime.Content = (totalTime.Hours + hourBefore + 1) + ":" + (totalTime.Minutes + 1 + minBefore - 60);
+                else
+                    countOfTime.Content = (totalTime.Hours + hourBefore) + ":" + (totalTime.Minutes + 1 + minBefore);
+            }
+            else 
+            {
+                if (totalTime.Minutes + minBefore >= 60 && (totalTime.Minutes + minBefore - 60).ToString().Length == 1)
+                    countOfTime.Content = (totalTime.Hours + hourBefore + 1) + ":0" + (totalTime.Minutes + minBefore - 60);
+                else if (totalTime.Minutes + minBefore >= 60 && (totalTime.Minutes + minBefore).ToString().Length == 1)
+                    countOfTime.Content = (totalTime.Hours + hourBefore) + ":0" + (totalTime.Minutes + minBefore);
+                else if (totalTime.Minutes + minBefore >= 60)
+                    countOfTime.Content = (totalTime.Hours + hourBefore + 1) + ":" + (totalTime.Minutes + minBefore - 60);
+                else
+                    countOfTime.Content = (totalTime.Hours + hourBefore) + ":" + (totalTime.Minutes + minBefore);
+            }
+            int totalTimeForAPI = 60 * Convert.ToInt32(countOfTime.Content.ToString().Remove(countOfTime.Content.ToString().IndexOf(":"), countOfTime.Content.ToString().Length - 1)) + Convert.ToInt32(countOfTime.Content.ToString().Remove(0, countOfTime.Content.ToString().IndexOf(":") + 1));
+            await UpdateUser(user["user"]["name"].ToString(), user["user"]["email"].ToString(), user["user"]["password"].ToString(), Convert.ToInt32(user["user"]["team"]), totalTimeForAPI);
             DoubleAnimation widthProp = new DoubleAnimation(10, 0, new Duration(TimeSpan.FromSeconds(0.2)));
             DoubleAnimation heightProp = new DoubleAnimation(10, 0, new Duration(TimeSpan.FromSeconds(0.2)));
             elRec.BeginAnimation(WidthProperty, widthProp);
