@@ -33,6 +33,8 @@ namespace LoginAndMainUI
         int notificationCounter = 0;
         int numberOfTask = 0;
         int numberOfTaskDone = 0;
+        int numberOfTaskFailed = 0;
+        int numberOfTaskProgress = 0;
         byte usingWorkingApps = 0;
         bool menuGloraIsEnabled = false;
         bool infoGloraIsEnable = false;
@@ -108,6 +110,23 @@ namespace LoginAndMainUI
             try
             {
                 string url = "http://www.g-pos.8u.cz/api/put-user/{\"name\":\"" + name + "\",\"email\":\"" + email + "\",\"password\":\"" + password + "\",\"team\":\"" + team + "\",\"time\":\"" + time + "\"}";
+                HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                string res2 = await response.Content.ReadAsStringAsync();
+                JObject jo2 = JObject.Parse(res2);
+                await CheckInformationsAboutUser();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+            }
+        }
+
+        public async Task UpdateTask(string name, string description, DateTime dateFrom, DateTime dateTo, int userId, string state, int id)
+        {
+            HttpClient http = new HttpClient();
+            try
+            {
+                string url = "http://www.g-pos.8u.cz/api/put-task/{\"name\":\"" + name + "\",\"description\":\"" + description + "\",\"userId\":\"" + userId + "\",\"dateFrom\":\"" + dateFrom.ToString("yyyy-MM-dd") +"\",\"dateTo\":\"" + dateTo.ToString("yyyy-MM-dd") + "\",\"state\":\"" + state + "\",\"id\":\"" + id + "\"}";
                 HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                 string res2 = await response.Content.ReadAsStringAsync();
                 JObject jo2 = JObject.Parse(res2);
@@ -257,14 +276,62 @@ namespace LoginAndMainUI
             moreInfoTask.Foreground = new SolidColorBrush(Color.FromRgb(46, 134, 193));
         }
 
-        private void doneTaskLb_Click(object sender, RoutedEventArgs e)
+        private async void doneTaskLb_Click(object sender, RoutedEventArgs e)
         {
-
+            if (lbTask.SelectedItem != null)
+            {
+                string item = lbTask.SelectedItem.ToString();
+                JArray array = (JArray)task["task"];
+                for (int i = 0; i < array.Count; i++)
+                {
+                    if (task["task"][i]["name"].ToString() == item)
+                    {
+                        await UpdateTask(task["task"][i]["name"].ToString(), task["task"][i]["description"].ToString(), Convert.ToDateTime(task["task"][i]["dateFrom"]), Convert.ToDateTime(task["task"][i]["dateTo"]), Convert.ToInt32(task["task"][i]["userId"]), "Done", Convert.ToInt32(task["task"][i]["id"]));
+                    }
+                }
+            }
+            else if (lbTaskProgress.SelectedItem != null)
+            {
+                string item = lbTaskProgress.SelectedItem.ToString();
+                JArray array = (JArray)task["task"];
+                for (int i = 0; i < array.Count; i++)
+                {
+                    if (task["task"][i]["name"].ToString() == item)
+                    {
+                        await UpdateTask(task["task"][i]["name"].ToString(), task["task"][i]["description"].ToString(), Convert.ToDateTime(task["task"][i]["dateFrom"]), Convert.ToDateTime(task["task"][i]["dateTo"]), Convert.ToInt32(task["task"][i]["userId"]), "Done", Convert.ToInt32(task["task"][i]["id"]));
+                    }
+                }
+            }
+            await CheckInformationsAboutUser();
         }
 
-        private void progressTaskLb_Click(object sender, RoutedEventArgs e)
+        private async void progressTaskLb_Click(object sender, RoutedEventArgs e)
         {
-
+            if (lbTask.SelectedItem != null)
+            {
+                string item = lbTask.SelectedItem.ToString();
+                JArray array = (JArray)task["task"];
+                for (int i = 0; i < array.Count; i++)
+                {
+                    if (task["task"][i]["name"].ToString() == item)
+                    {
+                        await UpdateTask(task["task"][i]["name"].ToString(), task["task"][i]["description"].ToString(), Convert.ToDateTime(task["task"][i]["dateFrom"]), Convert.ToDateTime(task["task"][i]["dateTo"]), Convert.ToInt32(task["task"][i]["userId"]), "Progress", Convert.ToInt32(task["task"][i]["id"]));
+                    }
+                }
+            }
+            else if (lbTaskProgress.SelectedItem != null)
+            {
+                string item = lbTaskProgress.SelectedItem.ToString();
+                JArray array = (JArray)task["task"];
+                for (int i = 0; i < array.Count; i++)
+                {
+                    if (task["task"][i]["name"].ToString() == item)
+                    {
+                        await UpdateTask(task["task"][i]["name"].ToString(), task["task"][i]["description"].ToString(), Convert.ToDateTime(task["task"][i]["dateFrom"]), Convert.ToDateTime(task["task"][i]["dateTo"]), Convert.ToInt32(task["task"][i]["userId"]), "Done", Convert.ToInt32(task["task"][i]["id"]));
+                    }
+                }
+            }
+            await CheckInformationsAboutUser();
         }
 
         public async Task GetAllUsers(int id)
@@ -310,9 +377,33 @@ namespace LoginAndMainUI
             }
         }
 
-        private void failedTaskLb_Click(object sender, RoutedEventArgs e)
+        private async void failedTaskLb_Click(object sender, RoutedEventArgs e)
         {
-
+            if (lbTask.SelectedItem != null)
+            {
+                string item = lbTask.SelectedItem.ToString();
+                JArray array = (JArray)task["task"];
+                for (int i = 0; i < array.Count; i++)
+                {
+                    if (task["task"][i]["name"].ToString() == item)
+                    {
+                        await UpdateTask(task["task"][i]["name"].ToString(), task["task"][i]["description"].ToString(), Convert.ToDateTime(task["task"][i]["dateFrom"]), Convert.ToDateTime(task["task"][i]["dateTo"]), Convert.ToInt32(task["task"][i]["userId"]), "Failed", Convert.ToInt32(task["task"][i]["id"]));
+                    }
+                }
+            }
+            else if (lbTaskProgress.SelectedItem != null)
+            {
+                string item = lbTaskProgress.SelectedItem.ToString();
+                JArray array = (JArray)task["task"];
+                for (int i = 0; i < array.Count; i++)
+                {
+                    if (task["task"][i]["name"].ToString() == item)
+                    {
+                        await UpdateTask(task["task"][i]["name"].ToString(), task["task"][i]["description"].ToString(), Convert.ToDateTime(task["task"][i]["dateFrom"]), Convert.ToDateTime(task["task"][i]["dateTo"]), Convert.ToInt32(task["task"][i]["userId"]), "Done", Convert.ToInt32(task["task"][i]["id"]));
+                    }
+                }
+            }
+            await CheckInformationsAboutUser();
         }
 
         private void minimzeTask_Click(object sender, RoutedEventArgs e)
@@ -851,16 +942,27 @@ namespace LoginAndMainUI
                 task = jo;
                 JArray array = (JArray)jo["task"];
                 lbTask.Items.Clear();
+                lbTaskProgress.Items.Clear();
                 numberOfTask = 0;
                 numberOfTaskDone = 0;
+                numberOfTaskFailed = 0;
+                numberOfTaskProgress = 0;
                 for (int i = 0; i < array.Count; i++)
                 {
                     if (jo["task"][i]["state"].ToString() == "New")
                         lbTask.Items.Add(jo["task"][i]["name"]);
                     if (jo["task"][i]["state"].ToString() == "Done")
                         numberOfTaskDone++;
+                    if (jo["task"][i]["state"].ToString() == "Failed")
+                        numberOfTaskFailed++;
+                    if (jo["task"][i]["state"].ToString() == "Progress") {
+                        numberOfTaskProgress++;
+                        lbTaskProgress.Items.Add(jo["task"][i]["name"]);
+                    }
                     numberOfTask++;
                 }
+                numberOfProgressTasks.Content = numberOfTaskProgress;
+                numberOfFailedTask.Content = numberOfTaskFailed;
                 numberOfEnableTask.Content = numberOfTaskDone + "/" + numberOfTask;
             }
             catch (Exception ex)
