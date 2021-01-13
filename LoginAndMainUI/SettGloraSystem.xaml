@@ -14,8 +14,107 @@
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <Border Opacity="0.94" Grid.Row="1" Background="#FF494949">
-                <!--Yde psat kod pro design (XAML) Settings WPF-->
+                <!--Zde psat kod pro design (XAML) Settings WPF-->
+                <!--<Button x:Name="TABTeam" ToolTip="Manage your team" Content="Manage team" DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Width="260" FontSize="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                <Button x:Name="TABUser" ToolTip="Change user settings" Content="User" DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Width="260" FontSize="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                <Button x:Name="TABTasks" ToolTip="Manage team tasks" Content="Manage tasks" DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Width="260" FontSize="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                <Button x:Name="TABAppearance" ToolTip="Change appearance of Glora" Content="Appearance" DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Width="260" FontSize="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                <Button x:Name="TABCommands" ToolTip="Commands" Content="Commands" DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Width="260" FontSize="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                <Button x:Name="TABFile" ToolTip="Files" Content="Files" DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Width="260" FontSize="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>-->
+                <ComboBox x:Name="CBNastaveni" VerticalAlignment="Top" HorizontalAlignment="Left" Background="White" Width="170" Height="50" FontSize="25" HorizontalContentAlignment="Center" SelectionChanged="CBNastaveni_SelectionChanged">
+                    <ComboBoxItem x:Name="Default" Content="Manage team"/>
+                    <ComboBoxItem x:Name="iCreate" Content="Create team"/>
+                    <ComboBoxItem x:Name="iUser" Content="User"/>
+                    <ComboBoxItem x:Name="iTasks" Content="Manage tasks"/>
+                    <ComboBoxItem x:Name="iApp" Content="Appearance"/>
+                    <ComboBoxItem x:Name="iCommand" Content="Commands"/>
+                    <ComboBoxItem x:Name="iFile" Content="Files"/>
+                </ComboBox>
             </Border>
+            <Label x:Name="labelAdd" Grid.Row="1" Content="Přidat nového člena" Width="230" FontSize="25" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <Border x:Name="borderAdd" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Row="1" Height="50" Width="300" Background="White" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 45, 0, 0">
+                <TextBox x:Name="tbAdd" Text="Název účtu" FontSize="25" Padding="7, 0, 0, 0" Foreground="Gray"/>
+            </Border>
+            <Button Click="btn_Click" ToolTip="Add new member" x:Name="btnAdd" Background="#FF57FF32" Grid.Row="1" Height="50" Width="55" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="370, 45, 0, 0">
+                <materialDesign:PackIcon Kind="Done" Width="auto" Height="auto" />
+            </Button>
+
+            <Label x:Name="labelRemove" Grid.Row="1" Content="Odebrat člena z týmu" Width="245" FontSize="25" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 100, 0, 0"/>
+            <Border x:Name="borderRemove" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Row="1" Height="50" Width="300" Background="White" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 145, 0, 0">
+                <TextBox x:Name="tbRemove" Text="Název účtu" FontSize="25" Padding="7, 0, 0, 0" Foreground="Gray"/>
+            </Border>
+            <Button Click="btn_Click" ToolTip="Remove a member" x:Name="btnRemove" Background="#FFFF5757" Grid.Row="1" Height="50" Width="55" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="370, 145, 0, 0">
+                <materialDesign:PackIcon Kind="DeleteOutline" Width="auto" Height="auto" />
+            </Button>
+
+            <Label x:Name="labelChange" Grid.Row="1" Content="Změnit název týmu" Width="245" FontSize="25" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 200, 0, 0"/>
+            <Border x:Name="borderChange" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Row="1" Height="50" Width="300" Background="White" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 245, 0, 0">
+                <TextBox x:Name="tbChange" Text="Nový název týmu" FontSize="25" Padding="7, 0, 0, 0" Foreground="Gray"/>
+            </Border>
+            <Button Click="btn_Click" ToolTip="Change name of the team" x:Name="btnChange" Background="#FFECFF32" Grid.Row="1" Height="50" Width="55" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="370, 245, 0, 0">
+                <materialDesign:PackIcon Kind="CreateOutline" Width="auto" Height="auto" />
+            </Button>
+
+            <Label x:Name="labelCreate" Grid.Row="1" Content="Název nového týmu" Width="245" FontSize="25" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 0, 0, 0"/>
+            <Border x:Name="borderCreate" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Row="1" Height="50" Width="300" Background="White" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 45, 0, 0">
+                <TextBox x:Name="tbCreate" Text="Název týmu" FontSize="25" Padding="7, 0, 0, 0" Foreground="Gray"/>
+            </Border>
+            <Button Click="btn_Click" ToolTip="Create new team" x:Name="btnCreate" Background="#FFECFF32" Grid.Row="1" Height="50" Width="55" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="370, 45, 0, 0">
+                <materialDesign:PackIcon Kind="CreateOutline" Width="auto" Height="auto" />
+            </Button>
+
+            <Label x:Name="labelAddEmail" Grid.Row="1" Content="Email prvního člena" Width="245" FontSize="25" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 100, 0, 0"/>
+            <Border x:Name="borderAddEmail" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Row="1" Height="50" Width="300" Background="White" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 145, 0, 0">
+                <TextBox x:Name="tbAddEmail" Text="Email uživatele" FontSize="25" Padding="7, 0, 0, 0" Foreground="Gray"/>
+            </Border>
+            <Button Click="btn_Click" ToolTip="Add first member" x:Name="btnAddEmail" Background="#FF57FF32" Grid.Row="1" Height="50" Width="55" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="370, 145, 0, 0">
+                <materialDesign:PackIcon Kind="Done" Width="auto" Height="auto" />
+            </Button>
+
+            <Label x:Name="labelChangeName" Grid.Row="1" Content="Změna jména" Width="245" FontSize="25" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 0, 0, 0"/>
+            <Border x:Name="borderChangeName" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Row="1" Height="50" Width="300" Background="White" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 45, 0, 0">
+                <TextBox x:Name="tbChangeName" Text="Nové uživatelské jméno" FontSize="25" Padding="7, 0, 0, 0" Foreground="Gray"/>
+            </Border>
+            <Button Click="btn_Click" ToolTip="Change your name" x:Name="btnChangeName" Background="#FFECFF32" Grid.Row="1" Height="50" Width="55" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="370, 45, 0, 0">
+                <materialDesign:PackIcon Kind="CreateOutline" Width="auto" Height="auto" />
+            </Button>
+
+            <Label x:Name="labelChangePassword" Grid.Row="1" Content="Změna hesla" Width="245" FontSize="25" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 100, 0, 0"/>
+            <Border x:Name="borderChangePassword" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Row="1" Height="50" Width="300" Background="White" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 145, 0, 0">
+                <TextBox x:Name="tbAddChangePassword" Text="Nové heslo" FontSize="25" Padding="7, 0, 0, 0" Foreground="Gray"/>
+            </Border>
+            <Button Click="btn_Click" ToolTip="Change your password" x:Name="btnChangePassword" Background="#FFECFF32" Grid.Row="1" Height="50" Width="55" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="370, 145, 0, 0">
+                <materialDesign:PackIcon Kind="CreateOutline" Width="auto" Height="auto" />
+            </Button>
+
+            <Label x:Name="labelEmail" Grid.Row="1" Content="Přidání emailu" Width="245" FontSize="25" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 200, 0, 0"/>
+            <Border x:Name="borderEmail" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Row="1" Height="50" Width="300" Background="White" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 245, 0, 0">
+                <TextBox x:Name="tbEmail" Text="Nový email" FontSize="25" Padding="7, 0, 0, 0" Foreground="Gray"/>
+            </Border>
+            <Button Click="btn_Click" ToolTip="Add email" x:Name="btnEmail" Background="#FFECFF32" Grid.Row="1" Height="50" Width="55" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="370, 245, 0, 0">
+                <materialDesign:PackIcon Kind="CreateOutline" Width="auto" Height="auto" />
+            </Button>
+
+            <Label x:Name="labelLeave" Grid.Row="1" Content="Odejít z týmu ?" Width="245" FontSize="25" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 300, 0, 0"/>
+            <Button Click="btn_Click" ToolTip="Leave team" x:Name="btnLeave" Background="#FFFF5757" Grid.Row="1" Height="50" Width="55" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="200, 305, 0, 0">
+                <materialDesign:PackIcon Kind="DeleteOutline" Width="auto" Height="auto" />
+            </Button>
+
+            <Label x:Name="labelTask" Grid.Row="1" Content="Změnit název úkolu" Width="230" FontSize="25" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <Border x:Name="borderTask" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Row="1" Height="50" Width="300" Background="White" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 45, 0, 0">
+                <TextBox x:Name="tbTask" Text="Nový název úkolu" FontSize="25" Padding="7, 0, 0, 0" Foreground="Gray"/>
+            </Border>
+            <Button Click="btn_Click" ToolTip="Change name of the task" x:Name="btnTask" Background="#FFECFF32" Grid.Row="1" Height="50" Width="55" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="370, 45, 0, 0">
+                <materialDesign:PackIcon Kind="CreateOutline" Width="auto" Height="auto" />
+            </Button>
+
+            <Label x:Name="labelDescription" Grid.Row="1" Content="Změnit popis úkolu" Width="230" FontSize="25" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="0, 100, 0, 0"/>
+            <Border x:Name="borderDescription" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Row="1" Height="50" Width="300" Background="White" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 145, 0, 0">
+                <TextBox x:Name="tbDescription" Text="Nový popis úkolu" FontSize="25" Padding="7, 0, 0, 0" Foreground="Gray"/>
+            </Border>
+            <Button Click="btn_Click" ToolTip="Change a description of the task" x:Name="btnDescription" Background="#FFECFF32" Grid.Row="1" Height="50" Width="55" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="370, 145, 0, 0">
+                <materialDesign:PackIcon Kind="CreateOutline" Width="auto" Height="auto" />
+            </Button>
         </Grid>
     </Border>
 </UserControl>
