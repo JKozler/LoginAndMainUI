@@ -48,5 +48,9 @@
         <Border x:Name="borderRegister" Grid.Column="1" ToolTip="Registrovat" Background="#FF6EDAA1" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="0,0,0,10" Cursor="Hand" MouseDown="Border_MouseDown">
             <materialDesign:PackIcon  Width="60" Height="60" Kind="Create"/>
         </Border>
+
+        <Label x:Name="PSBLabel" Content="Zadejte heslo" FontSize="30" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray" MouseDown="PSBLabel_MouseDown" Margin="48,60,48,59.5" Width="300"/>
+        <Label x:Name="PSBAcceptLabel" Content="Zadejte znovu heslo" FontSize="30" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray" MouseDown="PSBLabel_MouseDown" Margin="48,60" Width="300"/>
+        <CheckBox x:Name="CBAutomaticLoad" Grid.Column="1" Grid.Row="4" Content="Automatické přihlášení" FontSize="20" Panel.ZIndex="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
     </Grid>
 </Window>

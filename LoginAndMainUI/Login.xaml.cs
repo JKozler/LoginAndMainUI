@@ -17,6 +17,8 @@ using System.Security.Cryptography;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 
+using System.Net;
+
 namespace LoginAndMainUI
 {
     /// <summary>
@@ -25,14 +27,34 @@ namespace LoginAndMainUI
     public partial class MainWindow : Window
     {
         string Adresa = string.Empty;
+        string[] PrihlasovaciUdaje;
         public MainWindow()
         {
+            WebRequest.DefaultWebProxy = null;
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             InitializeComponent();
             Adresa = "username.gte";
             tbName.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
             tbName.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
             tbPasswordReally.Visibility = Visibility.Collapsed;
             if (!File.Exists(Adresa)) File.WriteAllText(Adresa, string.Empty);
+
+            PSBLabel.Visibility = Visibility.Hidden;
+            PSBAcceptLabel.Visibility = Visibility.Hidden;
+
+            if (File.ReadAllText(Adresa) != "")
+            {
+                if (File.ReadAllText(Adresa).Last() == '1')
+                {
+                    PrihlasovaciUdaje = File.ReadAllLines(Adresa);
+                    tbName.Text = PrihlasovaciUdaje[PrihlasovaciUdaje.Length - 1].Split(' ')[0];
+                    tbPassword.Password = PrihlasovaciUdaje[PrihlasovaciUdaje.Length - 1].Split(' ')[1];
+                    CBAutomaticLoad.IsChecked = true;
+                    tbName.Foreground = Brushes.Black;
+                }
+            }
         }
         private void tb_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
@@ -62,7 +84,7 @@ namespace LoginAndMainUI
         {
             DragMove();
         }
-        /*public static byte[] GetHash(string input)
+        public static byte[] GetHash(string input)
         {
             using (HashAlgorithm Algoritmus = SHA256.Create()) return Algoritmus.ComputeHash(Encoding.UTF8.GetBytes(input));
         }
@@ -71,7 +93,7 @@ namespace LoginAndMainUI
             StringBuilder SB = new StringBuilder();
             foreach (byte B in GetHash(input)) SB.Append(B.ToString("X2"));
             return SB.ToString();
-        }*/
+        }
         public async Task CheckUser() {
             HttpClient http = new HttpClient();
             try
@@ -86,6 +108,13 @@ namespace LoginAndMainUI
                     MainUI mainUI = new MainUI(jo);
                     mainUI.Show();
                 }
+                string Jmeno = tbName.Text;
+                string Heslo = tbPassword.Password;
+                string Check = File.ReadAllText(Adresa);
+                if (Check == "") File.WriteAllText(Adresa, $"{Check}\n{Jmeno} {Heslo} {(CBAutomaticLoad.IsChecked == true ? "1" : "0")}");
+                else if (Check.Last() == '0' && CBAutomaticLoad.IsChecked == true) File.WriteAllText(Adresa, $"{Check}\n{Jmeno} {Heslo} 1");
+                else if (Check.Last() == '1' && CBAutomaticLoad.IsChecked == false) File.WriteAllText(Adresa, $"{Check}\n{Jmeno} {Heslo} 0");
+                //POŘÁD JE POTŘEBA PODMÍNKA, ABY SE JMÉNO A HESLO ZAPSALO POUZE V PŘÍPADĚ, ŽE JSOU V POŘÁDKU
             }
             catch (Exception)
             {
@@ -114,61 +143,19 @@ namespace LoginAndMainUI
                 btnAccept.Content = "Bad name/password";
             }
         }
-        private void btnAccept_Click(object sender, RoutedEventArgs e)
+        private async void btnAccept_Click(object sender, RoutedEventArgs e)
         {
             PHFraze = "Název účtu";
             if (tbName.Text != null && tbPasswordReally.Password != null && !IsRegistration)
             {
-                CheckUser();
+                await CheckUser();
             }
             else if(tbName.Text != null && tbPasswordReally.Password != null && tbPassword.Password !=null && tbPassword.Password == tbPasswordReally.Password && IsRegistration)
             {
-                RegisterUser();
+                await RegisterUser();
             }
             else
                 MessageBox.Show("Neúspěšné přihlášení!", "Nepovedlo se!");
-            //string name = tbName.Text;
-            //string password = tbPassword.Password;
-            //string passwordReally = tbPasswordReally.Password;
-
-            //string nameHash = name.GetHashCode().ToString().Replace("-", String.Empty);
-            //string passwordHash = password.GetHashCode().ToString().Replace("-", String.Empty);
-            //bool Bad = false;
-            //bool Good = false;
-            //string[] nameHashText;
-            //string currentName = string.Empty;
-            //string currentPassword = string.Empty;
-            //switch (IsRegistration)
-            //{
-            //    case false:
-            //        nameHashText = File.ReadAllLines(Adresa);
-            //        for (int i = 1; i < nameHashText.Length; i++)
-            //        {
-            //            currentName = nameHashText[i].Split(' ')[0];
-            //            currentPassword = nameHashText[i].Split(' ')[1];
-            //            if (currentName.Equals(nameHash))
-            //            {
-            //                if (currentPassword.Equals(passwordHash)) 
-            //                { 
-            //                    MessageBox.Show("Úspěšné přihlášení! //nezapomenout smazat", "Povedlo se!"); Good = true;
-            //                    Close(); 
-            //                    break; 
-            //                }
-            //                else Bad = true;
-            //            }
-            //            else Bad = true;
-            //        }
-            //        break;
-            //    case true:
-            //        if (!passwordReally.Equals(password)) MessageBox.Show("Nezadal jste identická hesla!", "Chybné heslo!");
-            //        else
-            //        {
-            //            File.WriteAllText(Adresa, $"{File.ReadAllText(Adresa)}\n{name.GetHashCode().ToString().Replace("-", String.Empty)} {password.GetHashCode().ToString().Replace("-", String.Empty)}");
-            //            ClickBorder();
-            //        }
-            //        break;
-            //}
-            //if (Bad && Good == false) MessageBox.Show("Neúspěšné přihlášení! //nezapomenout smazat", "Nepovedlo se!");
         }
         bool IsRegistration = false;
         void ClickBorder() 
@@ -197,6 +184,11 @@ namespace LoginAndMainUI
                 btnAccept.Content = "Registrovat";
                 IsRegistration = true;
                 borderRegister.ToolTip = "Přihlásit se";
+
+                PSBLabel.Visibility = Visibility.Visible;
+                PSBAcceptLabel.Visibility = Visibility.Visible;
+
+                tbName.Focus();//////////////////////////////////////////////////////////////////////////////////////////////////////
             }
             else
             {
@@ -219,6 +211,9 @@ namespace LoginAndMainUI
                 btnAccept.Content = "Přihlásit se";
                 IsRegistration = false;
                 borderRegister.ToolTip = "Registrovat";
+
+                PSBLabel.Visibility = Visibility.Hidden;
+                PSBAcceptLabel.Visibility = Visibility.Hidden;
             }
         }
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
@@ -231,6 +226,23 @@ namespace LoginAndMainUI
             if (e.Key == Key.Enter)
             {
                 btnAccept_Click(sender, e);
+            }
+        }
+
+        private void PSBLabel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            switch (((Label)sender).Name)
+            {
+                case "PSBLabel":
+                    PSBLabel.Visibility = Visibility.Hidden;
+                    PSBAcceptLabel.Visibility = Visibility.Visible;
+                    tbPassword.Focus();
+                    break;
+                case "PSBAcceptLabel":
+                    PSBAcceptLabel.Visibility = Visibility.Hidden;
+                    PSBLabel.Visibility = Visibility.Visible;
+                    tbPasswordReally.Focus();
+                    break;
             }
         }
     }
