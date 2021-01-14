@@ -472,7 +472,7 @@ namespace LoginAndMainUI
         string[] PrihlasovaciUdajeUpraveno;
         string[] NamePassword;
         string Email = string.Empty;
-        Regex TestEmail;
+        Regex TestEmail = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"); //Zjišťuje, zda je email v pořádku
         bool Leave = false;
         private void btn_Click(object sender, RoutedEventArgs e)
         {
@@ -482,7 +482,6 @@ namespace LoginAndMainUI
                 case "btnAdd":
                     Informace[0] = tbAdd.Text;
                     Email = Informace[0];
-                    TestEmail = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"); //Zjišťuje, zda je email v pořádku
                     if (!TestEmail.IsMatch(Email))
                     {
                         MessageBox.Show("Nesprávný formát emailu!", "CHYBA");
@@ -496,7 +495,6 @@ namespace LoginAndMainUI
                     Informace[1] = tbRemove.Text;
 
                     Email = Informace[1];
-                    TestEmail = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"); //Zjišťuje, zda je email v pořádku
                     if (!TestEmail.IsMatch(Email))
                     {
                         MessageBox.Show("Nesprávný formát emailu!", "CHYBA");
@@ -508,21 +506,25 @@ namespace LoginAndMainUI
                     tbRemove.Foreground = Brushes.Gray;
                     break;
                 case "btnChange":
-                    Informace[2] = tbChange.Text;
+                    if (!tbChange.Text.Equals(Fraze[1]) || (!tbChange.Text.Equals("") && !tbChange.Text.Equals(Fraze[1])))
+                    {
+                        Informace[2] = tbChange.Text;
+                        MessageBox.Show("Tým byl úspěšně přejmenován!", "Povedlo se");
+                    }
+                    else MessageBox.Show("Prázdné pole jména týmu!", "CHYBA");
                     tbChange.Text = Fraze[1];
                     tbChange.Foreground = Brushes.Gray;
-                    MessageBox.Show("Tým byl úspěšně přejmenován!", "Povedlo se");
                     break;
                 case "btnAddEmail":
-                    TestEmail = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
-                    if (!tbCreate.Text.Equals(Fraze[2]))
+                    if (!tbCreate.Text.Equals(Fraze[2]) || (!tbCreate.Text.Equals("") && !tbCreate.Text.Equals(Fraze[2])))
                     {
-                        if (!tbAddEmail.Text.Equals(Fraze[3]))
+                        if (!tbAddEmail.Text.Equals(Fraze[3]) || (!tbAddEmail.Text.Equals("") && !tbAddEmail.Text.Equals(Fraze[3])))
                         {
                             if (TestEmail.IsMatch(tbAddEmail.Text))
                             {
                                 Informace[3] = tbCreate.Text;
                                 Informace[4] = tbAddEmail.Text;
+                                MessageBox.Show("Tým byl úspěšně vytvořen!", "Povedlo se");
                             }
                             else MessageBox.Show("Nesprávný formát emailu!", "CHYBA");
                         }
@@ -536,40 +538,54 @@ namespace LoginAndMainUI
                     tbAddEmail.Foreground = Brushes.Gray;
                     break;
                 case "btnChangeName":
-                    Informace[5] = tbChangeName.Text;
-                    tbChangeName.Text = Fraze[4];
-                    tbChangeName.Foreground = Brushes.Gray;
-
-                    PrihlasovaciUdaje = File.ReadAllLines("username.gte");
-                    PrihlasovaciUdajeUpraveno = new string[PrihlasovaciUdaje.Length];
-                    NamePassword = PrihlasovaciUdaje[PrihlasovaciUdaje.Length - 1].Split(' ');
-                    NamePassword[0] = Informace[5];
-                    for (int i = 0; i < PrihlasovaciUdajeUpraveno.Length; i++)
+                    if (!tbChangeName.Text.Equals(Fraze[4]) || (!tbChangeName.Text.Equals("") && !tbChangeName.Text.Equals(Fraze[4])))
                     {
-                        PrihlasovaciUdajeUpraveno[i] = PrihlasovaciUdaje[i];
-                        if (i == PrihlasovaciUdajeUpraveno.Length - 1) PrihlasovaciUdajeUpraveno[i] = $"{NamePassword[0]} {NamePassword[1]} {NamePassword[2]}";
+                        Informace[5] = tbChangeName.Text;
+                        tbChangeName.Text = Fraze[4];
+                        tbChangeName.Foreground = Brushes.Gray;
+
+                        PrihlasovaciUdaje = File.ReadAllLines("username.gte");
+                        PrihlasovaciUdajeUpraveno = new string[PrihlasovaciUdaje.Length];
+                        NamePassword = PrihlasovaciUdaje[PrihlasovaciUdaje.Length - 1].Split(' ');
+                        NamePassword[0] = Informace[5];
+                        for (int i = 0; i < PrihlasovaciUdajeUpraveno.Length; i++)
+                        {
+                            PrihlasovaciUdajeUpraveno[i] = PrihlasovaciUdaje[i];
+                            if (i == PrihlasovaciUdajeUpraveno.Length - 1) PrihlasovaciUdajeUpraveno[i] = $"{NamePassword[0]} {NamePassword[1]} {NamePassword[2]}";
+                        }
+                        File.WriteAllLines("username.gte", PrihlasovaciUdajeUpraveno);
+                        MessageBox.Show("Jméno úspěšně změněno!", "Povedlo se");
                     }
-                    File.WriteAllLines("username.gte", PrihlasovaciUdajeUpraveno);
-                    MessageBox.Show("Jméno úspěšně změněno!", "Povedlo se");
+                    else MessageBox.Show("Musíte zadat nové uživatelské jméno!", "CHYBA");
                     break;
                 case "btnChangePassword":
-                    Informace[6] = tbAddChangePassword.Text;
-                    tbAddChangePassword.Text = Fraze[5];
-                    tbAddChangePassword.Foreground = Brushes.Gray;
-
-                    PrihlasovaciUdaje = File.ReadAllLines("username.gte");
-                    PrihlasovaciUdajeUpraveno = new string[PrihlasovaciUdaje.Length];
-                    NamePassword = PrihlasovaciUdaje[PrihlasovaciUdaje.Length - 1].Split(' ');
-                    NamePassword[1] = Informace[6];
-                    for (int i = 0; i < PrihlasovaciUdajeUpraveno.Length; i++)
+                    if (!tbAddChangePassword.Text.Equals(Fraze[5]) || (!tbAddChangePassword.Text.Equals("") && !tbAddChangePassword.Text.Equals(Fraze[5])))
                     {
-                        PrihlasovaciUdajeUpraveno[i] = PrihlasovaciUdaje[i];
-                        if (i == PrihlasovaciUdajeUpraveno.Length - 1) PrihlasovaciUdajeUpraveno[i] = $"{NamePassword[0]} {NamePassword[1]} {NamePassword[2]}";
+                        Informace[6] = tbAddChangePassword.Text;
+                        tbAddChangePassword.Text = Fraze[5];
+                        tbAddChangePassword.Foreground = Brushes.Gray;
+
+                        PrihlasovaciUdaje = File.ReadAllLines("username.gte");
+                        PrihlasovaciUdajeUpraveno = new string[PrihlasovaciUdaje.Length];
+                        NamePassword = PrihlasovaciUdaje[PrihlasovaciUdaje.Length - 1].Split(' ');
+                        NamePassword[1] = Informace[6];
+                        for (int i = 0; i < PrihlasovaciUdajeUpraveno.Length; i++)
+                        {
+                            PrihlasovaciUdajeUpraveno[i] = PrihlasovaciUdaje[i];
+                            if (i == PrihlasovaciUdajeUpraveno.Length - 1) PrihlasovaciUdajeUpraveno[i] = $"{NamePassword[0]} {NamePassword[1]} {NamePassword[2]}";
+                        }
+                        File.WriteAllLines("username.gte", PrihlasovaciUdajeUpraveno);
+                        MessageBox.Show("Jméno úspěšně změněno!", "Povedlo se");
                     }
-                    File.WriteAllLines("username.gte", PrihlasovaciUdajeUpraveno);
+                    else MessageBox.Show("Musíte zadat nové heslo!", "CHYBA");
                     break;
                 case "btnEmail":
-                    Informace[7] = tbEmail.Text;
+                    if (TestEmail.IsMatch(tbEmail.Text))
+                    {
+                        Informace[7] = tbEmail.Text;
+                        MessageBox.Show("Úspěšně nastavený email!", "Povedlo se");
+                    }
+                    else MessageBox.Show("Chybně zadaný email!", "CHYBA");
                     tbEmail.Text = Fraze[6];
                     tbEmail.Foreground = Brushes.Gray;
                     break;
@@ -577,12 +593,22 @@ namespace LoginAndMainUI
                     Leave = true; //NEZAPOMENOUT POTOM NASTAVIT NA FALSE PO API
                     break;
                 case "btnTask":
-                    Informace[8] = tbTask.Text;
+                    if (!tbTask.Text.Equals(Fraze[7]) || (!tbTask.Text.Equals("") && !tbTask.Text.Equals(Fraze[7])))
+                    {
+                        Informace[8] = tbTask.Text;
+                        MessageBox.Show("Úspěšně změněný název úkolu!", "Povedlo se");
+                    }
+                    else MessageBox.Show("Prázdné pole názvu úkolu!", "CHYBA");
                     tbTask.Text = Fraze[7];
                     tbTask.Foreground = Brushes.Gray;
                     break;
                 case "btnDescription":
-                    Informace[9] = tbDescription.Text;
+                    if (!tbDescription.Text.Equals(Fraze[8]) || (!tbDescription.Text.Equals("") && !tbDescription.Text.Equals(Fraze[8])))
+                    {
+                        Informace[9] = tbTask.Text;
+                        MessageBox.Show("Úspěšně změněný popis úkolu!", "Povedlo se");
+                    }
+                    else MessageBox.Show("Prázdné pole popisku úkolu!", "CHYBA");
                     tbDescription.Text = Fraze[8];
                     tbDescription.Foreground = Brushes.Gray;
                     break;
