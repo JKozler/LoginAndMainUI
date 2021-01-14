@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace LoginAndMainUI
 {
@@ -473,6 +474,9 @@ namespace LoginAndMainUI
         // 7 = email prvního člena
         // 8 = změnit název úkolu
         // 9 = změnit popis úkolu
+        string[] PrihlasovaciUdaje;
+        string[] PrihlasovaciUdajeUpraveno;
+        string[] NamePassword;
         private void btn_Click(object sender, RoutedEventArgs e)
         {
             string jmeno = ((Button)sender).Name;
@@ -507,6 +511,17 @@ namespace LoginAndMainUI
                     Informace[5] = tbChangeName.Text;
                     tbChangeName.Text = Fraze[4];
                     tbChangeName.Foreground = Brushes.Gray;
+
+                    PrihlasovaciUdaje = File.ReadAllLines("username.gte");
+                    PrihlasovaciUdajeUpraveno = new string[PrihlasovaciUdaje.Length];
+                    NamePassword = PrihlasovaciUdaje[PrihlasovaciUdaje.Length - 1].Split(' ');
+                    NamePassword[0] = Informace[5];
+                    for (int i = 0; i < PrihlasovaciUdajeUpraveno.Length; i++)
+                    {
+                        PrihlasovaciUdajeUpraveno[i] = PrihlasovaciUdaje[i];
+                        if (i == PrihlasovaciUdajeUpraveno.Length - 1) PrihlasovaciUdajeUpraveno[i] = $"{NamePassword[0]} {NamePassword[1]} {NamePassword[2]}";
+                    }
+                    File.WriteAllLines("username.gte", PrihlasovaciUdajeUpraveno);
                     break;
                 case "btnChangePassword":
                     Informace[6] = tbAddChangePassword.Text;
