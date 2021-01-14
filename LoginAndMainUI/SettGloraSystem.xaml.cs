@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
+using Microsoft.Win32;
 
 namespace LoginAndMainUI
 {
@@ -189,6 +190,10 @@ namespace LoginAndMainUI
 
                     borderTask.Visibility = Visibility.Hidden;
                     borderDescription.Visibility = Visibility.Hidden;
+
+                    labelAppearance.Visibility = Visibility.Hidden;
+
+                    btnAppearance.Visibility = Visibility.Hidden;
                     break;
                 case 1: //Create team
                     labelAdd.Visibility = Visibility.Hidden;
@@ -233,6 +238,10 @@ namespace LoginAndMainUI
 
                     borderTask.Visibility = Visibility.Hidden;
                     borderDescription.Visibility = Visibility.Hidden;
+
+                    labelAppearance.Visibility = Visibility.Hidden;
+
+                    btnAppearance.Visibility = Visibility.Hidden;
                     break;
                 case 2: //User
                     labelAdd.Visibility = Visibility.Hidden;
@@ -277,6 +286,10 @@ namespace LoginAndMainUI
 
                     borderTask.Visibility = Visibility.Hidden;
                     borderDescription.Visibility = Visibility.Hidden;
+
+                    labelAppearance.Visibility = Visibility.Hidden;
+
+                    btnAppearance.Visibility = Visibility.Hidden;
                     break;
                 case 3: //Task
                     labelAdd.Visibility = Visibility.Hidden;
@@ -321,6 +334,10 @@ namespace LoginAndMainUI
 
                     borderTask.Visibility = Visibility.Visible;
                     borderDescription.Visibility = Visibility.Visible;
+
+                    labelAppearance.Visibility = Visibility.Hidden;
+
+                    btnAppearance.Visibility = Visibility.Hidden;
                     break;
                 case 4: //Appearance
                     labelAdd.Visibility = Visibility.Hidden;
@@ -365,6 +382,10 @@ namespace LoginAndMainUI
 
                     borderTask.Visibility = Visibility.Hidden;
                     borderDescription.Visibility = Visibility.Hidden;
+
+                    labelAppearance.Visibility = Visibility.Visible;
+
+                    btnAppearance.Visibility = Visibility.Visible;
                     break;
                 case 5: //Commands
                     labelAdd.Visibility = Visibility.Hidden;
@@ -409,6 +430,10 @@ namespace LoginAndMainUI
 
                     borderTask.Visibility = Visibility.Hidden;
                     borderDescription.Visibility = Visibility.Hidden;
+
+                    labelAppearance.Visibility = Visibility.Hidden;
+
+                    btnAppearance.Visibility = Visibility.Hidden;
                     break;
                 case 6: //File
                     labelAdd.Visibility = Visibility.Hidden;
@@ -453,6 +478,10 @@ namespace LoginAndMainUI
 
                     borderTask.Visibility = Visibility.Hidden;
                     borderDescription.Visibility = Visibility.Hidden;
+
+                    labelAppearance.Visibility = Visibility.Hidden;
+
+                    btnAppearance.Visibility = Visibility.Hidden;
                     break;
             }
         }
@@ -473,6 +502,8 @@ namespace LoginAndMainUI
         string Email = string.Empty;
         readonly Regex TestEmail = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"); //Zjišťuje, zda je email v pořádku
         bool Leave = false;
+        OpenFileDialog OFD = new OpenFileDialog();
+        MainUI MUI = new MainUI();
         private void btn_Click(object sender, RoutedEventArgs e)
         {
             string jmeno = ((Button)sender).Name;
@@ -610,6 +641,15 @@ namespace LoginAndMainUI
                     else MessageBox.Show("Prázdné pole popisku úkolu!", "CHYBA");
                     tbDescription.Text = Fraze[8];
                     tbDescription.Foreground = Brushes.Gray;
+                    break;
+                case "btnAppearance": //Funguje detekování fotky a imagebrush, jen se nedokážu dostat na ten mainborder
+                    OFD.Filter = "JPG files (*.jpg)|*.jpg|JPEG files (*.jpeg)|*.jpeg|PNG files (*.png)|*.png|Bitmap files (*.bmp)|*.bmp|TIFF files (*.tiff)|*.jpg|TIF files (*.tif)|*.tif";
+                    if (OFD.ShowDialog() == true)
+                    {
+                        ImageBrush IB = new ImageBrush(new BitmapImage(new Uri(OFD.FileName)));
+                        MUI.mainBorder.Background = IB;
+                    }
+                    //else MessageBox.Show("Musíte si vybrat nějaký soubor!", "CHYBA");
                     break;
             }
         }
