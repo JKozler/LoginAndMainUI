@@ -23,35 +23,34 @@ namespace LoginAndMainUI
     /// </summary>
     public partial class SettGloraSystem : UserControl
     {
-        MainUI MUI = new MainUI();
         public SettGloraSystem()
         {
             InitializeComponent();
             CBNastaveni.SelectedItem = Default;
-            tbAdd.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
-            tbAdd.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
-            tbRemove.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
-            tbRemove.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
-            tbChange.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
-            tbChange.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
-            tbCreate.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
-            tbCreate.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
-            tbAddEmail.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
-            tbAddEmail.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
-            tbChangeName.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
-            tbChangeName.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
-            tbAddChangePassword.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
-            tbAddChangePassword.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
-            tbEmail.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
-            tbEmail.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
-            tbTask.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
-            tbTask.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
-            tbDescription.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
-            tbDescription.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
+            tbAdd.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_GotKeyboardFocus);
+            tbAdd.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_LostKeyboardFocus);
+            tbRemove.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_GotKeyboardFocus);
+            tbRemove.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_LostKeyboardFocus);
+            tbChange.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_GotKeyboardFocus);
+            tbChange.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_LostKeyboardFocus);
+            tbCreate.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_GotKeyboardFocus);
+            tbCreate.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_LostKeyboardFocus);
+            tbAddEmail.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_GotKeyboardFocus);
+            tbAddEmail.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_LostKeyboardFocus);
+            tbChangeName.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_GotKeyboardFocus);
+            tbChangeName.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_LostKeyboardFocus);
+            tbAddChangePassword.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_GotKeyboardFocus);
+            tbAddChangePassword.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_LostKeyboardFocus);
+            tbEmail.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_GotKeyboardFocus);
+            tbEmail.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_LostKeyboardFocus);
+            tbTask.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_GotKeyboardFocus);
+            tbTask.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_LostKeyboardFocus);
+            tbDescription.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_GotKeyboardFocus);
+            tbDescription.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_LostKeyboardFocus);
         }
-        string[] Fraze = new string[] { "Email uživatele", "Nový název týmu", "Název týmu", "Email uživatele", "Nové uživatelské jméno",
+
+        readonly string[] Fraze = new string[] { "Email uživatele", "Nový název týmu", "Název týmu", "Email uživatele", "Nové uživatelské jméno",
                                         "Nové heslo", "Nový email", "Nový název úkolu", "Nový popis úkolu" };
-        ListBoxItem Zachyt;
         private void CBNastaveni_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int Jmeno = ((ComboBox)sender).SelectedIndex;
@@ -89,7 +88,7 @@ namespace LoginAndMainUI
 
             Vzhled(Jmeno);
         }
-        private void tb_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        private void TB_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             if (sender is TextBox)
             {
@@ -100,7 +99,7 @@ namespace LoginAndMainUI
                 }
             }
         }
-        private void tb_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        private void TB_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             if (sender is TextBox)
             {
@@ -472,7 +471,7 @@ namespace LoginAndMainUI
         string[] PrihlasovaciUdajeUpraveno;
         string[] NamePassword;
         string Email = string.Empty;
-        Regex TestEmail = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"); //Zjišťuje, zda je email v pořádku
+        readonly Regex TestEmail = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"); //Zjišťuje, zda je email v pořádku
         bool Leave = false;
         private void btn_Click(object sender, RoutedEventArgs e)
         {

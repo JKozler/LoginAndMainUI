@@ -84,7 +84,7 @@ namespace LoginAndMainUI
         {
             DragMove();
         }
-        public static byte[] GetHash(string input)
+        /*public static byte[] GetHash(string input)
         {
             using (HashAlgorithm Algoritmus = SHA256.Create()) return Algoritmus.ComputeHash(Encoding.UTF8.GetBytes(input));
         }
@@ -93,7 +93,7 @@ namespace LoginAndMainUI
             StringBuilder SB = new StringBuilder();
             foreach (byte B in GetHash(input)) SB.Append(B.ToString("X2"));
             return SB.ToString();
-        }
+        }*/
         public async Task CheckUser() {
             HttpClient http = new HttpClient();
             try
@@ -111,9 +111,11 @@ namespace LoginAndMainUI
                 string Jmeno = tbName.Text;
                 string Heslo = tbPassword.Password;
                 string Check = File.ReadAllText(Adresa);
-                if (Check == "") File.WriteAllText(Adresa, $"{Check}\n{Jmeno} {Heslo} {(CBAutomaticLoad.IsChecked == true ? "1" : "0")}");
+                string[] CheckArray = File.ReadAllLines(Adresa);
+                if (Check == "" || Check.Last().Equals("")) File.WriteAllText(Adresa, $"{Check}\n{Jmeno} {Heslo} {(CBAutomaticLoad.IsChecked == true ? "1" : "0")}");
                 else if (Check.Last() == '0' && CBAutomaticLoad.IsChecked == true) File.WriteAllText(Adresa, $"{Check}\n{Jmeno} {Heslo} 1");
                 else if (Check.Last() == '1' && CBAutomaticLoad.IsChecked == false) File.WriteAllText(Adresa, $"{Check}\n{Jmeno} {Heslo} 0");
+                else if (!Jmeno.Equals(CheckArray[CheckArray.Length - 1].Split(' ')[0]) || !Heslo.Equals(CheckArray[CheckArray.Length - 1].Split(' ')[1])) File.WriteAllText(Adresa, $"{Check}\n{Jmeno} {Heslo} {(CBAutomaticLoad.IsChecked == true ? "1" : "0")}");
                 //POŘÁD JE POTŘEBA PODMÍNKA, ABY SE JMÉNO A HESLO ZAPSALO POUZE V PŘÍPADĚ, ŽE JSOU V POŘÁDKU
             }
             catch (Exception)
