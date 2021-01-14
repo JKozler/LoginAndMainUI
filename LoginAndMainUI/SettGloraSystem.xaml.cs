@@ -527,6 +527,17 @@ namespace LoginAndMainUI
                     Informace[6] = tbAddChangePassword.Text;
                     tbAddChangePassword.Text = Fraze[5];
                     tbAddChangePassword.Foreground = Brushes.Gray;
+
+                    PrihlasovaciUdaje = File.ReadAllLines("username.gte");
+                    PrihlasovaciUdajeUpraveno = new string[PrihlasovaciUdaje.Length];
+                    NamePassword = PrihlasovaciUdaje[PrihlasovaciUdaje.Length - 1].Split(' ');
+                    NamePassword[1] = Informace[6];
+                    for (int i = 0; i < PrihlasovaciUdajeUpraveno.Length; i++)
+                    {
+                        PrihlasovaciUdajeUpraveno[i] = PrihlasovaciUdaje[i];
+                        if (i == PrihlasovaciUdajeUpraveno.Length - 1) PrihlasovaciUdajeUpraveno[i] = $"{NamePassword[0]} {NamePassword[1]} {NamePassword[2]}";
+                    }
+                    File.WriteAllLines("username.gte", PrihlasovaciUdajeUpraveno);
                     break;
                 case "btnEmail":
                     Informace[7] = tbEmail.Text;
