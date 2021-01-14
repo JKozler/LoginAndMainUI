@@ -163,7 +163,6 @@ namespace LoginAndMainUI
                     labelCreate.Visibility = Visibility.Hidden;
                     labelAddEmail.Visibility = Visibility.Hidden;
 
-                    btnCreate.Visibility = Visibility.Hidden;
                     btnAddEmail.Visibility = Visibility.Hidden;
 
                     borderCreate.Visibility = Visibility.Hidden;
@@ -208,7 +207,6 @@ namespace LoginAndMainUI
                     labelCreate.Visibility = Visibility.Visible;
                     labelAddEmail.Visibility = Visibility.Visible;
 
-                    btnCreate.Visibility = Visibility.Visible;
                     btnAddEmail.Visibility = Visibility.Visible;
 
                     borderCreate.Visibility = Visibility.Visible;
@@ -253,7 +251,6 @@ namespace LoginAndMainUI
                     labelCreate.Visibility = Visibility.Hidden;
                     labelAddEmail.Visibility = Visibility.Hidden;
 
-                    btnCreate.Visibility = Visibility.Hidden;
                     btnAddEmail.Visibility = Visibility.Hidden;
 
                     borderCreate.Visibility = Visibility.Hidden;
@@ -298,7 +295,6 @@ namespace LoginAndMainUI
                     labelCreate.Visibility = Visibility.Hidden;
                     labelAddEmail.Visibility = Visibility.Hidden;
 
-                    btnCreate.Visibility = Visibility.Hidden;
                     btnAddEmail.Visibility = Visibility.Hidden;
 
                     borderCreate.Visibility = Visibility.Hidden;
@@ -343,7 +339,6 @@ namespace LoginAndMainUI
                     labelCreate.Visibility = Visibility.Hidden;
                     labelAddEmail.Visibility = Visibility.Hidden;
 
-                    btnCreate.Visibility = Visibility.Hidden;
                     btnAddEmail.Visibility = Visibility.Hidden;
 
                     borderCreate.Visibility = Visibility.Hidden;
@@ -388,7 +383,6 @@ namespace LoginAndMainUI
                     labelCreate.Visibility = Visibility.Hidden;
                     labelAddEmail.Visibility = Visibility.Hidden;
 
-                    btnCreate.Visibility = Visibility.Hidden;
                     btnAddEmail.Visibility = Visibility.Hidden;
 
                     borderCreate.Visibility = Visibility.Hidden;
@@ -433,7 +427,6 @@ namespace LoginAndMainUI
                     labelCreate.Visibility = Visibility.Hidden;
                     labelAddEmail.Visibility = Visibility.Hidden;
 
-                    btnCreate.Visibility = Visibility.Hidden;
                     btnAddEmail.Visibility = Visibility.Hidden;
 
                     borderCreate.Visibility = Visibility.Hidden;
@@ -479,6 +472,7 @@ namespace LoginAndMainUI
         string[] PrihlasovaciUdajeUpraveno;
         string[] NamePassword;
         string Email = string.Empty;
+        Regex TestEmail;
         bool Leave = false;
         private void btn_Click(object sender, RoutedEventArgs e)
         {
@@ -487,22 +481,29 @@ namespace LoginAndMainUI
             {
                 case "btnAdd":
                     Informace[0] = tbAdd.Text;
-                    try
+                    Email = Informace[0];
+                    TestEmail = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"); //Zjišťuje, zda je email v pořádku
+                    if (!TestEmail.IsMatch(Email))
                     {
-                        Email = Informace[0];
-                        Regex TestEmail = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"); //Zjišťuje, zda je email v pořádku
-                        if (!TestEmail.IsMatch(Email)) MessageBox.Show("Nesprávný formát emailu!", "CHYBA");
-                    }
-                    catch (Exception err)
-                    {
-                        MessageBox.Show(err.Message, "CHYBA");
+                        MessageBox.Show("Nesprávný formát emailu!", "CHYBA");
                         Email = "";
                     }
+                    else MessageBox.Show("Uživatel byl úspěšně přidán!", "Povedlo se");
                     tbAdd.Text = Fraze[0];
                     tbAdd.Foreground = Brushes.Gray;
                     break;
                 case "btnRemove":
                     Informace[1] = tbRemove.Text;
+
+                    Email = Informace[1];
+                    TestEmail = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"); //Zjišťuje, zda je email v pořádku
+                    if (!TestEmail.IsMatch(Email))
+                    {
+                        MessageBox.Show("Nesprávný formát emailu!", "CHYBA");
+                        Email = "";
+                    }
+                    else MessageBox.Show("Uživatel byl úspěšně odebrán!", "Povedlo se");
+
                     tbRemove.Text = Fraze[0];
                     tbRemove.Foreground = Brushes.Gray;
                     break;
@@ -510,16 +511,29 @@ namespace LoginAndMainUI
                     Informace[2] = tbChange.Text;
                     tbChange.Text = Fraze[1];
                     tbChange.Foreground = Brushes.Gray;
-                    break;
-                case "btnCreate":
-                    Informace[3] = tbCreate.Text;
-                    tbCreate.Text = Fraze[2];
-                    tbCreate.Foreground = Brushes.Gray;
+                    MessageBox.Show("Tým byl úspěšně přejmenován!", "Povedlo se");
                     break;
                 case "btnAddEmail":
-                    Informace[4] = tbAddEmail.Text;
-                    tbEmail.Text = Fraze[3];
-                    tbEmail.Foreground = Brushes.Gray;
+                    TestEmail = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+                    if (!tbCreate.Text.Equals(Fraze[2]))
+                    {
+                        if (!tbAddEmail.Text.Equals(Fraze[3]))
+                        {
+                            if (TestEmail.IsMatch(tbAddEmail.Text))
+                            {
+                                Informace[3] = tbCreate.Text;
+                                Informace[4] = tbAddEmail.Text;
+                            }
+                            else MessageBox.Show("Nesprávný formát emailu!", "CHYBA");
+                        }
+                        else MessageBox.Show("Musíte zadat email prvního člena!", "CHYBA");
+                    }
+                    else MessageBox.Show("Musíte zadat název týmu!", "CHYBA");
+                    tbCreate.Text = Fraze[2];
+                    tbCreate.Foreground = Brushes.Gray;
+
+                    tbAddEmail.Text = Fraze[3];
+                    tbAddEmail.Foreground = Brushes.Gray;
                     break;
                 case "btnChangeName":
                     Informace[5] = tbChangeName.Text;
@@ -536,6 +550,7 @@ namespace LoginAndMainUI
                         if (i == PrihlasovaciUdajeUpraveno.Length - 1) PrihlasovaciUdajeUpraveno[i] = $"{NamePassword[0]} {NamePassword[1]} {NamePassword[2]}";
                     }
                     File.WriteAllLines("username.gte", PrihlasovaciUdajeUpraveno);
+                    MessageBox.Show("Jméno úspěšně změněno!", "Povedlo se");
                     break;
                 case "btnChangePassword":
                     Informace[6] = tbAddChangePassword.Text;
@@ -559,7 +574,7 @@ namespace LoginAndMainUI
                     tbEmail.Foreground = Brushes.Gray;
                     break;
                 case "btnLeave":
-                    Leave = true; //NEZAPOMENOUT POTOM VRÁTIT ZPĚT PO API
+                    Leave = true; //NEZAPOMENOUT POTOM NASTAVIT NA FALSE PO API
                     break;
                 case "btnTask":
                     Informace[8] = tbTask.Text;

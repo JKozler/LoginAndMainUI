@@ -59,9 +59,6 @@
             <Border x:Name="borderCreate" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Row="1" Height="50" Width="300" Background="White" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 45, 0, 0">
                 <TextBox x:Name="tbCreate" Text="Název týmu" FontSize="25" Padding="7, 0, 0, 0" Foreground="Gray"/>
             </Border>
-            <Button Click="btn_Click" ToolTip="Create new team" x:Name="btnCreate" Background="#FFECFF32" Grid.Row="1" Height="50" Width="55" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="370, 45, 0, 0">
-                <materialDesign:PackIcon Kind="CreateOutline" Width="auto" Height="auto" />
-            </Button>
 
             <Label x:Name="labelAddEmail" Grid.Row="1" Content="Email prvního člena" Width="245" FontSize="25" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 100, 0, 0"/>
             <Border x:Name="borderAddEmail" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Grid.Row="1" Height="50" Width="300" Background="White" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 145, 0, 0">
