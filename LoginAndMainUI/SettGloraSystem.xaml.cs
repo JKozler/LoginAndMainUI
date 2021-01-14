@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace LoginAndMainUI
 {
@@ -48,7 +49,7 @@ namespace LoginAndMainUI
             tbDescription.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
             tbDescription.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
         }
-        string[] Fraze = new string[] { "Název účtu", "Nový název týmu", "Název týmu", "Email uživatele", "Nové uživatelské jméno",
+        string[] Fraze = new string[] { "Email uživatele", "Nový název týmu", "Název týmu", "Email uživatele", "Nové uživatelské jméno",
                                         "Nové heslo", "Nový email", "Nový název úkolu", "Nový popis úkolu" };
         ListBoxItem Zachyt;
         private void CBNastaveni_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -477,6 +478,8 @@ namespace LoginAndMainUI
         string[] PrihlasovaciUdaje;
         string[] PrihlasovaciUdajeUpraveno;
         string[] NamePassword;
+        string Email = string.Empty;
+        bool Leave = false;
         private void btn_Click(object sender, RoutedEventArgs e)
         {
             string jmeno = ((Button)sender).Name;
@@ -484,6 +487,17 @@ namespace LoginAndMainUI
             {
                 case "btnAdd":
                     Informace[0] = tbAdd.Text;
+                    try
+                    {
+                        Email = Informace[0];
+                        Regex TestEmail = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"); //Zjišťuje, zda je email v pořádku
+                        if (!TestEmail.IsMatch(Email)) MessageBox.Show("Nesprávný formát emailu!", "CHYBA");
+                    }
+                    catch (Exception err)
+                    {
+                        MessageBox.Show(err.Message, "CHYBA");
+                        Email = "";
+                    }
                     tbAdd.Text = Fraze[0];
                     tbAdd.Foreground = Brushes.Gray;
                     break;
@@ -545,6 +559,7 @@ namespace LoginAndMainUI
                     tbEmail.Foreground = Brushes.Gray;
                     break;
                 case "btnLeave":
+                    Leave = true; //NEZAPOMENOUT POTOM VRÁTIT ZPĚT PO API
                     break;
                 case "btnTask":
                     Informace[8] = tbTask.Text;
