@@ -47,6 +47,9 @@ namespace LoginAndMainUI
         JObject user = new JObject();
         JObject team = new JObject();
         JObject task = new JObject();
+        public MainUI()
+        {
+        }
         public MainUI(JObject jo)
         {
             InitializeComponent();
@@ -901,7 +904,6 @@ namespace LoginAndMainUI
             else
                 countOfTime.Content = "0:" + time;
         }
-
         public async Task CheckInformationsAboutUser() 
         {
             HttpClient http = new HttpClient();
@@ -949,8 +951,7 @@ namespace LoginAndMainUI
                 numberOfTaskProgress = 0;
                 for (int i = 0; i < array.Count; i++)
                 {
-                    if (jo["task"][i]["state"].ToString() == "New")
-                        lbTask.Items.Add(jo["task"][i]["name"]);
+                    if (jo["task"][i]["state"].ToString() == "New") lbTask.Items.Add(jo["task"][i]["name"]);
                     if (jo["task"][i]["state"].ToString() == "Done")
                         numberOfTaskDone++;
                     if (jo["task"][i]["state"].ToString() == "Failed")

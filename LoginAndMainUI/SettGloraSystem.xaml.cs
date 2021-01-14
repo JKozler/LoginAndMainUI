@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json.Linq;
 
 namespace LoginAndMainUI
 {
@@ -20,6 +21,7 @@ namespace LoginAndMainUI
     /// </summary>
     public partial class SettGloraSystem : UserControl
     {
+        MainUI MUI = new MainUI();
         public SettGloraSystem()
         {
             InitializeComponent();
@@ -47,6 +49,7 @@ namespace LoginAndMainUI
         }
         string[] Fraze = new string[] { "Název účtu", "Nový název týmu", "Název týmu", "Email uživatele", "Nové uživatelské jméno",
                                         "Nové heslo", "Nový email", "Nový název úkolu", "Nový popis úkolu" };
+        ListBoxItem Zachyt;
         private void CBNastaveni_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int Jmeno = ((ComboBox)sender).SelectedIndex;
@@ -72,6 +75,15 @@ namespace LoginAndMainUI
             tbEmail.Foreground = Brushes.Gray;
             tbTask.Foreground = Brushes.Gray;
             tbDescription.Foreground = Brushes.Gray;
+
+            
+            if (((ComboBox)sender).SelectedIndex == 3)
+            {
+                /*foreach (ListBoxItem Item in MUI.lbTaskProgress.ItemsSource)//Potřebuju nějak dostat jeho tasky do mejch tasku, s tím MUI je problém, napadlo mě to přes APInu stahovat
+                {
+                    Zachyt = Item;
+                }*/
+            }
 
             Vzhled(Jmeno);
         }
@@ -450,33 +462,73 @@ namespace LoginAndMainUI
                     break;
             }
         }
-
+        public string[] Informace = new string[10];
+        // 0 = jméno na přidání
+        // 1 = jméno na odebrání
+        // 2 = změnit název týmu
+        // 3 = změna jména
+        // 4 = změna hesla
+        // 5 = zadat email
+        // 6 = vytvořit nový tým
+        // 7 = email prvního člena
+        // 8 = změnit název úkolu
+        // 9 = změnit popis úkolu
         private void btn_Click(object sender, RoutedEventArgs e)
         {
             string jmeno = ((Button)sender).Name;
             switch (jmeno)
             {
                 case "btnAdd":
-                    break;
-                case "btnChange":
+                    Informace[0] = tbAdd.Text;
+                    tbAdd.Text = Fraze[0];
+                    tbAdd.Foreground = Brushes.Gray;
                     break;
                 case "btnRemove":
+                    Informace[1] = tbRemove.Text;
+                    tbRemove.Text = Fraze[0];
+                    tbRemove.Foreground = Brushes.Gray;
+                    break;
+                case "btnChange":
+                    Informace[2] = tbChange.Text;
+                    tbChange.Text = Fraze[1];
+                    tbChange.Foreground = Brushes.Gray;
                     break;
                 case "btnCreate":
+                    Informace[3] = tbCreate.Text;
+                    tbCreate.Text = Fraze[2];
+                    tbCreate.Foreground = Brushes.Gray;
                     break;
                 case "btnAddEmail":
+                    Informace[4] = tbAddEmail.Text;
+                    tbEmail.Text = Fraze[3];
+                    tbEmail.Foreground = Brushes.Gray;
                     break;
                 case "btnChangeName":
+                    Informace[5] = tbChangeName.Text;
+                    tbChangeName.Text = Fraze[4];
+                    tbChangeName.Foreground = Brushes.Gray;
                     break;
                 case "btnChangePassword":
+                    Informace[6] = tbAddChangePassword.Text;
+                    tbAddChangePassword.Text = Fraze[5];
+                    tbAddChangePassword.Foreground = Brushes.Gray;
                     break;
                 case "btnEmail":
+                    Informace[7] = tbEmail.Text;
+                    tbEmail.Text = Fraze[6];
+                    tbEmail.Foreground = Brushes.Gray;
                     break;
                 case "btnLeave":
                     break;
                 case "btnTask":
+                    Informace[8] = tbTask.Text;
+                    tbTask.Text = Fraze[7];
+                    tbTask.Foreground = Brushes.Gray;
                     break;
                 case "btnDescription":
+                    Informace[9] = tbDescription.Text;
+                    tbDescription.Text = Fraze[8];
+                    tbDescription.Foreground = Brushes.Gray;
                     break;
             }
         }
