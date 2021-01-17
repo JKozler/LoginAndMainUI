@@ -217,7 +217,11 @@ namespace LoginAndMainUI
             Button btn = (Button)sender;
             btn.Background = mainElementPanel.Background;
         }
-
+        private void settingGloraWeb_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Button btn = (Button)sender;
+            btn.Background = new SolidColorBrush(Colors.Orange);
+        }
         private void closeNoti_Click(object sender, RoutedEventArgs e)
         {
             if (!infoGloraIsEnable)
@@ -435,6 +439,14 @@ namespace LoginAndMainUI
 
         private void gWeb_Click(object sender, RoutedEventArgs e)
         {
+            try 
+            { 
+                Process.Start("GloraChromiumBrowser.exe");
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.ToString());
+            }
             if (!gWebIsShowen)
             {
                 gWebIsShowen = true;

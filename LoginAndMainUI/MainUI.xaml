@@ -53,7 +53,7 @@
                         </Button>
                     </Border>
                     <Border Grid.Row="1">
-                        <Button IsEnabled="False" Opacity="0" MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="G-Web for fast access" Width="auto" Height="auto" x:Name="btnMainPanel1" Click="btnMainPanel1_Click_1" Padding="0" Background="{x:Null}">
+                        <Button IsEnabled="False" Opacity="0" MouseLeave="settingGloraWeb_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="G-Web for fast access" Width="auto" Height="auto" x:Name="btnMainPanel1" Click="btnMainPanel1_Click_1" Padding="0" Background="Orange">
                             <materialDesign:PackIcon Width="auto" Height="auto" Kind="Web"/>
                         </Button>
                     </Border>
