@@ -16,6 +16,7 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
+using System.Net.Http;
 
 namespace LoginAndMainUI
 {
@@ -24,6 +25,8 @@ namespace LoginAndMainUI
     /// </summary>
     public partial class SettGloraSystem : UserControl
     {
+        MainUI MUI = new MainUI();
+        JObject user = new JObject();
         public SettGloraSystem()
         {
             InitializeComponent();
@@ -78,7 +81,7 @@ namespace LoginAndMainUI
             tbTask.Foreground = Brushes.Gray;
             tbDescription.Foreground = Brushes.Gray;
 
-            
+
             if (((ComboBox)sender).SelectedIndex == 3)
             {
                 /*foreach (ListBoxItem Item in MUI.lbTaskProgress.ItemsSource)//Potřebuju nějak dostat jeho tasky do mejch tasku, s tím MUI je problém, napadlo mě to přes APInu stahovat
@@ -143,7 +146,7 @@ namespace LoginAndMainUI
                 }
             }
         }
-        void Vzhled(int Poradnik)
+        async void Vzhled(int Poradnik)
         {
             switch (Poradnik)
             {
@@ -151,6 +154,7 @@ namespace LoginAndMainUI
                     labelAdd.Visibility = Visibility.Visible;
                     labelChange.Visibility = Visibility.Visible;
                     labelRemove.Visibility = Visibility.Visible;
+                    lbTasks.Visibility = Visibility.Hidden;
 
                     btnAdd.Visibility = Visibility.Visible;
                     btnChange.Visibility = Visibility.Visible;
@@ -199,6 +203,7 @@ namespace LoginAndMainUI
                     labelAdd.Visibility = Visibility.Hidden;
                     labelChange.Visibility = Visibility.Hidden;
                     labelRemove.Visibility = Visibility.Hidden;
+                    lbTasks.Visibility = Visibility.Hidden;
 
                     btnAdd.Visibility = Visibility.Hidden;
                     btnChange.Visibility = Visibility.Hidden;
@@ -247,6 +252,7 @@ namespace LoginAndMainUI
                     labelAdd.Visibility = Visibility.Hidden;
                     labelChange.Visibility = Visibility.Hidden;
                     labelRemove.Visibility = Visibility.Hidden;
+                    lbTasks.Visibility = Visibility.Visible;
 
                     btnAdd.Visibility = Visibility.Hidden;
                     btnChange.Visibility = Visibility.Hidden;
@@ -295,6 +301,12 @@ namespace LoginAndMainUI
                     labelAdd.Visibility = Visibility.Hidden;
                     labelChange.Visibility = Visibility.Hidden;
                     labelRemove.Visibility = Visibility.Hidden;
+                    lbTasks.Visibility = Visibility.Visible;
+                    string[] namesTask = await MUI.ReturnAllMyTask();
+                    foreach (var item in namesTask)
+                    {
+                        lbTasks.Items.Add(item);
+                    }
 
                     btnAdd.Visibility = Visibility.Hidden;
                     btnChange.Visibility = Visibility.Hidden;
@@ -343,6 +355,7 @@ namespace LoginAndMainUI
                     labelAdd.Visibility = Visibility.Hidden;
                     labelChange.Visibility = Visibility.Hidden;
                     labelRemove.Visibility = Visibility.Hidden;
+                    lbTasks.Visibility = Visibility.Hidden;
 
                     btnAdd.Visibility = Visibility.Hidden;
                     btnChange.Visibility = Visibility.Hidden;
@@ -391,6 +404,7 @@ namespace LoginAndMainUI
                     labelAdd.Visibility = Visibility.Hidden;
                     labelChange.Visibility = Visibility.Hidden;
                     labelRemove.Visibility = Visibility.Hidden;
+                    lbTasks.Visibility = Visibility.Hidden;
 
                     btnAdd.Visibility = Visibility.Hidden;
                     btnChange.Visibility = Visibility.Hidden;
@@ -439,6 +453,7 @@ namespace LoginAndMainUI
                     labelAdd.Visibility = Visibility.Hidden;
                     labelChange.Visibility = Visibility.Hidden;
                     labelRemove.Visibility = Visibility.Hidden;
+                    lbTasks.Visibility = Visibility.Hidden;
 
                     btnAdd.Visibility = Visibility.Hidden;
                     btnChange.Visibility = Visibility.Hidden;
@@ -503,7 +518,6 @@ namespace LoginAndMainUI
         readonly Regex TestEmail = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"); //Zjišťuje, zda je email v pořádku
         bool Leave = false;
         OpenFileDialog OFD = new OpenFileDialog();
-        MainUI MUI = new MainUI();
         private void btn_Click(object sender, RoutedEventArgs e)
         {
             string jmeno = ((Button)sender).Name;

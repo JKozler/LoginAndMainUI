@@ -88,12 +88,12 @@
                             <materialDesign:PackIcon Width="auto" Height="auto" Kind="Assistant"/>
                         </Button>
                     </Border>
-                    <Border Grid.Row="18">
-                        <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Create new Team" Width="auto" Height="auto" x:Name="createNewProject" Click="createNewProject_Click" Padding="0" Background="{x:Null}" BorderBrush="#FF747474">
-                            <materialDesign:PackIcon Width="auto" Height="auto" Kind="DeveloperBoard"/>
+                    <Border Grid.Row="17">
+                        <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Shut down Glora" Width="auto" Height="auto" x:Name="closeGlora" Click="closeGlora_Click" Padding="0" Background="{x:Null}" BorderBrush="#FF747474">
+                            <materialDesign:PackIcon Width="auto" Height="auto" Kind="Shutdown"/>
                         </Button>
                     </Border>
-                    <Border Grid.Row="17">
+                    <Border Grid.Row="18">
                         <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Add working applications (max. 12)" Width="auto" Height="auto" x:Name="addWorkingApp" Click="addWorkingApp_Click" Padding="0" Background="{x:Null}" BorderBrush="#FF747474">
                             <materialDesign:PackIcon Width="auto" Height="auto" Kind="ApplicationExport"/>
                         </Button>
@@ -295,9 +295,9 @@
                                     <Label FontFamily="Dubai Medium" Grid.Row="0" VerticalAlignment="Center" Content="Tasks" FontSize="20"/>
                                     <Label FontFamily="Dubai Medium" Grid.Row="2" VerticalAlignment="Center" Content="New" FontSize="15"/>
                                     <Button ToolTip="Minimaze task bar" x:Name="minimzeTask" Click="minimzeTask_Click" VerticalAlignment="Top" HorizontalAlignment="Right" Background="#FFE9FF09" Height="10" ></Button>
-                                    <ListBox Grid.Row="3" Margin="5" x:Name="lbTask" BorderBrush="Black" Background="#FFF1F1F1"></ListBox>
+                                    <ListBox MouseDoubleClick="lbTask_MouseDoubleClick" Grid.Row="3" Margin="5" x:Name="lbTask" BorderBrush="Black" Background="#FFF1F1F1"></ListBox>
                                     <Label FontFamily="Dubai Medium" Grid.Row="5" VerticalAlignment="Center" Content="In progress" FontSize="15"/>
-                                    <ListBox Grid.Row="6" Margin="5" x:Name="lbTaskProgress" BorderBrush="Black" Background="#FFF1F1F1"></ListBox>
+                                    <ListBox MouseDoubleClick="lbTask_MouseDoubleClick" Grid.Row="6" Margin="5" x:Name="lbTaskProgress" BorderBrush="Black" Background="#FFF1F1F1"></ListBox>
                                     <Border Grid.Row="8">
                                         <Grid>
                                             <Grid.ColumnDefinitions>

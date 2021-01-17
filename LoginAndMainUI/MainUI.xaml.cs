@@ -44,9 +44,9 @@ namespace LoginAndMainUI
         bool infomrationCenterIsShowen = false;
         bool createNewTaskIsShowen = false;
         bool settingsGloraIsShowen = false;
-        JObject user = new JObject();
-        JObject team = new JObject();
-        JObject task = new JObject();
+        public JObject user = new JObject();
+        public JObject team = new JObject();
+        public JObject task = new JObject();
         public MainUI()
         {
         }
@@ -162,9 +162,9 @@ namespace LoginAndMainUI
             totalTime = (timeStop - timeStart) + totalTime;
             if (totalTime.Seconds > 30)
             {
-                if (totalTime.Minutes + 1 + minBefore >= 60 && (totalTime.Minutes + minBefore - 60).ToString().Length == 1)
+                if (totalTime.Minutes + 1 + minBefore >= 60 && (totalTime.Minutes + minBefore - 60).ToString().Length <= 1)
                     countOfTime.Content = (totalTime.Hours + hourBefore + 1) + ":0" + (totalTime.Minutes + minBefore - 60);
-                else if (totalTime.Minutes + 1 + minBefore >= 60 && (totalTime.Minutes + minBefore).ToString().Length == 1)
+                else if (totalTime.Minutes + 1 + minBefore >= 60 && (totalTime.Minutes + minBefore).ToString().Length <= 1)
                     countOfTime.Content = (totalTime.Hours + hourBefore) + ":0" + (totalTime.Minutes + minBefore);
                 else if (totalTime.Minutes + 1 + minBefore >= 60)
                     countOfTime.Content = (totalTime.Hours + hourBefore + 1) + ":" + (totalTime.Minutes + 1 + minBefore - 60);
@@ -173,9 +173,9 @@ namespace LoginAndMainUI
             }
             else 
             {
-                if (totalTime.Minutes + minBefore >= 60 && (totalTime.Minutes + minBefore - 60).ToString().Length == 1)
+                if (totalTime.Minutes + minBefore >= 60 && (totalTime.Minutes + minBefore - 60).ToString().Length <= 1)
                     countOfTime.Content = (totalTime.Hours + hourBefore + 1) + ":0" + (totalTime.Minutes + minBefore - 60);
-                else if (totalTime.Minutes + minBefore >= 60 && (totalTime.Minutes + minBefore).ToString().Length == 1)
+                else if (totalTime.Minutes + minBefore >= 60 && (totalTime.Minutes + minBefore).ToString().Length <= 1)
                     countOfTime.Content = (totalTime.Hours + hourBefore) + ":0" + (totalTime.Minutes + minBefore);
                 else if (totalTime.Minutes + minBefore >= 60)
                     countOfTime.Content = (totalTime.Hours + hourBefore + 1) + ":" + (totalTime.Minutes + minBefore - 60);
@@ -494,7 +494,9 @@ namespace LoginAndMainUI
 
         private async void createNewTask_Click(object sender, RoutedEventArgs e)
         {
-            if (userAssign.SelectedItem.ToString() != null && taskName.Text != null && taskDescription.Text != null) 
+            if (taskDateFrom.SelectedDate > taskDateTo.SelectedDate)
+                MessageBox.Show("Date from have to be smaller than date to.", "Error", MessageBoxButton.OK);
+            else if (userAssign.SelectedItem.ToString() != null && taskName.Text != null && taskDescription.Text != null) 
             {
                 await AssignTaskToUser();
                 taskName.Text = "";
@@ -502,7 +504,7 @@ namespace LoginAndMainUI
                 taskDescription.Text = "";
                 taskDateFrom.SelectedDate = null;
                 taskDateTo.SelectedDate = null;
-                MessageBox.Show("Task was successfully create.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Task was successfully created.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 await CheckInformationsAboutUser();
             }
             else
@@ -555,11 +557,6 @@ namespace LoginAndMainUI
             {
                 await ConnectToTeam(connectToOrg.Text);
             }
-        }
-
-        private void createNewProject_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void addWorkingApp_Click(object sender, RoutedEventArgs e)
@@ -904,7 +901,7 @@ namespace LoginAndMainUI
             else
                 countOfTime.Content = "0:" + time;
         }
-        public async Task CheckInformationsAboutUser() 
+        public async Task CheckInformationsAboutUser()
         {
             HttpClient http = new HttpClient();
             if (user["user"]["team"] != null)
@@ -969,6 +966,55 @@ namespace LoginAndMainUI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+            }
+        }
+
+        public async Task<string[]> ReturnAllMyTask() 
+        {
+            string[] names;
+            HttpClient http = new HttpClient();
+            try
+            {
+                string url = "http://www.g-pos.8u.cz/api/get-task-detail/" + user["user"]["id"];
+                HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                string res = await response.Content.ReadAsStringAsync();
+                JObject jo = JObject.Parse(res);
+                task = jo;
+                JArray array = (JArray)jo["task"];
+                names = new string[array.Count];
+                for (int i = 0; i < array.Count; i++)
+                {
+                    names[i] = task["task"]["name"].ToString();
+                }
+                return names;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+            }
+            return null;
+        }
+
+        private void closeGlora_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult mr = MessageBox.Show("Are you sure to shutdown pOS?", "Information", MessageBoxButton.YesNo);
+            if (mr == MessageBoxResult.Yes)
+                this.Close();
+        }
+
+        private async void lbTask_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (lbTask.SelectedItem != null)
+            {
+                TaskEdit taskEdit = new TaskEdit(lbTask.SelectedItem.ToString(), Convert.ToInt32(user["user"]["team"]));
+                taskEdit.ShowDialog();
+                await CheckInformationsAboutUser();
+            }
+            else if (lbTaskProgress.SelectedItem != null)
+            {
+                TaskEdit taskEdit = new TaskEdit(lbTaskProgress.SelectedItem.ToString(), Convert.ToInt32(user["user"]["team"]));
+                taskEdit.ShowDialog();
+                await CheckInformationsAboutUser();
             }
         }
     }
