@@ -1,0 +1,33 @@
+﻿<Window x:Class="LoginAndMainUI.AllTasks"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LoginAndMainUI"
+        mc:Ignorable="d"
+        Title="AllTasks" Height="450" Width="800">
+    <Border Background="Black">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Content="All your tasks" FontSize="34" Grid.ColumnSpan="2" Foreground="#DDFFFFFF" FontFamily="Dubai Medium"></Label>
+            <Label Padding="0,0,0,0" Content="Done tasks" FontSize="24" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontFamily="Dubai Medium"></Label>
+            <Label Padding="0,0,0,0" Content="Failed tasks" FontSize="24" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontFamily="Dubai Medium"></Label>
+            <Label Padding="0,0,0,0" Content="Progress tasks" FontSize="24" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontFamily="Dubai Medium"></Label>
+            <Label Padding="0,0,0,0" Content="New tasks" FontSize="24" Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#DDFFFFFF" FontFamily="Dubai Medium"></Label>
+            <ListBox MouseDoubleClick="lbDoneTask_MouseDoubleClick" Grid.Row="2" Grid.Column="0" Margin="5" x:Name="lbDoneTask" Background="#FF212121" BorderBrush="White" Foreground="#DDFFFFFF"></ListBox>
+            <ListBox MouseDoubleClick="lbDoneTask_MouseDoubleClick" Grid.Row="2" Grid.Column="1" Margin="5" x:Name="lbFialedTask" Background="#FF212121" BorderBrush="White" Foreground="#DDFFFFFF"></ListBox>
+            <ListBox MouseDoubleClick="lbDoneTask_MouseDoubleClick" Grid.Row="2" Grid.Column="2" Margin="5" x:Name="lbProgressTask" Background="#FF212121" BorderBrush="White" Foreground="#DDFFFFFF"></ListBox>
+            <ListBox MouseDoubleClick="lbDoneTask_MouseDoubleClick" Grid.Row="2" Grid.Column="3" Margin="5" x:Name="lbNewTask" Background="#FF212121" BorderBrush="White" Foreground="#DDFFFFFF"></ListBox>
+        </Grid>
+    </Border>
+</Window>

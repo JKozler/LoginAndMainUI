@@ -72,6 +72,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AllTasks.xaml.cs">
+      <DependentUpon>AllTasks.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FileW.xaml.cs">
       <DependentUpon>FileW.xaml</DependentUpon>
     </Compile>
@@ -84,6 +87,10 @@
     <Compile Include="TaskEdit.xaml.cs">
       <DependentUpon>TaskEdit.xaml</DependentUpon>
     </Compile>
+    <Page Include="AllTasks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FileW.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

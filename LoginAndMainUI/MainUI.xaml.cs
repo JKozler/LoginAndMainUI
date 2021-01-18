@@ -262,9 +262,11 @@ namespace LoginAndMainUI
             }
         }
 
-        private void moreInfoTask_MouseDown(object sender, MouseButtonEventArgs e)
+        private async void moreInfoTask_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            AllTasks allTasks = new AllTasks(task, Convert.ToInt32(user["user"]["team"]));
+            allTasks.ShowDialog();
+            await CheckInformationsAboutUser();
         }
 
         private void moreInfoTask_MouseEnter(object sender, MouseEventArgs e)
