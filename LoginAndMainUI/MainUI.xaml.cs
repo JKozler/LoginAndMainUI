@@ -213,23 +213,25 @@ namespace LoginAndMainUI
                 JArray arrayUpdate2 = (JArray)task["task"];
                 if (arrayUpdate1.Count != arrayUpdate2.Count) 
                 {
-                    TaskName = "Task create/delete";
-                    TaskProperty = taskUpdate["task"][arrayUpdate1.Count - 1]["name"].ToString();
-                    TaskElse = "State - " + taskUpdate["task"][arrayUpdate1.Count - 1]["state"].ToString();
+                    if (arrayUpdate1.Count >= arrayUpdate2.Count)
+                    {
+                        TaskName = "Task create";
+                        TaskProperty = taskUpdate["task"][arrayUpdate1.Count - 1]["name"].ToString();
+                        TaskElse = "State - " + taskUpdate["task"][arrayUpdate1.Count - 1]["state"].ToString();
+                    }
+                    else
+                    {
+                        TaskName = "Task delete";
+                        TaskProperty = task["task"][arrayUpdate2.Count - 1]["name"].ToString();
+                        TaskElse = "State - " + task["task"][arrayUpdate2.Count - 1]["state"].ToString() + ", was deleted.";
+                    }
+                    App.Current.Dispatcher.Invoke((System.Action)delegate
+                    {
+                        InformationCenter();
+                    });
+                    PropertyChanged.Invoke(CheckInformationsAboutUser(), new PropertyChangedEventArgs("Check info."));
+
                 }
-                //else
-                //{
-                //    for (int i = 0; i < arrayUpdate1.Count; i++)
-                //    {
-                //        if (taskUpdate["task"][i] != task["task"][i])
-                //        {
-                //            TaskName = "Task Change";
-                //            TaskProperty = taskUpdate["task"][i]["name"].ToString();
-                //            TaskElse = "State - " + taskUpdate["task"][i]["state"].ToString();
-                //        }
-                //    }
-                //}
-                PropertyChanged.Invoke(CheckInformationsAboutUser(), new PropertyChangedEventArgs("Check info."));
             }
             catch (Exception ex)
             {
