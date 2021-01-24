@@ -302,11 +302,6 @@ namespace LoginAndMainUI
                     labelChange.Visibility = Visibility.Hidden;
                     labelRemove.Visibility = Visibility.Hidden;
                     lbTasks.Visibility = Visibility.Visible;
-                    string[] namesTask = await MUI.ReturnAllMyTask();
-                    foreach (var item in namesTask)
-                    {
-                        lbTasks.Items.Add(item);
-                    }
 
                     btnAdd.Visibility = Visibility.Hidden;
                     btnChange.Visibility = Visibility.Hidden;

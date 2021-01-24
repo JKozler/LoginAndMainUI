@@ -75,27 +75,52 @@ namespace LoginAndMainUI
             }
         }
 
-        private void lbDoneTask_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        public async Task TasksUpdate() 
+        {
+            HttpClient http = new HttpClient();
+            try
+            {
+                string url = "http://www.g-pos.8u.cz/api/get-task-detail/" + userId;
+                HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                string res = await response.Content.ReadAsStringAsync();
+                JObject jo = JObject.Parse(res);
+                allTasks = jo;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+            }
+            FillDoneTasks();
+            FillFailedTasks();
+            FillNewTasks();
+            FillProgressTasks();
+        }
+
+        private async void lbDoneTask_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (lbDoneTask.SelectedItem != null)
             {
                 TaskEdit taskEdit = new TaskEdit(lbDoneTask.SelectedItem.ToString(), userId);
                 taskEdit.ShowDialog();
+                await TasksUpdate();
             }
             else if (lbFialedTask.SelectedItem != null)
             {
                 TaskEdit taskEdit = new TaskEdit(lbFialedTask.SelectedItem.ToString(), userId);
                 taskEdit.ShowDialog();
+                await TasksUpdate();
             }
             else if (lbProgressTask.SelectedItem != null)
             {
                 TaskEdit taskEdit = new TaskEdit(lbProgressTask.SelectedItem.ToString(), userId);
                 taskEdit.ShowDialog();
+                await TasksUpdate();
             }
             else if (lbNewTask.SelectedItem != null)
             {
                 TaskEdit taskEdit = new TaskEdit(lbNewTask.SelectedItem.ToString(), userId);
                 taskEdit.ShowDialog();
+                await TasksUpdate();
             }
         }
     }

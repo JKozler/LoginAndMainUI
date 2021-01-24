@@ -19,13 +19,16 @@ using System.Windows.Threading;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using System.Net.Http;
+using System.Threading;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace LoginAndMainUI
 {
     /// <summary>
     /// Interaction logic for MainUI.xaml
     /// </summary>
-    public partial class MainUI : Window
+    public partial class MainUI : Window, INotifyPropertyChanged
     {
         DateTime timeStart = new DateTime();
         DateTime timeStop = new DateTime();
@@ -47,18 +50,142 @@ namespace LoginAndMainUI
         public JObject user = new JObject();
         public JObject team = new JObject();
         public JObject task = new JObject();
+        public JObject taskUpdate = new JObject();
+        private string taskN;
+
+        #region properities
+        public string TaskName
+        {
+            get { return taskN; }
+            set { taskN = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TaskName")); }
+        }
+
+        private string taskP;
+
+        public string TaskProperty
+        {
+            get { return taskP; }
+            set { taskP = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TaskProperty")); }
+        }
+        private string taskE;
+
+        public string TaskElse
+        {
+            get { return taskE; }
+            set { taskE = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TaskElse")); }
+        }
+
+        private string connectORG;
+
+        public string ConnectORG
+        {
+            get { return connectORG; }
+            set { connectORG = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ConnectORG")); }
+        }
+
+        private string allUserCount;
+
+        public string AllUserCount
+        {
+            get { return allUserCount; }
+            set { allUserCount = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AllUserCount")); }
+        }
+
+        private bool connectToORgIsEnabled;
+
+        public bool ConnectToORgIsEnabled
+        {
+            get { return connectToORgIsEnabled; }
+            set { connectToORgIsEnabled = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ConnectToORgIsEnabled")); }
+        }
+
+        private bool cbConnectToORgIsEnabled;
+
+        public bool CBConnectToORgIsEnabled
+        {
+            get { return cbConnectToORgIsEnabled; }
+            set { cbConnectToORgIsEnabled = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CBConnectToORgIsEnabled")); }
+        }
+
+        private string cbSelectedOrg;
+
+        public string CBSelectedOrg
+        {
+            get { return cbSelectedOrg; }
+            set { cbSelectedOrg = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CBSelectedOrg")); }
+        }
+
+        private List<string> arrayOfItems;
+
+        public List<string> ArrayOfItems
+        {
+            get { return arrayOfItems; }
+            set { arrayOfItems = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ArrayOfItems")); }
+        }
+
+        private ObservableCollection<string> lbNewTask;
+
+        public ObservableCollection<string> LBNewTask
+        {
+            get { return lbNewTask; }
+            set { lbNewTask = value;  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LBNewTask")); }
+        }
+
+        private ObservableCollection<string> lbProgressTask;
+
+        public ObservableCollection<string> LBProgressTask
+        {
+            get { return lbProgressTask; }
+            set { lbProgressTask = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LBProgressTask")); }
+        }
+
+        private int numberFailed;
+
+        public int NumberFailed
+        {
+            get { return numberFailed; }
+            set { numberFailed = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("NumberFailed")); }
+        }
+
+        private int numberProgress;
+
+        public int NumberProgress
+        {
+            get { return numberProgress; }
+            set { numberProgress = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("NumberProgress")); }
+        }
+
+        private string numberEnable;
+
+        public string NumberEnable
+        {
+            get { return numberEnable; }
+            set { numberEnable = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("NumberEnable")); }
+        }
+
+        #endregion
+
+        Timer timer;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public MainUI()
         {
         }
         public MainUI(JObject jo)
         {
             InitializeComponent();
+            ArrayOfItems = new List<string>();
             user = jo;
+            AllUserCount = "0";
+            NumberFailed = 0;
+            NumberEnable = "0/0";
+            NumberProgress = 0;
             taskCreateStats.Visibility = Visibility.Hidden;
             taskBarWholeInfo.Opacity = 0;
             taskCreateStats.Opacity = 0;
-            selectedWork.Items.Add("Your own work.");
-            selectedWork.SelectedItem = "Your own work.";
+            ArrayOfItems.Add("Your own work.");
+            CBSelectedOrg = "Your own work.";
             taskBarIsShowen = false;
             doneTaskLb.IsEnabled = false;
             progressTaskLb.IsEnabled = false;
@@ -68,6 +195,46 @@ namespace LoginAndMainUI
             CheckInformationsAboutUser();
             CheckIfWorkHasMoreThenOneStations();
             CheckForExistingWorkingApps();
+            DataContext = this;
+            timer = new Timer(e => { UpdateTask(); }, null, 30000, 60000);
+        }
+
+        public async void UpdateTask()
+        {
+            HttpClient http = new HttpClient();
+            try
+            {
+                string url = "http://www.g-pos.8u.cz/api/get-task-detail/" + user["user"]["id"];
+                HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                string res = await response.Content.ReadAsStringAsync();
+                JObject jo = JObject.Parse(res);
+                taskUpdate = jo;
+                JArray arrayUpdate1 = (JArray)taskUpdate["task"];
+                JArray arrayUpdate2 = (JArray)task["task"];
+                if (arrayUpdate1.Count != arrayUpdate2.Count) 
+                {
+                    TaskName = "Task create/delete";
+                    TaskProperty = taskUpdate["task"][arrayUpdate1.Count - 1]["name"].ToString();
+                    TaskElse = "State - " + taskUpdate["task"][arrayUpdate1.Count - 1]["state"].ToString();
+                }
+                //else
+                //{
+                //    for (int i = 0; i < arrayUpdate1.Count; i++)
+                //    {
+                //        if (taskUpdate["task"][i] != task["task"][i])
+                //        {
+                //            TaskName = "Task Change";
+                //            TaskProperty = taskUpdate["task"][i]["name"].ToString();
+                //            TaskElse = "State - " + taskUpdate["task"][i]["state"].ToString();
+                //        }
+                //    }
+                //}
+                PropertyChanged.Invoke(CheckInformationsAboutUser(), new PropertyChangedEventArgs("Check info."));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+            }
         }
 
         private void gloraHome_Click(object sender, RoutedEventArgs e)
@@ -107,7 +274,7 @@ namespace LoginAndMainUI
             }
         }
 
-        public async Task UpdateUser(string name, string email, string password, int team, int time) 
+        public async Task UpdateUser(string name, string email, string password, int team, int time)
         {
             HttpClient http = new HttpClient();
             try
@@ -129,7 +296,7 @@ namespace LoginAndMainUI
             HttpClient http = new HttpClient();
             try
             {
-                string url = "http://www.g-pos.8u.cz/api/put-task/{\"name\":\"" + name + "\",\"description\":\"" + description + "\",\"userId\":\"" + userId + "\",\"dateFrom\":\"" + dateFrom.ToString("yyyy-MM-dd") +"\",\"dateTo\":\"" + dateTo.ToString("yyyy-MM-dd") + "\",\"state\":\"" + state + "\",\"id\":\"" + id + "\"}";
+                string url = "http://www.g-pos.8u.cz/api/put-task/{\"name\":\"" + name + "\",\"description\":\"" + description + "\",\"userId\":\"" + userId + "\",\"dateFrom\":\"" + dateFrom.ToString("yyyy-MM-dd") + "\",\"dateTo\":\"" + dateTo.ToString("yyyy-MM-dd") + "\",\"state\":\"" + state + "\",\"id\":\"" + id + "\"}";
                 HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                 string res2 = await response.Content.ReadAsStringAsync();
                 JObject jo2 = JObject.Parse(res2);
@@ -171,7 +338,7 @@ namespace LoginAndMainUI
                 else
                     countOfTime.Content = (totalTime.Hours + hourBefore) + ":" + (totalTime.Minutes + 1 + minBefore);
             }
-            else 
+            else
             {
                 if (totalTime.Minutes + minBefore >= 60 && (totalTime.Minutes + minBefore - 60).ToString().Length <= 1)
                     countOfTime.Content = (totalTime.Hours + hourBefore + 1) + ":0" + (totalTime.Minutes + minBefore - 60);
@@ -218,7 +385,7 @@ namespace LoginAndMainUI
             btn.Background = mainElementPanel.Background;
         }
 
-        private void closeNoti_Click(object sender, RoutedEventArgs e)
+        public void InformationCenter() 
         {
             if (!infoGloraIsEnable)
             {
@@ -232,6 +399,11 @@ namespace LoginAndMainUI
                 informationProperities.BeginAnimation(OpacityProperty, blurEnable);
                 infoGloraIsEnable = false;
             }
+        }
+
+        private void closeNoti_Click(object sender, RoutedEventArgs e)
+        {
+            InformationCenter();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -517,7 +689,7 @@ namespace LoginAndMainUI
         {
             if (selectedWork.Items.Count == 1 || selectedWork.Items.Count == 0)
             {
-                selectedWork.IsEnabled = false;
+                CBConnectToORgIsEnabled = false;
                 applyOrg.IsEnabled = false;
             }
         }
@@ -891,7 +1063,6 @@ namespace LoginAndMainUI
                 }
             }
         }
-
         public void LoadInfoHourSpend(int time)
         {
             if (time >= 60)
@@ -905,6 +1076,7 @@ namespace LoginAndMainUI
         }
         public async Task CheckInformationsAboutUser()
         {
+            var uiContext = SynchronizationContext.Current;
             HttpClient http = new HttpClient();
             if (user["user"]["team"] != null)
             {
@@ -914,26 +1086,25 @@ namespace LoginAndMainUI
                     HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                     string res = await response.Content.ReadAsStringAsync();
                     JObject jo = JObject.Parse(res);
-                    connectToOrg.Text = jo["code"].ToString();
-                    connectToOrg.IsEnabled = false;
-                    selectedWork.SelectedItem = jo["name"];
-                    selectedWork.IsEnabled = true;
-                    selectedWork.Items.Add(jo["name"]);
+                    ConnectORG = jo["code"].ToString();
+                    ConnectToORgIsEnabled = false;
+                    CBSelectedOrg = jo["name"].ToString();
+                    CBConnectToORgIsEnabled = true;
+                    ArrayOfItems.Add(jo["name"].ToString());
                     team = jo;
 
                     string url2 = "http://www.g-pos.8u.cz/api/get-number-of-user/" + user["user"]["team"];
                     HttpResponseMessage response2 = await http.GetAsync(url2, HttpCompletionOption.ResponseContentRead);
                     string res2 = await response2.Content.ReadAsStringAsync();
                     JObject jo2 = JObject.Parse(res2);
-                    numberOfMemners.Content = jo2["COUNT(*)"];
+                    AllUserCount = jo2["COUNT(*)"].ToString();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
                 }
             }
-            else{}
-
+            else { }
             try
             {
                 string url = "http://www.g-pos.8u.cz/api/get-task-detail/" + user["user"]["id"];
@@ -941,29 +1112,38 @@ namespace LoginAndMainUI
                 string res = await response.Content.ReadAsStringAsync();
                 JObject jo = JObject.Parse(res);
                 task = jo;
+                LBNewTask = new ObservableCollection<string>();
+                LBProgressTask = new ObservableCollection<string>();
                 JArray array = (JArray)jo["task"];
-                lbTask.Items.Clear();
-                lbTaskProgress.Items.Clear();
                 numberOfTask = 0;
                 numberOfTaskDone = 0;
                 numberOfTaskFailed = 0;
                 numberOfTaskProgress = 0;
                 for (int i = 0; i < array.Count; i++)
                 {
-                    if (jo["task"][i]["state"].ToString() == "New") lbTask.Items.Add(jo["task"][i]["name"]);
+                    if (jo["task"][i]["state"].ToString() == "New") {
+                        App.Current.Dispatcher.Invoke((System.Action)delegate
+                        {
+                            LBNewTask.Add(jo["task"][i]["name"].ToString());
+                        });
+                    }
                     if (jo["task"][i]["state"].ToString() == "Done")
                         numberOfTaskDone++;
                     if (jo["task"][i]["state"].ToString() == "Failed")
                         numberOfTaskFailed++;
-                    if (jo["task"][i]["state"].ToString() == "Progress") {
+                    if (jo["task"][i]["state"].ToString() == "Progress")
+                    {
                         numberOfTaskProgress++;
-                        lbTaskProgress.Items.Add(jo["task"][i]["name"]);
+                        App.Current.Dispatcher.Invoke((System.Action)delegate
+                        {
+                            LBProgressTask.Add(jo["task"][i]["name"].ToString());
+                        });
                     }
                     numberOfTask++;
                 }
-                numberOfProgressTasks.Content = numberOfTaskProgress;
-                numberOfFailedTask.Content = numberOfTaskFailed;
-                numberOfEnableTask.Content = numberOfTaskDone + "/" + numberOfTask;
+                NumberProgress = numberOfTaskProgress;
+                NumberFailed = numberOfTaskFailed;
+                NumberEnable = numberOfTaskDone + "/" + numberOfTask;
             }
             catch (Exception ex)
             {
@@ -971,7 +1151,7 @@ namespace LoginAndMainUI
             }
         }
 
-        public async Task<string[]> ReturnAllMyTask() 
+        public async Task<string[]> ReturnAllMyTask()
         {
             string[] names;
             HttpClient http = new HttpClient();
