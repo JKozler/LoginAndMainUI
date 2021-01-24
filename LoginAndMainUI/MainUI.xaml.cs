@@ -515,16 +515,23 @@ namespace LoginAndMainUI
 
         public async Task GetAllUsers(int id)
         {
-            HttpClient http = new HttpClient();
-            userAssign.Items.Clear();
-            string url = "http://www.g-pos.8u.cz/api/get-all-users-from-team/" + id;
-            HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
-            string res = await response.Content.ReadAsStringAsync();
-            JObject jo = JObject.Parse(res);
-            JArray array = (JArray)jo["users"];
-            for (int i = 0; i < array.Count; i++)
+            if (team == null)
             {
-                userAssign.Items.Add(jo["users"][i]["name"]);
+                userAssign.Items.Add("Me");
+            }
+            else
+            {
+                HttpClient http = new HttpClient();
+                userAssign.Items.Clear();
+                string url = "http://www.g-pos.8u.cz/api/get-all-users-from-team/" + id;
+                HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                string res = await response.Content.ReadAsStringAsync();
+                JObject jo = JObject.Parse(res);
+                JArray array = (JArray)jo["users"];
+                for (int i = 0; i < array.Count; i++)
+                {
+                    userAssign.Items.Add(jo["users"][i]["name"]);
+                }
             }
         }
 
@@ -655,16 +662,33 @@ namespace LoginAndMainUI
             HttpResponseMessage responseUser = await http.GetAsync(urlUserId, HttpCompletionOption.ResponseContentRead);
             string res = await responseUser.Content.ReadAsStringAsync();
             JObject jo = JObject.Parse(res);
-            try
+            if (team == null)
             {
-                string url = "http://www.g-pos.8u.cz/api/post-task/{\"teamCode\":\"" + team["code"].ToString() + "\",\"name\":\"" + taskName.Text + "\",\"description\":\"" + taskDescription.Text + "\",\"userId\":\"" + jo["id"].ToString() + "\",\"dateFrom\":\"" + Convert.ToDateTime(taskDateFrom.SelectedDate).ToString("yyyy-MM-dd") + "\",\"dateTo\":\"" + Convert.ToDateTime(taskDateTo.SelectedDate).ToString("yyyy-MM-dd") + "\",\"state\":\"New\"}";
-                HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
-                string res2 = await response.Content.ReadAsStringAsync();
-                JObject jo2 = JObject.Parse(res2);
+                try
+                {
+                    string url = "http://www.g-pos.8u.cz/api/post-task/{\"teamCode\":\"" + user["user"]["id"].ToString() + "\",\"name\":\"" + taskName.Text + "\",\"description\":\"" + taskDescription.Text + "\",\"userId\":\"" + user["user"]["id"].ToString() + "\",\"dateFrom\":\"" + Convert.ToDateTime(taskDateFrom.SelectedDate).ToString("yyyy-MM-dd") + "\",\"dateTo\":\"" + Convert.ToDateTime(taskDateTo.SelectedDate).ToString("yyyy-MM-dd") + "\",\"state\":\"New\"}";
+                    HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                    string res2 = await response.Content.ReadAsStringAsync();
+                    JObject jo2 = JObject.Parse(res2);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+                try
+                {
+                    string url = "http://www.g-pos.8u.cz/api/post-task/{\"teamCode\":\"" + team["code"].ToString() + "\",\"name\":\"" + taskName.Text + "\",\"description\":\"" + taskDescription.Text + "\",\"userId\":\"" + jo["id"].ToString() + "\",\"dateFrom\":\"" + Convert.ToDateTime(taskDateFrom.SelectedDate).ToString("yyyy-MM-dd") + "\",\"dateTo\":\"" + Convert.ToDateTime(taskDateTo.SelectedDate).ToString("yyyy-MM-dd") + "\",\"state\":\"New\"}";
+                    HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                    string res2 = await response.Content.ReadAsStringAsync();
+                    JObject jo2 = JObject.Parse(res2);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+                }
             }
         }
 
@@ -1080,7 +1104,7 @@ namespace LoginAndMainUI
         {
             var uiContext = SynchronizationContext.Current;
             HttpClient http = new HttpClient();
-            if (user["user"]["team"] != null)
+            if (Convert.ToInt32(user["user"]["team"]) != 0)
             {
                 try
                 {
@@ -1106,7 +1130,7 @@ namespace LoginAndMainUI
                     MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
                 }
             }
-            else { }
+            else { team = null; }
             try
             {
                 string url = "http://www.g-pos.8u.cz/api/get-task-detail/" + user["user"]["id"];
