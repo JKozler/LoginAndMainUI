@@ -1151,12 +1151,13 @@ namespace LoginAndMainUI
                     CBSelectedOrg = jo["name"].ToString();
                     CBConnectToORgIsEnabled = true;
                     ArrayOfItems.Add(jo["name"].ToString());
+                    team = jo;
 
                     string url2 = "http://www.g-pos.8u.cz/api/get-number-of-user/" + user["user"]["team"];
                     HttpResponseMessage response2 = await http.GetAsync(url2, HttpCompletionOption.ResponseContentRead);
                     string res2 = await response2.Content.ReadAsStringAsync();
                     JObject jo2 = JObject.Parse(res2);
-                    if (AllUserCount != jo2["COUNT(*)"].ToString() && firstRun)
+                    if (AllUserCount != jo2["COUNT(*)"].ToString() && !firstRun)
                     {
                         App.Current.Dispatcher.Invoke((System.Action)delegate
                         {

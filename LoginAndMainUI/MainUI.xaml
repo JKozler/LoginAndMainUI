@@ -371,7 +371,7 @@
                                     </Border>
                                     <Border Grid.Row="7" Background="Black"></Border>
                                     <Label Grid.Row="8" VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="Dubai Medium" Content="Task description" FontSize="18"></Label>
-                                    <TextBox x:Name="taskDescription" Grid.Row="8" Margin="5,35,5,5" Background="#FFECECEC"></TextBox>
+                                    <TextBox TextWrapping="Wrap" x:Name="taskDescription" Grid.Row="8" Margin="5,35,5,5" Background="#FFECECEC"></TextBox>
                                     <Border Grid.Row="9" Background="Black"></Border>
                                     <Button ToolTip="Create new task" Grid.Row="10" Background="#FF57FF32" x:Name="createNewTask" Click="createNewTask_Click">
                                         <materialDesign:PackIcon Width="auto" Height="auto" Kind="CreateNewFolder"/>
