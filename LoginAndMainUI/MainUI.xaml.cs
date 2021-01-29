@@ -139,6 +139,14 @@ namespace LoginAndMainUI
             set { lbProgressTask = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LBProgressTask")); }
         }
 
+        private ObservableCollection<string> infoItems;
+
+        public ObservableCollection<string> InfoItems
+        {
+            get { return infoItems; }
+            set { infoItems = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("InfoItems")); }
+        }
+
         private int numberFailed;
 
         public int NumberFailed
@@ -163,6 +171,14 @@ namespace LoginAndMainUI
             set { numberEnable = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("NumberEnable")); }
         }
 
+        private string toolTipInfo;
+
+        public string ToolTipInfo
+        {
+            get { return toolTipInfo; }
+            set { toolTipInfo = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ToolTipInfo")); }
+        }
+
         #endregion
 
         Timer timer;
@@ -176,8 +192,10 @@ namespace LoginAndMainUI
         {
             InitializeComponent();
             ArrayOfItems = new List<string>();
+            InfoItems = new ObservableCollection<string>();
             user = jo;
             AllUserCount = "0";
+            ToolTipInfo = "You have 0 notification.";
             NumberFailed = 0;
             NumberEnable = "0/0";
             NumberProgress = 0;
@@ -218,19 +236,28 @@ namespace LoginAndMainUI
                         TaskName = "Task create";
                         TaskProperty = taskUpdate["task"][arrayUpdate1.Count - 1]["name"].ToString();
                         TaskElse = "State - " + taskUpdate["task"][arrayUpdate1.Count - 1]["state"].ToString();
+                        App.Current.Dispatcher.Invoke((System.Action)delegate
+                        {
+                            InfoItems.Add("Task - created (" + taskUpdate["task"][arrayUpdate1.Count - 1]["name"].ToString() + ")");
+                        });
                     }
                     else
                     {
                         TaskName = "Task delete";
                         TaskProperty = task["task"][arrayUpdate2.Count - 1]["name"].ToString();
                         TaskElse = "State - " + task["task"][arrayUpdate2.Count - 1]["state"].ToString() + ", was deleted.";
+                        App.Current.Dispatcher.Invoke((System.Action)delegate
+                        {
+                            InfoItems.Add("Task - deleted (" + taskUpdate["task"][arrayUpdate1.Count - 1]["name"].ToString() + ")");
+                        });
                     }
                     App.Current.Dispatcher.Invoke((System.Action)delegate
                     {
                         InformationCenter();
                     });
+                    notificationCounter++;
                     PropertyChanged.Invoke(CheckInformationsAboutUser(), new PropertyChangedEventArgs("Check info."));
-
+                    ToolTipInfo = "You have " + notificationCounter + " notification";
                 }
             }
             catch (Exception ex)
@@ -1224,6 +1251,12 @@ namespace LoginAndMainUI
                 taskEdit.ShowDialog();
                 await CheckInformationsAboutUser();
             }
+        }
+
+        private void clearNoti_Click(object sender, RoutedEventArgs e)
+        {
+            InfoItems.Clear();
+            notificationCounter = 0;
         }
     }
 }
