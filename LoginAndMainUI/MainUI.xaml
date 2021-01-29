@@ -75,7 +75,7 @@
                     </Border>
                     <Border x:Name="informationZero" Grid.Row="20">
                         <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="{Binding ToolTipInfo}" Width="auto" Height="auto" x:Name="informationBarZero" Click="informationBar_Click" Padding="0" Background="{x:Null}">
-                            <materialDesign:PackIcon Width="auto" Height="auto" Kind="InfoCircleOutline"/>
+                            <materialDesign:PackIcon x:Name="infoIcon" Width="auto" Height="auto" Kind="InfoCircleOutline"/>
                         </Button>
                     </Border>
                     <Border Visibility="Hidden" x:Name="informationAmount" Grid.Row="20">

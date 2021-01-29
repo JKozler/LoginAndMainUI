@@ -433,6 +433,7 @@ namespace LoginAndMainUI
 
         private void closeNoti_Click(object sender, RoutedEventArgs e)
         {
+            infoIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.InfoCircle;
             InformationCenter();
         }
 
@@ -1276,8 +1277,10 @@ namespace LoginAndMainUI
 
         private void clearNoti_Click(object sender, RoutedEventArgs e)
         {
-            InfoItems.Clear();
+            infoIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.InfoCircleOutline;
             notificationCounter = 0;
+            ToolTipInfo = "You have " + notificationCounter + " notification";
+            InfoItems.Clear();
         }
     }
 }
