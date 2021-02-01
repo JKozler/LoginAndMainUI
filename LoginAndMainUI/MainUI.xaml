@@ -44,6 +44,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Border Grid.Row="0" Background="#FF212121">
                         <Button ToolTip="Glora Home" Width="auto" Height="auto" x:Name="gloraHome" Click="gloraHome_Click">
@@ -58,32 +59,32 @@
                         </Button>
                     </Border>
                     <Border Grid.Row="16" Background="Black" ></Border>
-                    <Border Grid.Row="22">
+                    <Border Grid.Row="23">
                         <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Setting for Glora" Width="auto" Height="auto" x:Name="settingHome" Click="settingHome_Click" Padding="0" Background="{x:Null}">
                             <materialDesign:PackIcon Width="auto" Height="auto" Kind="Settings"/>
                         </Button>
                     </Border>
-                    <Border x:Name="startTime" Grid.Row="21">
+                    <Border x:Name="startTime" Grid.Row="22">
                         <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Start working time" Width="auto" Height="auto" x:Name="startWorkTime" Click="startWorkTime_Click" Padding="0" Background="{x:Null}">
                             <materialDesign:PackIcon Width="auto" Height="auto" Kind="Timelapse"/>
                         </Button>
                     </Border>
-                    <Border x:Name="stopTime" Visibility="Hidden" Grid.Row="21">
+                    <Border x:Name="stopTime" Visibility="Hidden" Grid.Row="22">
                         <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Stop working time" Width="auto" Height="auto" x:Name="stopWorkingTime" Click="stopWorkingTime_Click" Padding="0" Background="{x:Null}" BorderBrush="#FF747474">
                             <materialDesign:PackIcon Width="auto" Height="auto" Kind="StopCircle"/>
                         </Button>
                     </Border>
-                    <Border x:Name="informationZero" Grid.Row="20">
+                    <Border x:Name="informationZero" Grid.Row="21">
                         <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="{Binding ToolTipInfo}" Width="auto" Height="auto" x:Name="informationBarZero" Click="informationBar_Click" Padding="0" Background="{x:Null}">
                             <materialDesign:PackIcon x:Name="infoIcon" Width="auto" Height="auto" Kind="InfoCircleOutline"/>
                         </Button>
                     </Border>
-                    <Border Visibility="Hidden" x:Name="informationAmount" Grid.Row="20">
+                    <Border Visibility="Hidden" x:Name="informationAmount" Grid.Row="21">
                         <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Information bar" Width="auto" Height="auto" x:Name="informationBarAmount" Click="informationBar_Click" Padding="0" Background="{x:Null}">
                             <materialDesign:PackIcon Width="auto" Height="auto" Kind="InfoCircle"/>
                         </Button>
                     </Border>
-                    <Border Grid.Row="19">
+                    <Border Grid.Row="20">
                         <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Glora text asistent" Width="auto" Height="auto" x:Name="gloraTextAsistent" Click="gloraTextAsistent_Click" Padding="0" Background="{x:Null}" BorderBrush="#FF747474">
                             <materialDesign:PackIcon Width="auto" Height="auto" Kind="Assistant"/>
                         </Button>
@@ -94,6 +95,11 @@
                         </Button>
                     </Border>
                     <Border Grid.Row="18">
+                        <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Team info" Width="auto" Height="auto" x:Name="teamInfo" Click="teamInfo_Click" Padding="0" Background="{x:Null}" BorderBrush="#FF747474">
+                            <materialDesign:PackIcon Width="auto" Height="auto" Kind="People"/>
+                        </Button>
+                    </Border>
+                    <Border Grid.Row="19">
                         <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Add working applications (max. 12)" Width="auto" Height="auto" x:Name="addWorkingApp" Click="addWorkingApp_Click" Padding="0" Background="{x:Null}" BorderBrush="#FF747474">
                             <materialDesign:PackIcon Width="auto" Height="auto" Kind="ApplicationExport"/>
                         </Button>

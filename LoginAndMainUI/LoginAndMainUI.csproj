@@ -87,6 +87,9 @@
     <Compile Include="TaskEdit.xaml.cs">
       <DependentUpon>TaskEdit.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TeamViewer.xaml.cs">
+      <DependentUpon>TeamViewer.xaml</DependentUpon>
+    </Compile>
     <Page Include="AllTasks.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -134,6 +137,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TaskEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TeamViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

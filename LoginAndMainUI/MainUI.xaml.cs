@@ -52,6 +52,8 @@ namespace LoginAndMainUI
         public JObject team = new JObject();
         public JObject task = new JObject();
         public JObject taskUpdate = new JObject();
+        public JObject admin = new JObject();
+        public JObject teamUsers = new JObject();
         private string taskN;
 
         #region properities
@@ -258,6 +260,22 @@ namespace LoginAndMainUI
                     });
                     notificationCounter++;
                     ToolTipInfo = "You have " + notificationCounter + " notification";
+                }
+                else
+                {
+                    for (int i = 0; i < arrayUpdate2.Count; i++)
+                    {
+                        if (task["task"][i] != taskUpdate["task"][i])
+                        {
+                            TaskName = "Task update";
+                            TaskProperty = taskUpdate["task"][arrayUpdate1.Count - 1]["name"].ToString();
+                            TaskElse = "State - " + taskUpdate["task"][arrayUpdate1.Count - 1]["state"].ToString();
+                            App.Current.Dispatcher.Invoke((System.Action)delegate
+                            {
+                                InfoItems.Add("Task - update (" + taskUpdate["task"][arrayUpdate1.Count - 1]["name"].ToString() + ")");
+                            });
+                        }
+                    }
                 }
                 PropertyChanged.Invoke(CheckInformationsAboutUser(), new PropertyChangedEventArgs("Check info."));
             }
@@ -556,6 +574,7 @@ namespace LoginAndMainUI
                 HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                 string res = await response.Content.ReadAsStringAsync();
                 JObject jo = JObject.Parse(res);
+                teamUsers = jo;
                 JArray array = (JArray)jo["users"];
                 for (int i = 0; i < array.Count; i++)
                 {
@@ -1135,6 +1154,14 @@ namespace LoginAndMainUI
             else
                 countOfTime.Content = "0:" + time;
         }
+
+        private async void teamInfo_Click(object sender, RoutedEventArgs e)
+        {
+            await GetAllUsers(Convert.ToInt32(user["user"]["team"]));
+            TeamViewer tv = new TeamViewer(admin, teamUsers, team);
+            tv.ShowDialog();
+        }
+
         public async Task CheckInformationsAboutUser()
         {
             var uiContext = SynchronizationContext.Current;
@@ -1172,6 +1199,28 @@ namespace LoginAndMainUI
                         ToolTipInfo = "You have " + notificationCounter + " notification";
                     }
                     AllUserCount = jo2["COUNT(*)"].ToString();
+
+                    string url3 = "http://www.g-pos.8u.cz/api/get-admin/" + user["user"]["id"];
+                    HttpResponseMessage response3 = await http.GetAsync(url3, HttpCompletionOption.ResponseContentRead);
+                    string res3 = await response3.Content.ReadAsStringAsync();
+                    JObject jo3 = JObject.Parse(res3);
+                    if (jo3["admin"].ToString() != "no")
+                    {
+                        if (!firstRun && admin != jo3)
+                        {
+                            App.Current.Dispatcher.Invoke((System.Action)delegate
+                            {
+                                TaskName = "Admin set new values";
+                                TaskProperty = "You was add to admin like " + jo3["description"].ToString();
+                                TaskElse = "Team code " + jo3["teamCode"].ToString();
+                                InformationCenter();
+                                InfoItems.Add("New user added");
+                            });
+                            notificationCounter++;
+                            ToolTipInfo = "You have " + notificationCounter + " notification";
+                        }
+                    }
+                    admin = jo3;
                 }
                 catch (Exception ex)
                 {
