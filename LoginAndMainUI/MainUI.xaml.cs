@@ -1204,7 +1204,7 @@ namespace LoginAndMainUI
                     HttpResponseMessage response3 = await http.GetAsync(url3, HttpCompletionOption.ResponseContentRead);
                     string res3 = await response3.Content.ReadAsStringAsync();
                     JObject jo3 = JObject.Parse(res3);
-                    if (jo3["admin"].ToString() != "no")
+                    if (jo3["id"].ToString() != "no")
                     {
                         if (!firstRun && admin != jo3)
                         {

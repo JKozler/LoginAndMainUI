@@ -74,10 +74,10 @@ namespace LoginAndMainUI
 
         private string role;
 
-        public string Role
+        public string RoleTxt
         {
             get { return role; }
-            set { role = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Role")); }
+            set { role = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RoleTxt")); }
         }
 
         private string admin;
@@ -101,7 +101,7 @@ namespace LoginAndMainUI
         public string DescriptionTxt
         {
             get { return descriptionTxta; }
-            set { descriptionTxta = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TaskStates")); }
+            set { descriptionTxta = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DescriptionTxt")); }
         }
 
         #endregion
@@ -121,7 +121,7 @@ namespace LoginAndMainUI
             ItemsCB = new List<string>();
             ItemsCB.Add("Yes");
             ItemsCB.Add("No");
-            if (admin["admin"].ToString() == "no")
+            if (admin["id"].ToString() == "no")
             {
                 Info = "You are not a Admin, so you have not got ability to change users settings.";
                 ElseInfo = "You have not got a desrciption, because you are not a admin.";
@@ -158,13 +158,13 @@ namespace LoginAndMainUI
                 string res2 = await response.Content.ReadAsStringAsync();
                 JObject jo2 = JObject.Parse(res2);
                 user = jo2;
-                Role = jo2["user"]["role"].ToString();
+                RoleTxt = jo2["user"]["role"].ToString();
 
                 string url3 = "http://www.g-pos.8u.cz/api/get-admin/" + userID;
                 HttpResponseMessage response3 = await http.GetAsync(url3, HttpCompletionOption.ResponseContentRead);
                 string res3 = await response3.Content.ReadAsStringAsync();
                 JObject jo3 = JObject.Parse(res3);
-                if (jo3["admin"].ToString() == "no")
+                if (jo3["id"].ToString() == "no")
                     Admin = "No";
                 else
                 {
@@ -209,19 +209,29 @@ namespace LoginAndMainUI
         private async void saveBtn_Click(object sender, RoutedEventArgs e)
         {
             HttpClient http = new HttpClient();
-            if (Admin == "Yes" && descriptionTxt.Text != null)
+            try
             {
-                try
+                if (adminYesNo.SelectedItem == "Yes")
                 {
                     string url = "http://www.g-pos.8u.cz/api/get-post-admin/{\"teamCode\":\"" + team["code"].ToString() + "\",\"userId\":\"" + user["user"]["id"].ToString() + "\",\"description\":\"" + descriptionTxt.Text + "\"}";
                     HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                     string res = await response.Content.ReadAsStringAsync();
                     JObject jo = JObject.Parse(res);
                 }
-                catch (Exception ex)
+
+                if (roleTx.Text != user["user"]["role"].ToString())
                 {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+                    string url2 = "http://www.g-pos.8u.cz/api/put-user/{\"name\":\"" + user["user"]["name"].ToString() + "\",\"password\":\"" + user["user"]["password"].ToString() + "\",\"email\":\"" + user["user"]["email"].ToString() + "\",\"team\":\"" + user["user"]["team"].ToString() + "\",\"time\":\"" + user["user"]["time"].ToString() + "\",\"role\":\"" + roleTx.Text + "\"}";
+                    HttpResponseMessage response2 = await http.GetAsync(url2, HttpCompletionOption.ResponseContentRead);
+                    string res2 = await response2.Content.ReadAsStringAsync();
+                    JObject jo2 = JObject.Parse(res2);
                 }
+
+                MessageBox.Show("Successfully saved.", "Success", MessageBoxButton.OK);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
             }
         }
 
