@@ -27,6 +27,7 @@ namespace LoginAndMainUI
     public partial class MainWindow : Window
     {
         string Adresa = string.Empty;
+        string AdresaID = string.Empty;
         string[] PrihlasovaciUdaje;
         public MainWindow()
         {
@@ -36,10 +37,12 @@ namespace LoginAndMainUI
             ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             InitializeComponent();
             Adresa = "username.gte";
+            AdresaID = "id.gte";
             tbName.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
             tbName.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
             tbPasswordReally.Visibility = Visibility.Collapsed;
             if (!File.Exists(Adresa)) File.WriteAllText(Adresa, string.Empty);
+            if (!File.Exists(AdresaID)) File.WriteAllText(AdresaID, string.Empty);
 
             PSBLabel.Visibility = Visibility.Hidden;
             PSBAcceptLabel.Visibility = Visibility.Hidden;
@@ -94,6 +97,7 @@ namespace LoginAndMainUI
             foreach (byte B in GetHash(input)) SB.Append(B.ToString("X2"));
             return SB.ToString();
         }*/
+        string Vnitrek = string.Empty;
         public async Task CheckUser() {
             HttpClient http = new HttpClient();
             try
@@ -107,6 +111,8 @@ namespace LoginAndMainUI
                 {
                     MainUI mainUI = new MainUI(jo);
                     mainUI.Show();
+                    Vnitrek = jo["user"]["id"].ToString();
+                    File.WriteAllText(AdresaID, Vnitrek);
                 }
                 string Jmeno = tbName.Text;
                 string Heslo = tbPassword.Password;
