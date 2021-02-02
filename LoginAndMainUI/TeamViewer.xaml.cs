@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace LoginAndMainUI
     /// <summary>
     /// Interaction logic for TeamViewer.xaml
     /// </summary>
-    public partial class TeamViewer : Window
+    public partial class TeamViewer : Window, INotifyPropertyChanged
     {
         private string info;
 
@@ -45,13 +46,22 @@ namespace LoginAndMainUI
             set { usersItems = value; }
         }
 
+        private string userSelect;
+
+        public string UserSelect
+        {
+            get { return userSelect; }
+            set { userSelect = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("UserSelect")); }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public TeamViewer(JObject admin, JObject users, JObject team)
         {
             UsersItems = new ObservableCollection<string>();
             if (admin["admin"].ToString() == "no")
             {
-                Info = "You are not a Admin at team (team name - " + team["name"].ToString() + ").";
+                Info = "You are not a Admin, so you have not got ability to change users settings.";
                 ElseInfo = "You have not got a desrciption, because you are not a admin.";
             }
             else
@@ -66,6 +76,11 @@ namespace LoginAndMainUI
             }
             DataContext = this;
             InitializeComponent();
+        }
+
+        private void lbUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UserSelect = "Detail for user - " + lbUsers.SelectedItem.ToString();
         }
     }
 }

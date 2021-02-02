@@ -15,8 +15,8 @@
                 <RowDefinition Height="0.05*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Label Content="{Binding Info}" Grid.Row="0" Foreground="#DDFFFFFF" VerticalAlignment="Center" FontSize="20" FontFamily="Dubai Bold" x:Name="mainInfo"></Label>
-            <Label Content="{Binding ElseInfo}" Grid.Row="1" Foreground="#DDFFFFFF" VerticalAlignment="Center" FontSize="18" FontFamily="Dubai Medium" x:Name="description"></Label>
+            <Label Padding="0" Content="{Binding Info}" Grid.Row="0" Foreground="#DDFFFFFF" VerticalAlignment="Center" FontSize="20" FontFamily="Dubai Bold" x:Name="mainInfo"></Label>
+            <Label Padding="0" Content="{Binding ElseInfo}" Grid.Row="1" Foreground="#DDFFFFFF" VerticalAlignment="Center" FontSize="18" FontFamily="Dubai Medium" x:Name="description"></Label>
             <Border Grid.Row="2" Background="White"></Border>
             <Border Grid.Row="3">
                 <Grid>
@@ -34,7 +34,19 @@
                         <ColumnDefinition Width="0.5*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <ListBox Margin="5" ItemsSource="{Binding UsersItems}" Grid.Column="0" x:Name="lbUsers" BorderBrush="White" Foreground="#DDFFFFFF" Background="#FF4D4D4D"></ListBox>
+                    <ListBox SelectionChanged="lbUsers_SelectionChanged" Margin="5" ItemsSource="{Binding UsersItems}" Grid.Column="0" x:Name="lbUsers" BorderBrush="White" Foreground="#DDFFFFFF" Background="#FF4D4D4D"></ListBox>
+                    <Border Grid.Column="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" VerticalAlignment="Center" Padding="0" Content="{Binding UserSelect}" Foreground="#DDFFFFFF" FontFamily="Dubai Medium" FontSize="16"></Label>
+                        </Grid>
+                    </Border>
                 </Grid>
             </Border>
         </Grid>

@@ -322,12 +322,12 @@ namespace LoginAndMainUI
             }
         }
 
-        public async Task UpdateUser(string name, string email, string password, int team, int time)
+        public async Task UpdateUser(string name, string email, string password, int team, int time, string role)
         {
             HttpClient http = new HttpClient();
             try
             {
-                string url = "http://www.g-pos.8u.cz/api/put-user/{\"name\":\"" + name + "\",\"email\":\"" + email + "\",\"password\":\"" + password + "\",\"team\":\"" + team + "\",\"time\":\"" + time + "\"}";
+                string url = "http://www.g-pos.8u.cz/api/put-user/{\"name\":\"" + name + "\",\"email\":\"" + email + "\",\"password\":\"" + password + "\",\"team\":\"" + team + "\",\"time\":\"" + time + "\",\"role\":\"" + role + "\"}";
                 HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                 string res2 = await response.Content.ReadAsStringAsync();
                 JObject jo2 = JObject.Parse(res2);
@@ -398,7 +398,7 @@ namespace LoginAndMainUI
                     countOfTime.Content = (totalTime.Hours + hourBefore) + ":" + (totalTime.Minutes + minBefore);
             }
             int totalTimeForAPI = 60 * Convert.ToInt32(countOfTime.Content.ToString().Remove(countOfTime.Content.ToString().IndexOf(":"), countOfTime.Content.ToString().Length - 1)) + Convert.ToInt32(countOfTime.Content.ToString().Remove(0, countOfTime.Content.ToString().IndexOf(":") + 1));
-            await UpdateUser(user["user"]["name"].ToString(), user["user"]["email"].ToString(), user["user"]["password"].ToString(), Convert.ToInt32(user["user"]["team"]), totalTimeForAPI);
+            await UpdateUser(user["user"]["name"].ToString(), user["user"]["email"].ToString(), user["user"]["password"].ToString(), Convert.ToInt32(user["user"]["team"]), totalTimeForAPI, user["user"]["email"].ToString());
             DoubleAnimation widthProp = new DoubleAnimation(10, 0, new Duration(TimeSpan.FromSeconds(0.2)));
             DoubleAnimation heightProp = new DoubleAnimation(10, 0, new Duration(TimeSpan.FromSeconds(0.2)));
             elRec.BeginAnimation(WidthProperty, widthProp);
