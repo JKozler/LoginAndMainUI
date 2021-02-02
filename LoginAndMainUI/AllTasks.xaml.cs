@@ -23,11 +23,13 @@ namespace LoginAndMainUI
     {
         JObject allTasks = new JObject();
         int userId = 0;
+        int teamId = 0;
         bool edit = false;
-        public AllTasks(JObject tasks, int id, bool edit)
+        public AllTasks(JObject tasks, int id, bool edit, int teamId)
         {
             InitializeComponent();
             this.edit = edit;
+            this.teamId = teamId;
             allTasks = tasks;
             userId = id;
             FillDoneTasks();
@@ -104,25 +106,25 @@ namespace LoginAndMainUI
             {
                 if (lbDoneTask.SelectedItem != null)
                 {
-                    TaskEdit taskEdit = new TaskEdit(lbDoneTask.SelectedItem.ToString(), userId);
+                    TaskEdit taskEdit = new TaskEdit(lbDoneTask.SelectedItem.ToString(), teamId);
                     taskEdit.ShowDialog();
                     await TasksUpdate();
                 }
                 else if (lbFialedTask.SelectedItem != null)
                 {
-                    TaskEdit taskEdit = new TaskEdit(lbFialedTask.SelectedItem.ToString(), userId);
+                    TaskEdit taskEdit = new TaskEdit(lbFialedTask.SelectedItem.ToString(), teamId);
                     taskEdit.ShowDialog();
                     await TasksUpdate();
                 }
                 else if (lbProgressTask.SelectedItem != null)
                 {
-                    TaskEdit taskEdit = new TaskEdit(lbProgressTask.SelectedItem.ToString(), userId);
+                    TaskEdit taskEdit = new TaskEdit(lbProgressTask.SelectedItem.ToString(), teamId);
                     taskEdit.ShowDialog();
                     await TasksUpdate();
                 }
                 else if (lbNewTask.SelectedItem != null)
                 {
-                    TaskEdit taskEdit = new TaskEdit(lbNewTask.SelectedItem.ToString(), userId);
+                    TaskEdit taskEdit = new TaskEdit(lbNewTask.SelectedItem.ToString(), teamId);
                     taskEdit.ShowDialog();
                     await TasksUpdate();
                 }

@@ -239,7 +239,7 @@ namespace LoginAndMainUI
 
         private void taskDetail_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            AllTasks allTasks = new AllTasks(task, userID, adminEdit);
+            AllTasks allTasks = new AllTasks(task, userID, adminEdit, Convert.ToInt32(user["user"]["team"]));
             allTasks.ShowDialog();
         }
     }
