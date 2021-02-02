@@ -579,44 +579,52 @@ namespace LoginAndMainUI
                 case "btnChangeName":
                     if (!tbChangeName.Text.Equals(Fraze[4]) || (!tbChangeName.Text.Equals("") && !tbChangeName.Text.Equals(Fraze[4])))
                     {
-                        Informace[5] = tbChangeName.Text;
-                        tbChangeName.Text = Fraze[4];
-                        tbChangeName.Foreground = Brushes.Gray;
-
-                        PrihlasovaciUdaje = File.ReadAllLines("username.gte");
-                        PrihlasovaciUdajeUpraveno = new string[PrihlasovaciUdaje.Length];
-                        NamePassword = PrihlasovaciUdaje[PrihlasovaciUdaje.Length - 1].Split(' ');
-                        NamePassword[0] = Informace[5];
-                        for (int i = 0; i < PrihlasovaciUdajeUpraveno.Length; i++)
+                        if (tbChangeName.Text.Split(' ').Length < 2)
                         {
-                            PrihlasovaciUdajeUpraveno[i] = PrihlasovaciUdaje[i];
-                            if (i == PrihlasovaciUdajeUpraveno.Length - 1) PrihlasovaciUdajeUpraveno[i] = $"{NamePassword[0]} {NamePassword[1]} {NamePassword[2]}";
+                            Informace[5] = tbChangeName.Text;
+
+                            PrihlasovaciUdaje = File.ReadAllLines("username.gte");
+                            PrihlasovaciUdajeUpraveno = new string[PrihlasovaciUdaje.Length];
+                            NamePassword = PrihlasovaciUdaje[PrihlasovaciUdaje.Length - 1].Split(' ');
+                            NamePassword[0] = Informace[5];
+                            for (int i = 0; i < PrihlasovaciUdajeUpraveno.Length; i++)
+                            {
+                                PrihlasovaciUdajeUpraveno[i] = PrihlasovaciUdaje[i];
+                                if (i == PrihlasovaciUdajeUpraveno.Length - 1) PrihlasovaciUdajeUpraveno[i] = $"{NamePassword[0]} {NamePassword[1]} {NamePassword[2]}";
+                            }
+                            File.WriteAllLines("username.gte", PrihlasovaciUdajeUpraveno);
+                            MessageBox.Show("Jméno úspěšně změněno!", "Povedlo se");
                         }
-                        File.WriteAllLines("username.gte", PrihlasovaciUdajeUpraveno);
-                        MessageBox.Show("Jméno úspěšně změněno!", "Povedlo se");
+                        else MessageBox.Show("Nesmíte zadat uživatelské jméno s mezerou!", "CHYBA");
                     }
                     else MessageBox.Show("Musíte zadat nové uživatelské jméno!", "CHYBA");
+                    tbChangeName.Text = Fraze[4];
+                    tbChangeName.Foreground = Brushes.Gray;
                     break;
                 case "btnChangePassword":
                     if (!tbAddChangePassword.Text.Equals(Fraze[5]) || (!tbAddChangePassword.Text.Equals("") && !tbAddChangePassword.Text.Equals(Fraze[5])))
                     {
-                        Informace[6] = tbAddChangePassword.Text;
-                        tbAddChangePassword.Text = Fraze[5];
-                        tbAddChangePassword.Foreground = Brushes.Gray;
-
-                        PrihlasovaciUdaje = File.ReadAllLines("username.gte");
-                        PrihlasovaciUdajeUpraveno = new string[PrihlasovaciUdaje.Length];
-                        NamePassword = PrihlasovaciUdaje[PrihlasovaciUdaje.Length - 1].Split(' ');
-                        NamePassword[1] = Informace[6];
-                        for (int i = 0; i < PrihlasovaciUdajeUpraveno.Length; i++)
+                        if (tbAddChangePassword.Text.Split(' ').Length < 2)
                         {
-                            PrihlasovaciUdajeUpraveno[i] = PrihlasovaciUdaje[i];
-                            if (i == PrihlasovaciUdajeUpraveno.Length - 1) PrihlasovaciUdajeUpraveno[i] = $"{NamePassword[0]} {NamePassword[1]} {NamePassword[2]}";
+                            Informace[6] = tbAddChangePassword.Text;
+
+                            PrihlasovaciUdaje = File.ReadAllLines("username.gte");
+                            PrihlasovaciUdajeUpraveno = new string[PrihlasovaciUdaje.Length];
+                            NamePassword = PrihlasovaciUdaje[PrihlasovaciUdaje.Length - 1].Split(' ');
+                            NamePassword[1] = Informace[6];
+                            for (int i = 0; i < PrihlasovaciUdajeUpraveno.Length; i++)
+                            {
+                                PrihlasovaciUdajeUpraveno[i] = PrihlasovaciUdaje[i];
+                                if (i == PrihlasovaciUdajeUpraveno.Length - 1) PrihlasovaciUdajeUpraveno[i] = $"{NamePassword[0]} {NamePassword[1]} {NamePassword[2]}";
+                            }
+                            File.WriteAllLines("username.gte", PrihlasovaciUdajeUpraveno);
+                            MessageBox.Show("Jméno úspěšně změněno!", "Povedlo se");
                         }
-                        File.WriteAllLines("username.gte", PrihlasovaciUdajeUpraveno);
-                        MessageBox.Show("Jméno úspěšně změněno!", "Povedlo se");
+                        else MessageBox.Show("Nesmíte zadat heslo s mezerou!", "CHYBA");
                     }
                     else MessageBox.Show("Musíte zadat nové heslo!", "CHYBA");
+                    tbAddChangePassword.Text = Fraze[5];
+                    tbAddChangePassword.Foreground = Brushes.Gray;
                     break;
                 case "btnEmail":
                     if (TestEmail.IsMatch(tbEmail.Text))
