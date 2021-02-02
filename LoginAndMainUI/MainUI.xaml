@@ -95,7 +95,7 @@
                         </Button>
                     </Border>
                     <Border Grid.Row="18">
-                        <Button MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Team info" Width="auto" Height="auto" x:Name="teamInfo" Click="teamInfo_Click" Padding="0" Background="{x:Null}" BorderBrush="#FF747474">
+                        <Button IsEnabled="{Binding EnableTeam}" MouseLeave="settingHome_MouseLeave" MouseEnter="informationBarZero_MouseEnter" ToolTip="Team info" Width="auto" Height="auto" x:Name="teamInfo" Click="teamInfo_Click" Padding="0" Background="{x:Null}" BorderBrush="#FF747474">
                             <materialDesign:PackIcon Width="auto" Height="auto" Kind="People"/>
                         </Button>
                     </Border>

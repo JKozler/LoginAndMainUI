@@ -182,6 +182,14 @@ namespace LoginAndMainUI
             set { toolTipInfo = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ToolTipInfo")); }
         }
 
+        private bool enableTeam;
+
+        public bool EnableTeam
+        {
+            get { return enableTeam; }
+            set { enableTeam = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EnableTeam")); }
+        }
+
         #endregion
 
         Timer timer;
@@ -1168,6 +1176,7 @@ namespace LoginAndMainUI
             HttpClient http = new HttpClient();
             if (Convert.ToInt32(user["user"]["team"]) != 0)
             {
+                EnableTeam = true;
                 try
                 {
                     string url = "http://www.g-pos.8u.cz/api/get-team/" + user["user"]["team"];
@@ -1227,7 +1236,7 @@ namespace LoginAndMainUI
                     MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
                 }
             }
-            else { team = null; }
+            else { team = null; EnableTeam = false; }
             try
             {
                 string url = "http://www.g-pos.8u.cz/api/get-task-detail/" + user["user"]["id"];

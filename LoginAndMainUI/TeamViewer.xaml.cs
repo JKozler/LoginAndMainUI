@@ -211,13 +211,15 @@ namespace LoginAndMainUI
             HttpClient http = new HttpClient();
             try
             {
-                if (adminYesNo.SelectedItem == "Yes")
+                if (adminYesNo.SelectedItem.ToString() == "Yes" && descriptionTxt.Text != null)
                 {
-                    string url = "http://www.g-pos.8u.cz/api/get-post-admin/{\"teamCode\":\"" + team["code"].ToString() + "\",\"userId\":\"" + user["user"]["id"].ToString() + "\",\"description\":\"" + descriptionTxt.Text + "\"}";
+                    string url = "http://www.g-pos.8u.cz/api/post-admin/{\"teamCode\":\"" + team["code"].ToString() + "\",\"userId\":\"" + user["user"]["id"].ToString() + "\",\"description\":\"" + descriptionTxt.Text + "\"}";
                     HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                     string res = await response.Content.ReadAsStringAsync();
                     JObject jo = JObject.Parse(res);
                 }
+                else
+                    MessageBox.Show("You have to fill every column to set admin.");
 
                 if (roleTx.Text != user["user"]["role"].ToString())
                 {
