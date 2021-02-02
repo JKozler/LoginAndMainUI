@@ -23,9 +23,11 @@ namespace LoginAndMainUI
     {
         JObject allTasks = new JObject();
         int userId = 0;
-        public AllTasks(JObject tasks, int id)
+        bool edit = false;
+        public AllTasks(JObject tasks, int id, bool edit)
         {
             InitializeComponent();
+            this.edit = edit;
             allTasks = tasks;
             userId = id;
             FillDoneTasks();
@@ -98,30 +100,35 @@ namespace LoginAndMainUI
 
         private async void lbDoneTask_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (lbDoneTask.SelectedItem != null)
+            if (edit)
             {
-                TaskEdit taskEdit = new TaskEdit(lbDoneTask.SelectedItem.ToString(), userId);
-                taskEdit.ShowDialog();
-                await TasksUpdate();
+                if (lbDoneTask.SelectedItem != null)
+                {
+                    TaskEdit taskEdit = new TaskEdit(lbDoneTask.SelectedItem.ToString(), userId);
+                    taskEdit.ShowDialog();
+                    await TasksUpdate();
+                }
+                else if (lbFialedTask.SelectedItem != null)
+                {
+                    TaskEdit taskEdit = new TaskEdit(lbFialedTask.SelectedItem.ToString(), userId);
+                    taskEdit.ShowDialog();
+                    await TasksUpdate();
+                }
+                else if (lbProgressTask.SelectedItem != null)
+                {
+                    TaskEdit taskEdit = new TaskEdit(lbProgressTask.SelectedItem.ToString(), userId);
+                    taskEdit.ShowDialog();
+                    await TasksUpdate();
+                }
+                else if (lbNewTask.SelectedItem != null)
+                {
+                    TaskEdit taskEdit = new TaskEdit(lbNewTask.SelectedItem.ToString(), userId);
+                    taskEdit.ShowDialog();
+                    await TasksUpdate();
+                }
             }
-            else if (lbFialedTask.SelectedItem != null)
-            {
-                TaskEdit taskEdit = new TaskEdit(lbFialedTask.SelectedItem.ToString(), userId);
-                taskEdit.ShowDialog();
-                await TasksUpdate();
-            }
-            else if (lbProgressTask.SelectedItem != null)
-            {
-                TaskEdit taskEdit = new TaskEdit(lbProgressTask.SelectedItem.ToString(), userId);
-                taskEdit.ShowDialog();
-                await TasksUpdate();
-            }
-            else if (lbNewTask.SelectedItem != null)
-            {
-                TaskEdit taskEdit = new TaskEdit(lbNewTask.SelectedItem.ToString(), userId);
-                taskEdit.ShowDialog();
-                await TasksUpdate();
-            }
+            else
+                MessageBox.Show("You have not got permission to edit.", "Error", MessageBoxButton.OK);
         }
     }
 }

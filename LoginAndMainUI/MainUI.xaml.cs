@@ -485,7 +485,7 @@ namespace LoginAndMainUI
 
         private async void moreInfoTask_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            AllTasks allTasks = new AllTasks(task, Convert.ToInt32(user["user"]["team"]));
+            AllTasks allTasks = new AllTasks(task, Convert.ToInt32(user["user"]["team"]), true);
             allTasks.ShowDialog();
             await CheckInformationsAboutUser();
         }

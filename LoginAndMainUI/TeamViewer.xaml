@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:LoginAndMainUI"
         mc:Ignorable="d"
         Title="TeamViewer" Height="450" Width="800">
@@ -43,8 +44,24 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" VerticalAlignment="Center" Padding="0" Content="{Binding UserSelect}" Foreground="#DDFFFFFF" FontFamily="Dubai Medium" FontSize="16"></Label>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.3*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Center" Padding="0" Content="{Binding UserSelect}" Foreground="#DDFFFFFF" FontFamily="Dubai Medium" FontSize="16"></Label>
+                            <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="Role" Grid.Row="1" Foreground="#DDFFFFFF"></Label>
+                            <TextBox IsEnabled="{Binding EnableContent}" Grid.Row="1" Grid.Column="1" Text="{Binding RoleTxt}" Margin="5,15,5,15" Foreground="White" Background="#FF4D4D4D"></TextBox>
+                            <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="Admin?" Grid.Row="2" Foreground="#DDFFFFFF"></Label>
+                            <ComboBox IsEnabled="{Binding EnableContent}" SelectedItem="{Binding Admin}" ItemsSource="{Binding ItemsCB}" x:Name="adminYesNo" Grid.Row="2" Grid.Column="1" Margin="5" Background="#FF4D4D4D" Foreground="White" ></ComboBox>
+                            <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="Task states" Grid.Row="3" Foreground="#DDFFFFFF"></Label>
+                            <Label MouseDown="taskDetail_MouseDown"  x:Name="taskDetail" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="{Binding TaskStates}" Grid.Row="3" Grid.Column="1" Foreground="#DDFFFFFF"></Label>
+                            <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="Description" Grid.Row="4" Foreground="#DDFFFFFF"></Label>
+                            <TextBox IsEnabled="{Binding EnableContent}" Grid.Row="4" Grid.Column="1" x:Name="descriptionTxt" Text="{Binding DescriptionTxt}" Margin="5,15,5,15" Foreground="White" Background="#FF4D4D4D"></TextBox>
+                            <Button IsEnabled="{Binding EnableContent}" ToolTip="Save user settings." Grid.Column="1" Grid.Row="5" x:Name="saveBtn" HorizontalAlignment="Right" Padding="0" Click="saveBtn_Click" Background="#FF00FF0C">
+                                <materialDesign:PackIcon Width="auto" Height="auto" Kind="ContentSave" />
+                            </Button>
                         </Grid>
                     </Border>
                 </Grid>
