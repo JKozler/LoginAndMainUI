@@ -11,17 +11,30 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.1*"/>
                 <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.01*"/>
+                <RowDefinition Height="0.05*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Foreground="#DDFFFFFF" VerticalAlignment="Center" FontSize="20" FontFamily="Dubai Bold" x:Name="mainInfo"></Label>
-            <Label Grid.Row="1" Foreground="#DDFFFFFF" VerticalAlignment="Center" FontSize="18" FontFamily="Dubai Medium" x:Name="description"></Label>
-            <Border Grid.Row="2">
+            <Label Content="{Binding Info}" Grid.Row="0" Foreground="#DDFFFFFF" VerticalAlignment="Center" FontSize="20" FontFamily="Dubai Bold" x:Name="mainInfo"></Label>
+            <Label Content="{Binding ElseInfo}" Grid.Row="1" Foreground="#DDFFFFFF" VerticalAlignment="Center" FontSize="18" FontFamily="Dubai Medium" x:Name="description"></Label>
+            <Border Grid.Row="2" Background="White"></Border>
+            <Border Grid.Row="3">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Users in team:" Foreground="#DDFFFFFF" Padding="0"></Label>
+                    <Label Grid.Column="1" Content="User properities:" Foreground="#DDFFFFFF" Padding="0"></Label>
+                </Grid>
+            </Border>
+            <Border Grid.Row="4">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.5*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <ListBox Margin="5" Grid.Column="0" x:Name="users" BorderBrush="White"></ListBox>
+                    <ListBox Margin="5" ItemsSource="{Binding UsersItems}" Grid.Column="0" x:Name="lbUsers" BorderBrush="White" Foreground="#DDFFFFFF" Background="#FF4D4D4D"></ListBox>
                 </Grid>
             </Border>
         </Grid>

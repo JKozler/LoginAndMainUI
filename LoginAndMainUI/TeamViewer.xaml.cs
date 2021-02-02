@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,18 +21,50 @@ namespace LoginAndMainUI
     /// </summary>
     public partial class TeamViewer : Window
     {
+        private string info;
+
+        public string Info
+        {
+            get { return info; }
+            set { info = value; }
+        }
+
+        private string elseInfo;
+
+        public string ElseInfo
+        {
+            get { return elseInfo; }
+            set { elseInfo = value; }
+        }
+
+        private ObservableCollection<string> usersItems;
+
+        public ObservableCollection<string> UsersItems
+        {
+            get { return usersItems; }
+            set { usersItems = value; }
+        }
+
+
         public TeamViewer(JObject admin, JObject users, JObject team)
         {
+            UsersItems = new ObservableCollection<string>();
             if (admin["admin"].ToString() == "no")
             {
-                mainInfo.Content = "You are not a Admin at team with name " + team["name"].ToString() + ".";
-                description.Content = "You have not a desrciption, because you are not a admin.";
+                Info = "You are not a Admin at team (team name - " + team["name"].ToString() + ").";
+                ElseInfo = "You have not got a desrciption, because you are not a admin.";
             }
             else
             {
-                mainInfo.Content = "You are a Admin at team with code " + team["code"].ToString() + ".";
-                description.Content = "Your description is " + admin["description"].ToString() + ".";
+                Info = "You are a Admin at team (team name " + team["name"].ToString() + ").";
+                ElseInfo = "Your description is " + admin["description"].ToString() + ".";
             }
+            JArray array = (JArray)users["users"];
+            for (int i = 0; i < array.Count; i++)
+            {
+                UsersItems.Add(users["users"][i]["name"].ToString());
+            }
+            DataContext = this;
             InitializeComponent();
         }
     }
