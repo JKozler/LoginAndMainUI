@@ -61,7 +61,7 @@ namespace LoginAndMainUI
         public bool EnableContent
         {
             get { return enableContent; }
-            set { enableContent = value; }
+            set { enableContent = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EnableContent")); }
         }
 
         private List<string> itemsCB;
@@ -121,12 +121,14 @@ namespace LoginAndMainUI
         JObject team = new JObject();
         JObject task = new JObject();
         JObject adminInfo = new JObject();
+        JObject logedUser = new JObject();
         int userID = 0;
         bool adminEdit = false;
 
-        public TeamViewer(JObject admin, JObject users, JObject team)
+        public TeamViewer(JObject admin, JObject users, JObject team, JObject logedUser)
         {
             this.team = team;
+            this.logedUser = logedUser;
             UsersItems = new ObservableCollection<string>();
             RoleItems = new List<string>();
             ItemsCB = new List<string>();
@@ -172,6 +174,13 @@ namespace LoginAndMainUI
                 JObject jo2 = JObject.Parse(res2);
                 user = jo2;
                 RoleTxt = jo2["user"]["role"].ToString();
+                if (RoleTxt == logedUser["user"]["role"].ToString() || logedUser["user"]["role"].ToString() == "Main admin" || RoleTxt == "")
+                {
+                    adminEdit = true;
+                    EnableContent = true;
+                }
+                else
+                    EnableContent = false;
 
                 string url3 = "http://www.g-pos.8u.cz/api/get-admin/" + userID;
                 HttpResponseMessage response3 = await http.GetAsync(url3, HttpCompletionOption.ResponseContentRead);
@@ -266,7 +275,7 @@ namespace LoginAndMainUI
 
         private void taskDetail_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            AllTasks allTasks = new AllTasks(task, userID, adminEdit, Convert.ToInt32(user["user"]["team"]));
+            AllTasks allTasks = new AllTasks(task, userID, EnableContent, Convert.ToInt32(user["user"]["team"]));
             allTasks.ShowDialog();
         }
     }

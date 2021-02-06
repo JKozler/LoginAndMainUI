@@ -1166,7 +1166,7 @@ namespace LoginAndMainUI
         private async void teamInfo_Click(object sender, RoutedEventArgs e)
         {
             await GetAllUsers(Convert.ToInt32(user["user"]["team"]));
-            TeamViewer tv = new TeamViewer(admin, teamUsers, team);
+            TeamViewer tv = new TeamViewer(admin, teamUsers, team, user);
             tv.ShowDialog();
         }
 
