@@ -80,6 +80,15 @@ namespace LoginAndMainUI
             set { role = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RoleTxt")); }
         }
 
+        private List<string> roleItems;
+
+        public List<string> RoleItems
+        {
+            get { return roleItems; }
+            set { roleItems = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RoleItems")); }
+        }
+
+
         private string admin;
 
         public string Admin
@@ -111,6 +120,7 @@ namespace LoginAndMainUI
         JObject user = new JObject();
         JObject team = new JObject();
         JObject task = new JObject();
+        JObject adminInfo = new JObject();
         int userID = 0;
         bool adminEdit = false;
 
@@ -118,9 +128,11 @@ namespace LoginAndMainUI
         {
             this.team = team;
             UsersItems = new ObservableCollection<string>();
+            RoleItems = new List<string>();
             ItemsCB = new List<string>();
             ItemsCB.Add("Yes");
             ItemsCB.Add("No");
+            RoleItems.Add("Main admin"); RoleItems.Add("Manager"); RoleItems.Add("Programmer"); RoleItems.Add("Designer"); RoleItems.Add("Manager"); RoleItems.Add("Advertisment"); RoleItems.Add("");
             if (admin["id"].ToString() == "no")
             {
                 Info = "You are not a Admin, so you have not got ability to change users settings.";
@@ -145,6 +157,7 @@ namespace LoginAndMainUI
 
         public async Task GetUserDetail()
         {
+            DescriptionTxt = "";
             HttpClient http = new HttpClient();
             try
             {
@@ -171,6 +184,7 @@ namespace LoginAndMainUI
                     Admin = "Yes";
                     DescriptionTxt = jo3["description"].ToString();
                 }
+                adminInfo = jo3;
             }
             catch (Exception ex)
             {
@@ -209,19 +223,30 @@ namespace LoginAndMainUI
         private async void saveBtn_Click(object sender, RoutedEventArgs e)
         {
             HttpClient http = new HttpClient();
+            bool deleting = false;
             try
             {
-                if (adminYesNo.SelectedItem.ToString() == "Yes" && descriptionTxt.Text != null)
+                if (adminYesNo.SelectedItem.ToString() == "Yes" && descriptionTxt.Text != null && adminInfo["id"].ToString() == "no")
                 {
                     string url = "http://www.g-pos.8u.cz/api/post-admin/{\"teamCode\":\"" + team["code"].ToString() + "\",\"userId\":\"" + user["user"]["id"].ToString() + "\",\"description\":\"" + descriptionTxt.Text + "\"}";
                     HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                     string res = await response.Content.ReadAsStringAsync();
                     JObject jo = JObject.Parse(res);
                 }
-                else
-                    MessageBox.Show("You have to fill every column to set admin.");
+                else if (adminYesNo.SelectedItem.ToString() == "No" && adminInfo["id"].ToString() != "no")
+                {
+                    string url = "http://www.g-pos.8u.cz/api/delete-admin/" + user["user"]["id"].ToString();
+                    HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                    string res = await response.Content.ReadAsStringAsync();
+                    JObject jo = JObject.Parse(res);
+                    if (jo["done"].ToString() == "yes")
+                    {
+                        MessageBox.Show("Successfully deleted from admins.", "Success", MessageBoxButton.OK);
+                        deleting = true;
+                    }
+                }
 
-                if (roleTx.Text != user["user"]["role"].ToString())
+                if (roleTx.Text != user["user"]["role"].ToString() && !deleting)
                 {
                     string url2 = "http://www.g-pos.8u.cz/api/put-user/{\"name\":\"" + user["user"]["name"].ToString() + "\",\"password\":\"" + user["user"]["password"].ToString() + "\",\"email\":\"" + user["user"]["email"].ToString() + "\",\"team\":\"" + user["user"]["team"].ToString() + "\",\"time\":\"" + user["user"]["time"].ToString() + "\",\"role\":\"" + roleTx.Text + "\"}";
                     HttpResponseMessage response2 = await http.GetAsync(url2, HttpCompletionOption.ResponseContentRead);
@@ -235,6 +260,8 @@ namespace LoginAndMainUI
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
             }
+            deleting = false;
+            await GetUserDetail();
         }
 
         private void taskDetail_MouseDown(object sender, MouseButtonEventArgs e)

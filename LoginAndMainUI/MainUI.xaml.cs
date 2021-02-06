@@ -1215,7 +1215,7 @@ namespace LoginAndMainUI
                     JObject jo3 = JObject.Parse(res3);
                     if (jo3["id"].ToString() != "no")
                     {
-                        if (!firstRun && admin != jo3)
+                        if (!firstRun && admin == jo3)
                         {
                             App.Current.Dispatcher.Invoke((System.Action)delegate
                             {

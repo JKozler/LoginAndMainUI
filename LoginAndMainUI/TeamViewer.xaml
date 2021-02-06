@@ -52,9 +52,9 @@
                             </Grid.ColumnDefinitions>
                             <Label Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Center" Padding="0" Content="{Binding UserSelect}" Foreground="#DDFFFFFF" FontFamily="Dubai Medium" FontSize="16"></Label>
                             <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="Role" Grid.Row="1" Foreground="#DDFFFFFF"></Label>
-                            <TextBox x:Name="roleTx" IsEnabled="{Binding EnableContent}" Grid.Row="1" Grid.Column="1" Text="{Binding RoleTxt}" Margin="5,15,5,15" Foreground="White" Background="#FF4D4D4D"></TextBox>
+                            <ComboBox x:Name="roleTx" IsEnabled="{Binding EnableContent}" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding RoleItems}" SelectedItem="{Binding RoleTxt}" Margin="5,12,5,12" Foreground="Black" Background="#FF4D4D4D"></ComboBox>
                             <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="Admin?" Grid.Row="2" Foreground="#DDFFFFFF"></Label>
-                            <ComboBox IsEnabled="{Binding EnableContent}" SelectedItem="{Binding Admin}" ItemsSource="{Binding ItemsCB}" x:Name="adminYesNo" Grid.Row="2" Grid.Column="1" Margin="5" Background="#FF4D4D4D" Foreground="White" ></ComboBox>
+                            <ComboBox IsEnabled="{Binding EnableContent}" SelectedItem="{Binding Admin}" ItemsSource="{Binding ItemsCB}" x:Name="adminYesNo" Grid.Row="2" Grid.Column="1" Margin="5" Background="#FF4D4D4D" Foreground="Black" ></ComboBox>
                             <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="Task states" Grid.Row="3" Foreground="#DDFFFFFF"></Label>
                             <Label MouseDown="taskDetail_MouseDown"  x:Name="taskDetail" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="{Binding TaskStates}" Grid.Row="3" Grid.Column="1" Foreground="#DDFFFFFF"></Label>
                             <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="22" Content="Description" Grid.Row="4" Foreground="#DDFFFFFF"></Label>
