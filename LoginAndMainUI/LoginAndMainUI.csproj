@@ -75,6 +75,9 @@
     <Compile Include="AllTasks.xaml.cs">
       <DependentUpon>AllTasks.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FileUpload.xaml.cs">
+      <DependentUpon>FileUpload.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FileW.xaml.cs">
       <DependentUpon>FileW.xaml</DependentUpon>
     </Compile>
@@ -91,6 +94,10 @@
       <DependentUpon>TeamViewer.xaml</DependentUpon>
     </Compile>
     <Page Include="AllTasks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FileUpload.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,33 @@
+﻿<Window x:Class="LoginAndMainUI.FileUpload"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:LoginAndMainUI"
+        mc:Ignorable="d"
+        Title="FileUpload" Height="450" Width="800">
+    <Border Background="Black">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Padding="0" Content="{Binding Info}" Grid.Row="0" Grid.ColumnSpan="2" Foreground="#DDFFFFFF" VerticalAlignment="Center" FontSize="20" FontFamily="Dubai Bold" x:Name="mainInfo"></Label>
+            <Label Content="Subject" Grid.Row="1" Foreground="#DDFFFFFF" FontFamily="Dubai Medium" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
+            <TextBox x:Name="nameTxt" FontFamily="Bubai Medium" FontSize="25" Grid.Row="1" Grid.Column="1" Margin="5,15,5,15" Background="#FF3C3C3C" Foreground="White"></TextBox>
+            <Label Content="Description" Grid.Row="2" Foreground="#DDFFFFFF" FontFamily="Dubai Medium" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
+            <TextBox Grid.RowSpan="2" TextWrapping="Wrap" x:Name="descriptionTxt" FontFamily="Bubai Medium" FontSize="18" Grid.Row="2" Grid.Column="1" Margin="5" Background="#FF3C3C3C" Foreground="White"></TextBox>
+            <Button x:Name="upload" Click="upload_Click" ToolTip="Upload to user." Grid.Column="1" Grid.Row="4" Padding="0" HorizontalAlignment="Right" Background="#FF51FF00" >
+                <materialDesign:PackIcon Width="auto" Height="auto" Kind="Upload"/>
+            </Button>
+        </Grid>
+    </Border>
+</Window>

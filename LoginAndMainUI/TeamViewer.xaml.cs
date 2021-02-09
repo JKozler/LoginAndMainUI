@@ -278,5 +278,16 @@ namespace LoginAndMainUI
             AllTasks allTasks = new AllTasks(task, userID, EnableContent, Convert.ToInt32(user["user"]["team"]));
             allTasks.ShowDialog();
         }
+
+        private void postBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbUsers.SelectedItem.ToString() != null)
+            {
+                FileUpload fileUpload = new FileUpload(logedUser, user);
+                fileUpload.ShowDialog();
+            }
+            else
+                MessageBox.Show("Choose user.", "Error", MessageBoxButton.OK);
+        }
     }
 }

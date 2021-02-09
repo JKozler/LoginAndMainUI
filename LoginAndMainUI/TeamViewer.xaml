@@ -62,6 +62,9 @@
                             <Button IsEnabled="{Binding EnableContent}" ToolTip="Save user settings." Grid.Column="1" Grid.Row="5" x:Name="saveBtn" HorizontalAlignment="Right" Padding="0" Click="saveBtn_Click" Background="#FF00FF0C">
                                 <materialDesign:PackIcon Width="auto" Height="auto" Kind="ContentSave" />
                             </Button>
+                            <Button ToolTip="Post a message." Grid.Column="1" Grid.Row="5" x:Name="postBtn" HorizontalAlignment="Left" Padding="0" Click="postBtn_Click" Background="#FFFFF300">
+                                <materialDesign:PackIcon Width="auto" Height="auto" Kind="Post" />
+                            </Button>
                         </Grid>
                     </Border>
                 </Grid>
