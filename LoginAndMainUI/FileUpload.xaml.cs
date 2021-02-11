@@ -38,7 +38,7 @@ namespace LoginAndMainUI
         {
             userF = userFrom;
             userT = userTo;
-            Info = "Posting message to user called " + userT["user"]["name"];
+            Info = "Posting direct message to user called " + userT["user"]["name"];
             DataContext = this;
             InitializeComponent();
         }

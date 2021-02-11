@@ -54,6 +54,7 @@ namespace LoginAndMainUI
         public JObject taskUpdate = new JObject();
         public JObject admin = new JObject();
         public JObject teamUsers = new JObject();
+        public JObject mess = new JObject();
         private string taskN;
 
         #region properities
@@ -150,6 +151,14 @@ namespace LoginAndMainUI
             set { infoItems = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("InfoItems")); }
         }
 
+        private ObservableCollection<string> allMessage;
+
+        public ObservableCollection<string> AllMessage
+        {
+            get { return allMessage; }
+            set { allMessage = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AllMessage")); }
+        }
+
         private int numberFailed;
 
         public int NumberFailed
@@ -204,6 +213,7 @@ namespace LoginAndMainUI
             InitializeComponent();
             ArrayOfItems = new List<string>();
             InfoItems = new ObservableCollection<string>();
+            AllMessage = new ObservableCollection<string>();
             user = jo;
             AllUserCount = "0";
             ToolTipInfo = "You have 0 notification.";
@@ -1230,6 +1240,34 @@ namespace LoginAndMainUI
                         }
                     }
                     admin = jo3;
+                    string url4 = "http://www.g-pos.8u.cz/api/get-mess/" + user["user"]["id"];
+                    HttpResponseMessage response4 = await http.GetAsync(url4, HttpCompletionOption.ResponseContentRead);
+                    string res4 = await response4.Content.ReadAsStringAsync();
+                    JObject jo4 = JObject.Parse(res4);
+                    AllMessage = new ObservableCollection<string>();
+                    JArray arrayMess = (JArray)jo4["mess"];
+                    JArray arrayMessOld = (JArray)mess["mess"];
+                    if (!firstRun && arrayMessOld.Count != arrayMess.Count)
+                    {
+                        App.Current.Dispatcher.Invoke((System.Action)delegate
+                        {
+                            TaskName = "New message from ";
+                            TaskProperty = "Message " + jo4["mess"][arrayMess.Count - 1]["description"].ToString();
+                            TaskElse = "Subject " + jo4["mess"][arrayMess.Count - 1]["name"].ToString();
+                            InformationCenter();
+                            InfoItems.Add("New direct massage");
+                        });
+                        notificationCounter++;
+                        ToolTipInfo = "You have " + notificationCounter + " notification";
+                    }
+                    for (int i = 0; i < arrayMess.Count; i++)
+                    {
+                        App.Current.Dispatcher.Invoke((System.Action)delegate
+                        {
+                            AllMessage.Add(jo4["mess"][i]["name"].ToString());
+                        });
+                    }
+                    mess = jo4;
                 }
                 catch (Exception ex)
                 {
@@ -1339,6 +1377,21 @@ namespace LoginAndMainUI
             notificationCounter = 0;
             ToolTipInfo = "You have " + notificationCounter + " notification";
             InfoItems.Clear();
+        }
+
+        private void agreeWith_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void disagreeWith_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void allMess_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }
