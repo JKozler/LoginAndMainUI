@@ -9,3 +9,5 @@
 * Settings and createing team is currently not connected to API
 * Connected to API is Creating Task, Edit Task, Manage Task, Login, Register, Connecting to team (test team code is **87402053**)
 * In the second branch 'Browser' you can open our browser
+* Now we have allready funtional Team Viewer (to manage team)
+* Also We have created Direct message (you can write a massage to your team mate)
