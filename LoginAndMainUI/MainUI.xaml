@@ -319,8 +319,8 @@
                                                 <RowDefinition Height="*"/>
                                                 <RowDefinition Height="3*"/>
                                             </Grid.RowDefinitions>
-                                            <Label FontSize="16" x:Name="subjectMess" Content="{Binding SubjectMess}" FontFamily="Dubai Medium" Margin="5"></Label>
-                                            <TextBox FontSize="14" Text="{Binding MainMess}" x:Name="mainMess" Grid.Row="1" TextWrapping="Wrap" Margin="2" BorderBrush="#89000000" Background="#FFF1F1F1"></TextBox>
+                                            <Label FontSize="16" x:Name="subjectMess" Content="{Binding MessSubject}" FontFamily="Dubai Medium" Margin="5"></Label>
+                                            <TextBox FontSize="14" Text="{Binding DescriptionMess}" x:Name="mainMess" Grid.Row="1" TextWrapping="Wrap" Margin="2" BorderBrush="#89000000" Background="#FFF1F1F1"></TextBox>
                                         </Grid>
                                     </Border>
                                     <Border Grid.Row="8">

@@ -39,6 +39,7 @@ namespace LoginAndMainUI
         int numberOfTaskFailed = 0;
         int numberOfTaskProgress = 0;
         byte usingWorkingApps = 0;
+        int messId = 0;
         bool menuGloraIsEnabled = false;
         bool infoGloraIsEnable = false;
         bool firstRun = true;
@@ -197,6 +198,22 @@ namespace LoginAndMainUI
         {
             get { return enableTeam; }
             set { enableTeam = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EnableTeam")); }
+        }
+
+        private string messSubject;
+
+        public string MessSubject
+        {
+            get { return messSubject; }
+            set { messSubject = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MessSubject")); }
+        }
+
+        private string descriptionMess;
+
+        public string DescriptionMess
+        {
+            get { return descriptionMess; }
+            set { descriptionMess = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DescriptionMess")); }
         }
 
         #endregion
@@ -1247,7 +1264,7 @@ namespace LoginAndMainUI
                     AllMessage = new ObservableCollection<string>();
                     JArray arrayMess = (JArray)jo4["mess"];
                     JArray arrayMessOld = (JArray)mess["mess"];
-                    if (!firstRun && arrayMessOld.Count != arrayMess.Count)
+                    if (!firstRun && arrayMessOld.Count < arrayMess.Count)
                     {
                         App.Current.Dispatcher.Invoke((System.Action)delegate
                         {
@@ -1262,10 +1279,13 @@ namespace LoginAndMainUI
                     }
                     for (int i = 0; i < arrayMess.Count; i++)
                     {
-                        App.Current.Dispatcher.Invoke((System.Action)delegate
+                        if (Convert.ToInt32(arrayMess[i]["yes_no"]) != 1)
                         {
-                            AllMessage.Add(jo4["mess"][i]["name"].ToString());
-                        });
+                            App.Current.Dispatcher.Invoke((System.Action)delegate
+                            {
+                                AllMessage.Add(jo4["mess"][i]["name"].ToString());
+                            });
+                        }
                     }
                     mess = jo4;
                 }
@@ -1379,19 +1399,72 @@ namespace LoginAndMainUI
             InfoItems.Clear();
         }
 
-        private void agreeWith_Click(object sender, RoutedEventArgs e)
+        private async void agreeWith_Click(object sender, RoutedEventArgs e)
         {
-
+            HttpClient http = new HttpClient();
+            if (allMess.SelectedItem != null)
+            {
+                try
+                {
+                    string url = "http://www.g-pos.8u.cz/api/pust-mess-yes/" + messId;
+                    HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                    await response.Content.ReadAsStringAsync();
+                    AllMessage.Remove(allMess.SelectedItem.ToString());
+                    MessSubject = "";
+                    DescriptionMess = "";
+                    messId = 0;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+                }
+            }
+            else
+                MessageBox.Show("You have to choose some message.", "Error", MessageBoxButton.OK);
         }
 
-        private void disagreeWith_Click(object sender, RoutedEventArgs e)
+        private async void disagreeWith_Click(object sender, RoutedEventArgs e)
         {
-
+            HttpClient http = new HttpClient();
+            if (allMess.SelectedItem != null)
+            {
+                try
+                {
+                    string url = "http://www.g-pos.8u.cz/api/pust-mess-no/" + messId;
+                    HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                    await response.Content.ReadAsStringAsync();
+                    AllMessage.Remove(allMess.SelectedItem.ToString());
+                    MessSubject = "";
+                    DescriptionMess = "";
+                    messId = 0;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+                }
+            }
+            else
+                MessageBox.Show("You have to choose some message.", "Error", MessageBoxButton.OK);
         }
 
         private void allMess_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            JArray array = (JArray)mess["mess"];
+            for (int i = 0; i < array.Count; i++)
+            {
+                if (array[i]["name"].ToString() == allMess.SelectedItem.ToString())
+                {
+                    try
+                    {
+                        MessSubject = array[i]["name"].ToString();
+                        DescriptionMess = array[i]["description"].ToString();
+                        messId = Convert.ToInt32(array[i]["id"]);
+                    }
+                    catch (Exception ex) {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+                    }
+                }
+            }
         }
     }
 }
