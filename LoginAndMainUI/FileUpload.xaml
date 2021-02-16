@@ -25,8 +25,8 @@
             <TextBox x:Name="nameTxt" FontFamily="Bubai Medium" FontSize="25" Grid.Row="1" Grid.Column="1" Margin="5,15,5,15" Background="#FF3C3C3C" Foreground="White"></TextBox>
             <Label Content="Description" Grid.Row="2" Foreground="#DDFFFFFF" FontFamily="Dubai Medium" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
             <TextBox Grid.RowSpan="2" TextWrapping="Wrap" x:Name="descriptionTxt" FontFamily="Bubai Medium" FontSize="18" Grid.Row="2" Grid.Column="1" Margin="5" Background="#FF3C3C3C" Foreground="White"></TextBox>
-            <Button x:Name="upload" Click="upload_Click" ToolTip="Upload to user." Grid.Column="1" Grid.Row="4" Padding="0" HorizontalAlignment="Right" Background="#FF51FF00" >
-                <materialDesign:PackIcon Width="auto" Height="auto" Kind="Upload"/>
+            <Button x:Name="upload" Click="upload_Click" ToolTip="Send to user." Grid.Column="1" Grid.Row="4" Padding="0" HorizontalAlignment="Right" Background="#FF51FF00" >
+                <materialDesign:PackIcon Width="auto" Height="auto" Kind="Send"/>
             </Button>
         </Grid>
     </Border>

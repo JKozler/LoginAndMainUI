@@ -451,9 +451,9 @@
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Label FontWeight="Bold" Grid.Row="0" x:Name="nameOfNoti" Content="{Binding TaskName}"></Label>
-                    <Label FontWeight="Bold" Grid.Row="1" x:Name="aboutNoti" Content="{Binding TaskProperty}"></Label>
-                    <Label FontWeight="Bold" Grid.Row="2" x:Name="elseNoti" Content="{Binding TaskElse}"></Label>
+                    <Label FontWeight="Bold" Grid.Row="0" x:Name="nameOfNoti" Content="{Binding TaskName}" Foreground="#DDFFFFFF"></Label>
+                    <Label FontWeight="Bold" Grid.Row="1" x:Name="aboutNoti" Content="{Binding TaskProperty}" Foreground="#DDFFFFFF"></Label>
+                    <Label FontWeight="Bold" Grid.Row="2" x:Name="elseNoti" Content="{Binding TaskElse}" Foreground="#DDFFFFFF"></Label>
                     <Button FontWeight="Bold" Grid.Row="0" Margin="215,0,0,5" Width="auto" Height="auto" x:Name="closeNoti" Click="closeNoti_Click" Padding="0" Background="#FFAA0000"></Button>
                 </Grid>
             </Border>

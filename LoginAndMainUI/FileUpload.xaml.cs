@@ -53,6 +53,9 @@ namespace LoginAndMainUI
                 HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                 string res = await response.Content.ReadAsStringAsync();
                 JObject jo = JObject.Parse(res);
+                nameTxt.Text = "";
+                descriptionTxt.Text = "";
+                MessageBox.Show("Successfully send.", "Success", MessageBoxButton.OK);
             }
         }
     }
