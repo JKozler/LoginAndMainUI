@@ -22,14 +22,19 @@ namespace LoginAndMainUI
     {
         public DateTime CasUdalosti { get; set; }
         public string Nazev { get; set; }
-        public string Uzivatel { get; set; }
-        public string Misto { get; set; }
+        // public string Uzivatel { get; set; } Dodelat s databází
+        public string Poznamka { get; set; }
 
-        public Udalost(string nazev, string misto, DateTime casUdalosti)
+        public Udalost(string nazev, DateTime casUdalosti, string poznamka)
         {
-            nazev = Nazev;
-            misto = Misto;
-            casUdalosti = CasUdalosti;
+             Nazev = nazev;
+             CasUdalosti = casUdalosti;
+             Poznamka = poznamka;
+        }
+
+        public void MSGbox(Udalost udalost)
+        {
+            MessageBox.Show(udalost.Nazev + Convert.ToString(udalost.CasUdalosti), "test", MessageBoxButton.OK);
         }
     }
 
@@ -51,6 +56,22 @@ namespace LoginAndMainUI
         private void AddEvent_Click(object sender, RoutedEventArgs e)
         {
             // logika na add úkolu do seznamu 
+            Console.WriteLine(dtMaly.DataContext);
+            DateTime MyDate;
+            if (dtVelky.SelectedDate != dtVelky.DisplayDate)
+            {
+                MyDate = Convert.ToDateTime(dtVelky.SelectedDate);
+            }
+            else
+            {
+                return;
+            }
+                
+
+
+            Udalost u = new Udalost(tbNazev.Text,MyDate, tbPoznamka.Text);
+            u.MSGbox(u);
+
         }
     }
 }
