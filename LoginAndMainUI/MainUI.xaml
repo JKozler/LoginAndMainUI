@@ -279,6 +279,29 @@
                                     <Label Grid.ColumnSpan="3" FontFamily="Dubai Light" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Content="0" FontSize="56" VerticalAlignment="Bottom" HorizontalAlignment="Center" x:Name="countOfTime"></Label>
                                 </Grid>
                             </Border>
+                            <Border Grid.Row="0" Grid.Column="3" Margin="20,20,20,0" CornerRadius="20" Height="135" VerticalAlignment="Top" Background="White">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Border CornerRadius="0,0,20,0" Background="#FF1DEAFF" HorizontalAlignment="Left" Width="49" Height="45" VerticalAlignment="Bottom">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="#FFA8A8A8"/>
+                                        </Border.Effect>
+                                        <materialDesign:PackIcon Height="auto" Width="49" Margin="0,0,0,0" Kind="CalendarAlert" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                    </Border>
+                                    <Ellipse Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Width="0" ToolTip="Time is recording" Height="0" Fill="#FFFF2727" Stroke="White"></Ellipse>
+                                    <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Content="Number of events" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="12" FontFamily="Dubai Medium"/>
+                                    <Label Grid.ColumnSpan="3" FontFamily="Dubai Light" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Content="0" FontSize="56" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+                                </Grid>
+                            </Border>
                             <Border Panel.ZIndex="2" x:Name="taskBarWholeInfo" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="65,0,10,10" Grid.Column="3" Background="White" CornerRadius="10,0,0,0">
                                 <Border.Effect>
                                     <DropShadowEffect Color="#FF818181"/>
