@@ -1467,5 +1467,10 @@ namespace LoginAndMainUI
                 }
             }
         }
+
+        private void moreInfoReminder_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
