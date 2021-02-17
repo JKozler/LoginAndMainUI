@@ -714,7 +714,8 @@ namespace LoginAndMainUI
 
         private void gReminder_Click(object sender, RoutedEventArgs e)
         {
-
+            ReminderWindow rw = new ReminderWindow();
+            rw.Show();
         }
 
         private void gloraTextAsistent_Click(object sender, RoutedEventArgs e)

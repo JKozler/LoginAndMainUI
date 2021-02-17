@@ -81,6 +81,9 @@
     <Compile Include="FileW.xaml.cs">
       <DependentUpon>FileW.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ReminderWindow.xaml.cs">
+      <DependentUpon>ReminderWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Savings.xaml.cs">
       <DependentUpon>Savings.xaml</DependentUpon>
     </Compile>
@@ -132,6 +135,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pripominky.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReminderWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
