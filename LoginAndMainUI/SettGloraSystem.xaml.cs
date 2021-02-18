@@ -27,8 +27,26 @@ namespace LoginAndMainUI
     {
         MainUI MUI = new MainUI();
         JObject user = new JObject();
+        async void Important() 
+        {
+            try
+            {
+                ID = Convert.ToInt32(File.ReadAllText(AdresaID));
+                HttpClient HC = new HttpClient();
+                string URL = "http://www.g-pos.8u.cz/api/get-user/" + ID;
+                HttpResponseMessage response = await HC.GetAsync(URL, HttpCompletionOption.ResponseContentRead);
+                string res = await response.Content.ReadAsStringAsync();
+                JO = JObject.Parse(res);
+            }
+            catch (Exception err)
+            {
+
+                MessageBox.Show(err.Message, "CHYBA");
+            }
+        }
         public SettGloraSystem()
         {
+            Important();
             InitializeComponent();
             CBNastaveni.SelectedItem = Default;
             tbAdd.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_GotKeyboardFocus);
@@ -513,7 +531,26 @@ namespace LoginAndMainUI
         readonly Regex TestEmail = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"); //Zjišťuje, zda je email v pořádku
         bool Leave = false;
         OpenFileDialog OFD = new OpenFileDialog();
-        private void btn_Click(object sender, RoutedEventArgs e)
+        int ID;
+        string AdresaID = "id.gte";
+        JObject JO = new JObject();
+
+        public async Task UpdateUser(string name, string email, string password, int team, int time, string role)
+        {
+            HttpClient http = new HttpClient();
+            try
+            {
+                string url = "http://www.g-pos.8u.cz/api/put-user/{\"name\":\"" + name + "\",\"email\":\"" + email + "\",\"password\":\"" + password + "\",\"team\":\"" + team + "\",\"time\":\"" + time + "\",\"role\":\"" + role + "\"}";
+                HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                string res2 = await response.Content.ReadAsStringAsync();
+                JObject jo2 = JObject.Parse(res2);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+            }
+        }
+        private async void btn_Click(object sender, RoutedEventArgs e)
         {
             string jmeno = ((Button)sender).Name;
             switch (jmeno)
@@ -526,7 +563,10 @@ namespace LoginAndMainUI
                         MessageBox.Show("Nesprávný formát emailu!", "CHYBA");
                         Email = "";
                     }
-                    else MessageBox.Show("Uživatel byl úspěšně přidán!", "Povedlo se");
+                    else 
+                    {
+                        MessageBox.Show("Uživatel byl úspěšně přidán!", "Povedlo se");
+                    }
                     tbAdd.Text = Fraze[0];
                     tbAdd.Foreground = Brushes.Gray;
                     break;
@@ -593,6 +633,7 @@ namespace LoginAndMainUI
                                 if (i == PrihlasovaciUdajeUpraveno.Length - 1) PrihlasovaciUdajeUpraveno[i] = $"{NamePassword[0]} {NamePassword[1]} {NamePassword[2]}";
                             }
                             File.WriteAllLines("username.gte", PrihlasovaciUdajeUpraveno);
+                            await UpdateUser(tbChangeName.Text, JO["user"]["email"].ToString(), JO["user"]["password"].ToString(), Convert.ToInt32(JO["user"]["team"]), Convert.ToInt32(JO["user"]["time"]), JO["user"]["role"].ToString());
                             MessageBox.Show("Jméno úspěšně změněno!", "Povedlo se");
                         }
                         else MessageBox.Show("Nesmíte zadat uživatelské jméno s mezerou!", "CHYBA");
@@ -618,6 +659,7 @@ namespace LoginAndMainUI
                                 if (i == PrihlasovaciUdajeUpraveno.Length - 1) PrihlasovaciUdajeUpraveno[i] = $"{NamePassword[0]} {NamePassword[1]} {NamePassword[2]}";
                             }
                             File.WriteAllLines("username.gte", PrihlasovaciUdajeUpraveno);
+                            await UpdateUser(JO["user"]["name"].ToString(), JO["user"]["email"].ToString(), tbAddChangePassword.Text, Convert.ToInt32(JO["user"]["team"]), Convert.ToInt32(JO["user"]["time"]), JO["user"]["role"].ToString());
                             MessageBox.Show("Jméno úspěšně změněno!", "Povedlo se");
                         }
                         else MessageBox.Show("Nesmíte zadat heslo s mezerou!", "CHYBA");
@@ -630,6 +672,7 @@ namespace LoginAndMainUI
                     if (TestEmail.IsMatch(tbEmail.Text))
                     {
                         Informace[7] = tbEmail.Text;
+                        await UpdateUser(JO["user"]["name"].ToString(), tbEmail.Text, JO["user"]["password"].ToString(), Convert.ToInt32(JO["user"]["team"]), Convert.ToInt32(JO["user"]["time"]), JO["user"]["role"].ToString());
                         MessageBox.Show("Úspěšně nastavený email!", "Povedlo se");
                     }
                     else MessageBox.Show("Chybně zadaný email!", "CHYBA");
