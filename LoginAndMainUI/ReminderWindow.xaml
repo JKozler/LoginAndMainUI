@@ -37,7 +37,9 @@
             <DatePicker x:Name="dtVelky" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Foreground="Orange" Background="White"/>
             <TextBox x:Name="tbNazev" Foreground="Orange" Background="White" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
             <ListBox Foreground="Orange" Background="White" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
-            <materialDesign:TimePicker x:Name="dtMaly" Background="White" Grid.ColumnSpan="2" Grid.Column="4" HorizontalAlignment="Center"  Grid.Row="1" VerticalAlignment="Center"/>
+            <materialDesign:TimePicker Is24Hours="True" x:Name="dtMaly" Background="White" Grid.ColumnSpan="2" Grid.Column="4" HorizontalAlignment="Center"  Grid.Row="1" VerticalAlignment="Center"/>
+            <Button Grid.ColumnSpan="1" Content="Test" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Wheat" x:Name="Tester" Click="Tester_Click"/>
+
         </Grid>
     </Border>
 </Window>

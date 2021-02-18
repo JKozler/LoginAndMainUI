@@ -18,6 +18,7 @@ namespace LoginAndMainUI
     /// Interakční logika pro ReminderWindow.xaml
     /// </summary>
     /// 
+
     class Udalost
     {
         public DateTime CasUdalosti { get; set; }
@@ -32,46 +33,91 @@ namespace LoginAndMainUI
              Poznamka = poznamka;
         }
 
-        public void MSGbox(Udalost udalost)
+        public void MSGbox()
         {
-            MessageBox.Show(udalost.Nazev + Convert.ToString(udalost.CasUdalosti), "test", MessageBoxButton.OK);
+            MessageBox.Show(Nazev + Convert.ToString(CasUdalosti), "test", MessageBoxButton.OK);
         }
     }
 
     public partial class ReminderWindow : Window
     {
+        DateTime NOW =  DateTime.Now;
+
         public void Kontrola()
         {
             //Kontrola formatu
         }
         public void KonecTimeLimitu()
         {
+            foreach (Udalost item in MojeUdalosti)
+            {
+                int year = NOW.Year;
+                int month = NOW.Month;
+                int day = NOW.Day;
+                int hour = NOW.Hour;
+                int minute = NOW.Minute;
+
+                try {
+                    if (item.CasUdalosti.Year == year && item.CasUdalosti.Month == month && item.CasUdalosti.Day == day && item.CasUdalosti.Hour == hour) //Pridat minuty
+                    {
+                        MessageBox.Show(item.Nazev, "Začátek události", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Fail");
+                    }
+                }
+                catch (Exception err)
+                {
+                    MessageBox.Show(err.Message,"Error",MessageBoxButton.OK);
+                }
+
+
+            }
             //Metoda vyhodi msg box kdyz se bude cas na PC rovnat casu zadani
+
         }
         public ReminderWindow()
         {
             InitializeComponent();
-        }
+            dtVelky.DisplayDate = NOW;
 
-        private void AddEvent_Click(object sender, RoutedEventArgs e)
+        }
+        List<Udalost> MojeUdalosti = new List<Udalost>();
+
+        public void AddEvent_Click(object sender, RoutedEventArgs e)
         {
+
             // logika na add úkolu do seznamu 
-            Console.WriteLine(dtMaly.DataContext);
+
             DateTime MyDate;
+            string[] stringMaleDatum = dtMaly.Text.Split(':');
+
             if (dtVelky.SelectedDate != dtVelky.DisplayDate)
             {
                 MyDate = Convert.ToDateTime(dtVelky.SelectedDate);
+                MyDate = MyDate.AddHours(Convert.ToDouble(stringMaleDatum[0]));
+                MyDate = MyDate.AddMinutes(Convert.ToDouble(stringMaleDatum[1]));
+
+
             }
             else
             {
                 return;
             }
-                
 
 
+            
             Udalost u = new Udalost(tbNazev.Text,MyDate, tbPoznamka.Text);
-            u.MSGbox(u);
+            MojeUdalosti.Add(u);
+            u.MSGbox();
 
+
+        }
+
+        private void Tester_Click(object sender, RoutedEventArgs e)
+        {
+            KonecTimeLimitu();
         }
     }
 }
