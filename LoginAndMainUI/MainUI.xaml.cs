@@ -57,6 +57,7 @@ namespace LoginAndMainUI
         public JObject teamUsers = new JObject();
         public JObject mess = new JObject();
         private string taskN;
+        public int numOfEvents = 0;// Prozatim, potom API
 
         #region properities
         public string TaskName
@@ -253,8 +254,14 @@ namespace LoginAndMainUI
             CheckForExistingWorkingApps();
             DataContext = this;
             timer = new Timer(e => { UpdateTask(); }, null, 30000, 60000);
+
         }
 
+        public void AddEventMethod() //Test - Petr
+        {
+            numOfEvents++;
+            NumOfEvents.Content = numOfEvents.ToString();
+        }
         public async void UpdateTask()
         {
             HttpClient http = new HttpClient();

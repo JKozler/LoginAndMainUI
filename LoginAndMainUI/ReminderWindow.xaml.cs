@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using LoginAndMainUI;
 
 namespace LoginAndMainUI
 {
@@ -21,6 +22,7 @@ namespace LoginAndMainUI
 
     class Udalost
     {
+
         public DateTime CasUdalosti { get; set; }
         public string Nazev { get; set; }
         // public string Uzivatel { get; set; } Dodelat s databází
@@ -37,28 +39,22 @@ namespace LoginAndMainUI
         {
             MessageBox.Show(Nazev + Convert.ToString(CasUdalosti), "test", MessageBoxButton.OK);
         }
+
     }
 
     public partial class ReminderWindow : Window
     {
         DateTime NOW =  DateTime.Now;
+        List<Udalost> MojeUdalosti = new List<Udalost>();
+        bool OkName = false;
+        bool OkDate = false;
 
-        public void Kontrola()
-        {
-            //Kontrola formatu
-        }
         public void KonecTimeLimitu()
         {
             foreach (Udalost item in MojeUdalosti)
             {
-                int year = NOW.Year;
-                int month = NOW.Month;
-                int day = NOW.Day;
-                int hour = NOW.Hour;
-                int minute = NOW.Minute;
-
                 try {
-                    if (item.CasUdalosti.Year == year && item.CasUdalosti.Month == month && item.CasUdalosti.Day == day && item.CasUdalosti.Hour == hour) //Pridat minuty
+                    if (item.CasUdalosti.Year == NOW.Year && item.CasUdalosti.Month == NOW.Month && item.CasUdalosti.Day == NOW.Day && item.CasUdalosti.Hour == NOW.Hour) //Pridat minuty, zatim nefunguji 
                     {
                         MessageBox.Show(item.Nazev, "Začátek události", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
@@ -83,7 +79,28 @@ namespace LoginAndMainUI
             dtVelky.DisplayDate = NOW;
 
         }
-        List<Udalost> MojeUdalosti = new List<Udalost>();
+       
+        public bool Kontrola()
+        {
+            OkName = false;
+            OkDate = false;
+
+            //Kontrola formatu
+            if (tbNazev.Text != null || tbNazev.Text.Length > 2)
+            {
+                OkName = true;
+            }
+
+            if (dtVelky.SelectedDate.HasValue)
+            {
+                if (dtVelky.SelectedDate.Value >= DateTime.Now)
+                {
+                    OkDate = true;
+                }
+            }
+            return OkDate;
+
+        }
 
         public void AddEvent_Click(object sender, RoutedEventArgs e)
         {
@@ -106,11 +123,18 @@ namespace LoginAndMainUI
                 return;
             }
 
-
-            
-            Udalost u = new Udalost(tbNazev.Text,MyDate, tbPoznamka.Text);
-            MojeUdalosti.Add(u);
-            u.MSGbox();
+            Kontrola();
+            if (OkDate == true && OkName == true)
+            {
+                Udalost u = new Udalost(tbNazev.Text, MyDate, tbPoznamka.Text);
+                MojeUdalosti.Add(u);
+                u.MSGbox();
+            }
+            else
+            {
+                MessageBox.Show("Špatný formát", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+   
 
 
         }
@@ -118,6 +142,7 @@ namespace LoginAndMainUI
         private void Tester_Click(object sender, RoutedEventArgs e)
         {
             KonecTimeLimitu();
+            //AddEvent
         }
     }
 }
