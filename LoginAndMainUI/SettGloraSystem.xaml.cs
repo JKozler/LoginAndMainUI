@@ -680,7 +680,7 @@ namespace LoginAndMainUI
                     tbEmail.Foreground = Brushes.Gray;
                     break;
                 case "btnLeave":
-                    
+                    await UpdateUser(JO["name"].ToString(), JO["email"].ToString(), JO["password"].ToString(), 0, Convert.ToInt32(JO["time"]), JO["role"].ToString());
                     break;
                 case "btnTask":
                     if (!tbTask.Text.Equals(Fraze[7]) || (!tbTask.Text.Equals("") && !tbTask.Text.Equals(Fraze[7])))
