@@ -256,13 +256,7 @@ namespace LoginAndMainUI
             timer = new Timer(e => { UpdateTask(); }, null, 30000, 60000);
 
         }
-
-        public void AddEventMethod() //Test - Petr
-        {
-            numOfEvents++;
-            NumOfEvents.Content = numOfEvents.ToString();
-        }
-        public async void UpdateTask()
+        public async void UpdateTask() //here you go! NIGGA http://www.g-pos.8u.cz/api/get-events/{id team}
         {
             HttpClient http = new HttpClient();
             try
@@ -721,7 +715,7 @@ namespace LoginAndMainUI
 
         private void gReminder_Click(object sender, RoutedEventArgs e)
         {
-            ReminderWindow rw = new ReminderWindow();
+            ReminderWindow rw = new ReminderWindow(user);
             rw.Show();
         }
 

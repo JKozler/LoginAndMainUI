@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using LoginAndMainUI;
+using Newtonsoft.Json.Linq;
 
 namespace LoginAndMainUI
 {
@@ -48,6 +50,7 @@ namespace LoginAndMainUI
         List<Udalost> MojeUdalosti = new List<Udalost>();
         bool OkName = false;
         bool OkDate = false;
+        JObject user = new JObject();
 
         public void KonecTimeLimitu()
         {
@@ -73,8 +76,9 @@ namespace LoginAndMainUI
             //Metoda vyhodi msg box kdyz se bude cas na PC rovnat casu zadani
 
         }
-        public ReminderWindow()
+        public ReminderWindow(JObject jo)
         {
+            user = jo;
             InitializeComponent();
             dtVelky.DisplayDate = NOW;
 
@@ -102,21 +106,20 @@ namespace LoginAndMainUI
 
         }
 
-        public void AddEvent_Click(object sender, RoutedEventArgs e)
+        public async void AddEvent_Click(object sender, RoutedEventArgs e)
         {
 
             // logika na add úkolu do seznamu 
 
             DateTime MyDate;
             string[] stringMaleDatum = dtMaly.Text.Split(':');
+            HttpClient http = new HttpClient();
 
             if (dtVelky.SelectedDate != dtVelky.DisplayDate)
             {
                 MyDate = Convert.ToDateTime(dtVelky.SelectedDate);
                 MyDate = MyDate.AddHours(Convert.ToDouble(stringMaleDatum[0]));
                 MyDate = MyDate.AddMinutes(Convert.ToDouble(stringMaleDatum[1]));
-
-
             }
             else
             {
@@ -129,6 +132,18 @@ namespace LoginAndMainUI
                 Udalost u = new Udalost(tbNazev.Text, MyDate, tbPoznamka.Text);
                 MojeUdalosti.Add(u);
                 u.MSGbox();
+
+                try
+                {
+                    string url = "http://www.g-pos.8u.cz/api/post-event/{\"nazev\":\"" + tbNazev.Text + "\",\"description\":\"" + tbPoznamka.Text + "\",\"od_kdy\":\"" + MyDate.ToString("yyyy-MM-dd") + "\",\"team\":" + user["user"]["team"] + "}";
+                    HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                    string res2 = await response.Content.ReadAsStringAsync();
+                    JObject jo2 = JObject.Parse(res2);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             else
             {
