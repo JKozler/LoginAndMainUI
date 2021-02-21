@@ -659,8 +659,8 @@ namespace LoginAndMainUI
                                 if (i == PrihlasovaciUdajeUpraveno.Length - 1) PrihlasovaciUdajeUpraveno[i] = $"{NamePassword[0]} {NamePassword[1]} {NamePassword[2]}";
                             }
                             File.WriteAllLines("username.gte", PrihlasovaciUdajeUpraveno);
-                            await UpdateUser(JO["user"]["name"].ToString(), JO["user"]["email"].ToString(), tbAddChangePassword.Text, Convert.ToInt32(JO["user"]["team"]), Convert.ToInt32(JO["user"]["time"]), JO["user"]["role"].ToString());
-                            MessageBox.Show("Jméno úspěšně změněno!", "Povedlo se");
+                            await UpdateUser(JO["name"].ToString(), JO["email"].ToString(), tbAddChangePassword.Text, Convert.ToInt32(JO["team"]), Convert.ToInt32(JO["time"]), JO["role"].ToString());
+                            MessageBox.Show("Heslo úspěšně změněno!", "Povedlo se");
                         }
                         else MessageBox.Show("Nesmíte zadat heslo s mezerou!", "CHYBA");
                     }
