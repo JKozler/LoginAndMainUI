@@ -254,9 +254,8 @@ namespace LoginAndMainUI
             CheckForExistingWorkingApps();
             DataContext = this;
             timer = new Timer(e => { UpdateTask(); }, null, 30000, 60000);
-
         }
-        public async void UpdateTask() //here you go! NIGGA http://www.g-pos.8u.cz/api/get-events/{id team}
+        public async void UpdateTask() //here you go! http://www.g-pos.8u.cz/api/get-events/{id team}
         {
             HttpClient http = new HttpClient();
             try

@@ -46,8 +46,8 @@ namespace LoginAndMainUI
         }
         public SettGloraSystem()
         {
-            Important();
             InitializeComponent();
+            Important();
             CBNastaveni.SelectedItem = Default;
             tbAdd.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_GotKeyboardFocus);
             tbAdd.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(TB_LostKeyboardFocus);
@@ -540,7 +540,7 @@ namespace LoginAndMainUI
             HttpClient http = new HttpClient();
             try
             {
-                string url = "http://www.g-pos.8u.cz/api/put-user/{\"name\":\"" + name + "\",\"email\":\"" + email + "\",\"password\":\"" + password + "\",\"team\":\"" + team + "\",\"time\":\"" + time + "\",\"role\":\"" + role + "\"}";
+                string url = "http://www.g-pos.8u.cz/api/put-user-by-id/{\"id\":\"" + ID + "\",\"name\":\"" + name + "\",\"email\":\"" + email + "\",\"password\":\"" + password + "\",\"team\":\"" + team + "\",\"time\":\"" + time + "\",\"role\":\"" + role + "\"}";
                 HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                 string res2 = await response.Content.ReadAsStringAsync();
                 JObject jo2 = JObject.Parse(res2);
@@ -633,7 +633,7 @@ namespace LoginAndMainUI
                                 if (i == PrihlasovaciUdajeUpraveno.Length - 1) PrihlasovaciUdajeUpraveno[i] = $"{NamePassword[0]} {NamePassword[1]} {NamePassword[2]}";
                             }
                             File.WriteAllLines("username.gte", PrihlasovaciUdajeUpraveno);
-                            await UpdateUser(tbChangeName.Text, JO["user"]["email"].ToString(), JO["user"]["password"].ToString(), Convert.ToInt32(JO["user"]["team"]), Convert.ToInt32(JO["user"]["time"]), JO["user"]["role"].ToString());
+                            await UpdateUser(tbChangeName.Text, JO["email"].ToString(), JO["password"].ToString(), Convert.ToInt32(JO["team"]), Convert.ToInt32(JO["time"]), JO["role"].ToString());
                             MessageBox.Show("Jméno úspěšně změněno!", "Povedlo se");
                         }
                         else MessageBox.Show("Nesmíte zadat uživatelské jméno s mezerou!", "CHYBA");
