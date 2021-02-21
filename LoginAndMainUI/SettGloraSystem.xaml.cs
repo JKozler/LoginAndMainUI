@@ -544,6 +544,7 @@ namespace LoginAndMainUI
                 HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                 string res2 = await response.Content.ReadAsStringAsync();
                 JObject jo2 = JObject.Parse(res2);
+                Important();
             }
             catch (Exception ex)
             {
