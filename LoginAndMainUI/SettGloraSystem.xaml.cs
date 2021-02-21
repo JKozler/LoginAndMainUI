@@ -672,7 +672,7 @@ namespace LoginAndMainUI
                     if (TestEmail.IsMatch(tbEmail.Text))
                     {
                         Informace[7] = tbEmail.Text;
-                        await UpdateUser(JO["user"]["name"].ToString(), tbEmail.Text, JO["user"]["password"].ToString(), Convert.ToInt32(JO["user"]["team"]), Convert.ToInt32(JO["user"]["time"]), JO["user"]["role"].ToString());
+                        await UpdateUser(JO["name"].ToString(), tbEmail.Text, JO["password"].ToString(), Convert.ToInt32(JO["team"]), Convert.ToInt32(JO["time"]), JO["role"].ToString());
                         MessageBox.Show("Úspěšně nastavený email!", "Povedlo se");
                     }
                     else MessageBox.Show("Chybně zadaný email!", "CHYBA");
@@ -680,7 +680,7 @@ namespace LoginAndMainUI
                     tbEmail.Foreground = Brushes.Gray;
                     break;
                 case "btnLeave":
-                    Leave = true; //NEZAPOMENOUT POTOM NASTAVIT NA FALSE PO API
+                    
                     break;
                 case "btnTask":
                     if (!tbTask.Text.Equals(Fraze[7]) || (!tbTask.Text.Equals("") && !tbTask.Text.Equals(Fraze[7])))
