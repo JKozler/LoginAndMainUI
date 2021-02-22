@@ -57,7 +57,7 @@ namespace LoginAndMainUI
         public JObject teamUsers = new JObject();
         public JObject mess = new JObject();
         private string taskN;
-        public int numOfEvents = 0;// Prozatim, potom API
+        Timer EventNotificationTimer;
 
         #region properities
         public string TaskName
@@ -267,6 +267,7 @@ namespace LoginAndMainUI
                 taskUpdate = jo;
                 JArray arrayUpdate1 = (JArray)taskUpdate["task"];
                 JArray arrayUpdate2 = (JArray)task["task"];
+                //EventNotificationTimer = new Timer(e => { (); }, null, 30000, 600000); Event timer
                 if (arrayUpdate1.Count != arrayUpdate2.Count) 
                 {
                     if (arrayUpdate1.Count >= arrayUpdate2.Count)

@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:LoginAndMainUI"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="LoginAndMainUI.ReminderWindow"
         mc:Ignorable="d"
-        Title="Add Event" Height="600" Width="450">
-    <Border Background="Black">
+        Title="Add Event" Height="600" Width="450" Icon="remindericon.png" ResizeMode="NoResize">
+    <Border Background="Gray">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -27,19 +27,17 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Label Content="Zde si navolte informace o události" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4" Margin="10" Foreground="#DDFFFFFF" FontSize="16" FontFamily="Dubai" FontWeight="Bold"/>
-            <Label Content="Čas události" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="10" Foreground="#DDFFFFFF" FontFamily="Dubai" FontWeight="Bold" FontSize="14"/>
-            <Label Content="Název události" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="10" Foreground="#DDFFFFFF" FontFamily="Dubai" FontSize="14" FontWeight="Bold"/>
-            <Label Content="Pozvat jiné uživatele" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Margin="8" Foreground="#DDFFFFFF" FontFamily="Dubai" FontSize="14" FontWeight="Bold"/>
-            <Label Content="Poznámka k události" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2" Margin="6" Foreground="#DDFFFFFF" FontFamily="Dubai" FontSize="14" FontWeight="Bold"/>
+            <Label Content="Zde si navolte informace o události" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4" Margin="5" Foreground="#DDFFFFFF" FontSize="16" FontWeight="Bold"/>
+            <Label Content="Čas události" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="10" Foreground="#DDFFFFFF" FontWeight="Bold" FontSize="14"/>
+            <Label Content="Název události" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="10" Foreground="#DDFFFFFF" FontSize="14" FontWeight="Bold"/>
+            <Label Content="Veřejná událost" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Margin="8" Foreground="#DDFFFFFF" FontSize="14" FontWeight="Bold"/>
+            <Label Content="Poznámka k události" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2" Margin="1" Foreground="#DDFFFFFF" FontSize="14" FontWeight="Bold"/>
             <TextBox x:Name="tbPoznamka" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="5" Background="#FFFF8000" FontFamily="Dubai" MaxLines="3" TextOptions.TextHintingMode="Fixed" AcceptsReturn="True" MaxLength="200" AcceptsTab="True" Width="295" HorizontalAlignment="Left" Margin="0.5,0,0,0"/>
-            <Button x:Name="AddEvent" Click="AddEvent_Click" Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2" Content="Přidat událost" Background="#FF2FFF38" FontFamily="Dubai Bold" FontSize="14" Foreground="Black"/>
+            <Button x:Name="AddEvent" Click="AddEvent_Click" Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2" Content="Přidat událost"  Background="#FF6EDAA1" Foreground="White" FontSize="14"/>
             <DatePicker x:Name="dtVelky" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Foreground="Orange" Background="White"/>
             <TextBox x:Name="tbNazev" Foreground="Orange" Background="White" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
-            <ListBox Foreground="Orange" Background="White" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
-            <materialDesign:TimePicker Is24Hours="True" x:Name="dtMaly" Background="White" Grid.ColumnSpan="2" Grid.Column="4" HorizontalAlignment="Center"  Grid.Row="1" VerticalAlignment="Center"/>
-            <Button Grid.ColumnSpan="1" Content="Test" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Wheat" x:Name="Tester" Click="Tester_Click"/>
-
+            <CheckBox x:Name="chBoxIsPublic" Background="Orange" IsChecked="False"  Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Orange" BorderThickness="2"></CheckBox>
+            <materialDesign:TimePicker Is24Hours="True" x:Name="dtMaly" Background="White" Foreground="Orange" Grid.ColumnSpan="2" Grid.Column="4" HorizontalAlignment="Center"  Grid.Row="1" VerticalAlignment="Center"/>
         </Grid>
     </Border>
 </Window>

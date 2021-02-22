@@ -154,10 +154,6 @@ namespace LoginAndMainUI
 
         }
 
-        private void Tester_Click(object sender, RoutedEventArgs e)
-        {
-            KonecTimeLimitu();
-            //AddEvent
-        }
+
     }
 }
