@@ -98,16 +98,6 @@ namespace LoginAndMainUI
             tbEmail.Foreground = Brushes.Gray;
             tbTask.Foreground = Brushes.Gray;
             tbDescription.Foreground = Brushes.Gray;
-
-
-            if (((ComboBox)sender).SelectedIndex == 3)
-            {
-                /*foreach (ListBoxItem Item in MUI.lbTaskProgress.ItemsSource)//Potřebuju nějak dostat jeho tasky do mejch tasku, s tím MUI je problém, napadlo mě to přes APInu stahovat
-                {
-                    Zachyt = Item;
-                }*/
-            }
-
             Vzhled(Jmeno);
         }
         private void TB_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
@@ -551,6 +541,22 @@ namespace LoginAndMainUI
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
             }
         }
+        public async Task UpdateTeam(string Name, bool isSolved, int ID)
+        {
+            HttpClient http = new HttpClient();
+            try
+            {
+                string url = "http://www.g-pos.8u.cz/api/put-team/{\"name\":\"" + Name + "\",\"isSolved\":\"" + isSolved + "\",\"id\":\"" + ID + "\"}";
+                HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                string res2 = await response.Content.ReadAsStringAsync();
+                JObject jo2 = JObject.Parse(res2);
+                Important();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+            }
+        }
         private async void btn_Click(object sender, RoutedEventArgs e)
         {
             string jmeno = ((Button)sender).Name;
@@ -589,6 +595,10 @@ namespace LoginAndMainUI
                     if (!tbChange.Text.Equals(Fraze[1]) || (!tbChange.Text.Equals("") && !tbChange.Text.Equals(Fraze[1])))
                     {
                         Informace[2] = tbChange.Text;
+                        MessageBoxResult MBR = MessageBox.Show("Chcete rozpustit tým?", "Ukončení týmu", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes);
+                        if (MBR == MessageBoxResult.Yes) Leave = true;
+                        else Leave = false;
+                        await UpdateTeam(tbChange.Text, Leave, 0); //Nulu změnit, nevím, co tam dát za tým
                         MessageBox.Show("Tým byl úspěšně přejmenován!", "Povedlo se");
                     }
                     else MessageBox.Show("Prázdné pole jména týmu!", "CHYBA");
