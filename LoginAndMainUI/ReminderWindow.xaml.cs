@@ -135,10 +135,20 @@ namespace LoginAndMainUI
 
                 try
                 {
-                    string url = "http://www.g-pos.8u.cz/api/post-event/{\"nazev\":\"" + tbNazev.Text + "\",\"description\":\"" + tbPoznamka.Text + "\",\"od_kdy\":\"" + MyDate.ToString("yyyy-MM-dd") + "\",\"team\":" + user["user"]["team"] + "}";
-                    HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
-                    string res2 = await response.Content.ReadAsStringAsync();
-                    JObject jo2 = JObject.Parse(res2);
+                    if (chBoxIsPublic.IsChecked == true)
+                    {
+                        string url = "http://www.g-pos.8u.cz/api/post-event/{\"nazev\":\"" + tbNazev.Text + "\",\"description\":\"" + tbPoznamka.Text + "\",\"od_kdy\":\"" + MyDate.ToString("yyyy-MM-dd") + "\",\"team\":" + user["user"]["team"] + ",\"public\":\"" + 1 +"\"}";
+                        HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                        string res2 = await response.Content.ReadAsStringAsync();
+                        JObject jo2 = JObject.Parse(res2);
+                    }
+                    else
+                    {
+                        string url = "http://www.g-pos.8u.cz/api/post-event/{\"nazev\":\"" + tbNazev.Text + "\",\"description\":\"" + tbPoznamka.Text + "\",\"od_kdy\":\"" + MyDate.ToString("yyyy-MM-dd") + "\",\"team\":" + user["user"]["team"] + ",\"public\":\"" + 0 +"\"}";
+                        HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                        string res2 = await response.Content.ReadAsStringAsync();
+                        JObject jo2 = JObject.Parse(res2);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -154,6 +164,9 @@ namespace LoginAndMainUI
 
         }
 
-
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }
 }
