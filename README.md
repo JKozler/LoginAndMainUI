@@ -12,3 +12,4 @@
 * Now we have allready funtional Team Viewer (to manage team)
 * Also We have created Direct message (you can write a massage to your team mate)
 * You can also change name, password, e-mail and you can leave a team
+* Create events (public and private)
