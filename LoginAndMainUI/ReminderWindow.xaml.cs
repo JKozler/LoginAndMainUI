@@ -137,14 +137,14 @@ namespace LoginAndMainUI
                 {
                     if (chBoxIsPublic.IsChecked == true)
                     {
-                        string url = "http://www.g-pos.8u.cz/api/post-event/{\"nazev\":\"" + tbNazev.Text + "\",\"description\":\"" + tbPoznamka.Text + "\",\"od_kdy\":\"" + MyDate.ToString("yyyy-MM-dd") + "\",\"team\":" + user["user"]["team"] + ",\"public\":\"" + 1 +"\"}";
+                        string url = "http://www.g-pos.8u.cz/api/post-event/{\"nazev\":\"" + tbNazev.Text + "\",\"description\":\"" + tbPoznamka.Text + "\",\"od_kdy\":\"" + MyDate.ToString("yyyy-MM-dd") + "\",\"team\":" + user["user"]["team"] + ",\"public\":\"" + 1 +"\",\"user\":\"" + user["user"]["id"] + "\"}";
                         HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                         string res2 = await response.Content.ReadAsStringAsync();
                         JObject jo2 = JObject.Parse(res2);
                     }
                     else
                     {
-                        string url = "http://www.g-pos.8u.cz/api/post-event/{\"nazev\":\"" + tbNazev.Text + "\",\"description\":\"" + tbPoznamka.Text + "\",\"od_kdy\":\"" + MyDate.ToString("yyyy-MM-dd") + "\",\"team\":" + user["user"]["team"] + ",\"public\":\"" + 0 +"\"}";
+                        string url = "http://www.g-pos.8u.cz/api/post-event/{\"nazev\":\"" + tbNazev.Text + "\",\"description\":\"" + tbPoznamka.Text + "\",\"od_kdy\":\"" + MyDate.ToString("yyyy-MM-dd") + "\",\"team\":" + user["user"]["team"] + ",\"public\":\"" + 0 + "\",\"user\":\"" + user["user"]["id"] + "\"}";
                         HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                         string res2 = await response.Content.ReadAsStringAsync();
                         JObject jo2 = JObject.Parse(res2);

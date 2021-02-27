@@ -59,6 +59,7 @@ namespace LoginAndMainUI
         public JObject mess = new JObject();
         public JObject events = new JObject();
         private string taskN;
+        List<string> eventsName = new List<string>();
         Timer EventNotificationTimer;
         #endregion
 
@@ -1357,6 +1358,26 @@ namespace LoginAndMainUI
                 HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
                 string res = await response.Content.ReadAsStringAsync();
                 JObject jo = JObject.Parse(res);
+                JArray array = (JArray)jo["nazev"];
+                JArray arrayEv = (JArray)events["nazev"];
+                for (int i = 0; i < array.Count; i++)
+                {
+                    if (Convert.ToInt32(jo["nazev"][i]["public"]) == 1 || jo["nazev"][i]["user"] == user["user"]["id"])
+                        eventsName.Add(jo["nazev"][i]["nazev"].ToString());
+                }
+                if (!firstRun && arrayEv.Count != array.Count)
+                {
+                    App.Current.Dispatcher.Invoke((System.Action)delegate
+                    {
+                        TaskName = "New event associated";
+                        TaskProperty = "Message " + jo["nazev"][array.Count - 1]["nazev"].ToString();
+                        TaskElse = "Subject " + jo["nazev"][array.Count - 1]["od_kdy"].ToString();
+                        InformationCenter();
+                        InfoItems.Add("New event created.");
+                    });
+                    notificationCounter++;
+                    ToolTipInfo = "You have " + notificationCounter + " notification";
+                }
                 events = jo;
             }
             catch (Exception ex)
