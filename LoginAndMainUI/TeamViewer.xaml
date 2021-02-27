@@ -5,9 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:LoginAndMainUI"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        fw:AcrylicWindow.Enabled="True"
+        fw:AcrylicWindow.AcrylicWindowStyle="NoIcon"
         mc:Ignorable="d"
         Title="TeamViewer" Height="450" Width="800">
-    <Border Background="Black">
+    <Border>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.1*"/>
@@ -16,8 +19,8 @@
                 <RowDefinition Height="0.05*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Label Padding="0" Content="{Binding Info}" Grid.Row="0" Foreground="#DDFFFFFF" VerticalAlignment="Center" FontSize="20" FontFamily="Dubai Bold" x:Name="mainInfo"></Label>
-            <Label Padding="0" Content="{Binding ElseInfo}" Grid.Row="1" Foreground="#DDFFFFFF" VerticalAlignment="Center" FontSize="18" FontFamily="Dubai Medium" x:Name="description"></Label>
+            <Label Padding="0" Content="{Binding Info}" Grid.Row="0" Foreground="#DD000000" VerticalAlignment="Center" FontSize="20" FontFamily="Dubai Bold" x:Name="mainInfo"></Label>
+            <Label Padding="0" Content="{Binding ElseInfo}" Grid.Row="1" Foreground="#DD000000" VerticalAlignment="Center" FontSize="18" FontFamily="Dubai Medium" x:Name="description"></Label>
             <Border Grid.Row="2" Background="White"></Border>
             <Border Grid.Row="3">
                 <Grid>
@@ -25,8 +28,8 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="Users in team:" Foreground="#DDFFFFFF" Padding="0"></Label>
-                    <Label Grid.Column="1" Content="User properities:" Foreground="#DDFFFFFF" Padding="0"></Label>
+                    <Label Content="Users in team:" Foreground="#DD000000" Padding="0"></Label>
+                    <Label Grid.Column="1" Content="User properities:" Foreground="#DD000000" Padding="0"></Label>
                 </Grid>
             </Border>
             <Border Grid.Row="4">
@@ -50,14 +53,14 @@
                                 <ColumnDefinition Width="0.3*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Center" Padding="0" Content="{Binding UserSelect}" Foreground="#DDFFFFFF" FontFamily="Dubai Medium" FontSize="16"></Label>
-                            <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="Role" Grid.Row="1" Foreground="#DDFFFFFF"></Label>
+                            <Label Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Center" Padding="0" Content="{Binding UserSelect}" Foreground="#DD000000" FontFamily="Dubai Medium" FontSize="16" Background="{x:Null}"></Label>
+                            <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="Role" Grid.Row="1" Foreground="#DD000000"></Label>
                             <ComboBox x:Name="roleTx" IsEnabled="{Binding EnableContent}" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding RoleItems}" SelectedItem="{Binding RoleTxt}" Margin="5,12,5,12" Foreground="Black" Background="#FF4D4D4D"></ComboBox>
-                            <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="Admin?" Grid.Row="2" Foreground="#DDFFFFFF"></Label>
+                            <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="Admin?" Grid.Row="2" Foreground="#DD000000"></Label>
                             <ComboBox IsEnabled="{Binding EnableContent}" SelectedItem="{Binding Admin}" ItemsSource="{Binding ItemsCB}" x:Name="adminYesNo" Grid.Row="2" Grid.Column="1" Margin="5" Background="#FF4D4D4D" Foreground="Black" ></ComboBox>
-                            <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="Task states" Grid.Row="3" Foreground="#DDFFFFFF"></Label>
-                            <Label MouseDown="taskDetail_MouseDown"  x:Name="taskDetail" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="{Binding TaskStates}" Grid.Row="3" Grid.Column="1" Foreground="#DDFFFFFF"></Label>
-                            <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="22" Content="Description" Grid.Row="4" Foreground="#DDFFFFFF"></Label>
+                            <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="Task states" Grid.Row="3" Foreground="#DD000000"></Label>
+                            <Label MouseDown="taskDetail_MouseDown"  x:Name="taskDetail" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="24" Content="{Binding TaskStates}" Grid.Row="3" Grid.Column="1" Foreground="#DD000000"></Label>
+                            <Label VerticalAlignment="Center" FontFamily="Dubai Bold" FontSize="22" Content="Description" Grid.Row="4" Foreground="#DD000000"></Label>
                             <TextBox IsEnabled="{Binding EnableContent}" Grid.Row="4" Grid.Column="1" x:Name="descriptionTxt" Text="{Binding DescriptionTxt}" Margin="5,15,5,15" Foreground="White" Background="#FF4D4D4D"></TextBox>
                             <Button IsEnabled="{Binding EnableContent}" ToolTip="Save user settings." Grid.Column="1" Grid.Row="5" x:Name="saveBtn" HorizontalAlignment="Right" Padding="0" Click="saveBtn_Click" Background="#FF00FF0C">
                                 <materialDesign:PackIcon Width="auto" Height="auto" Kind="ContentSave" />

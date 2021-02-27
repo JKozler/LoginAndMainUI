@@ -30,6 +30,7 @@ namespace LoginAndMainUI
     /// </summary>
     public partial class MainUI : Window, INotifyPropertyChanged
     {
+        #region Main Variables
         DateTime timeStart = new DateTime();
         DateTime timeStop = new DateTime();
         TimeSpan totalTime = new TimeSpan();
@@ -56,10 +57,12 @@ namespace LoginAndMainUI
         public JObject admin = new JObject();
         public JObject teamUsers = new JObject();
         public JObject mess = new JObject();
+        public JObject events = new JObject();
         private string taskN;
         Timer EventNotificationTimer;
+        #endregion
 
-        #region properities
+        #region Properities
         public string TaskName
         {
             get { return taskN; }
@@ -1336,12 +1339,30 @@ namespace LoginAndMainUI
                 NumberProgress = numberOfTaskProgress;
                 NumberFailed = numberOfTaskFailed;
                 NumberEnable = numberOfTaskDone + "/" + numberOfTask;
+                await GetAllEvents();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
             }
             firstRun = false;
+        }
+
+        //Peter
+        public async Task GetAllEvents() {
+            HttpClient http = new HttpClient();
+            try
+            {
+                string url = "http://www.g-pos.8u.cz/api/get-events/" + user["user"]["team"];
+                HttpResponseMessage response = await http.GetAsync(url, HttpCompletionOption.ResponseContentRead);
+                string res = await response.Content.ReadAsStringAsync();
+                JObject jo = JObject.Parse(res);
+                events = jo;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+            }
         }
 
         public async Task<string[]> ReturnAllMyTask()
