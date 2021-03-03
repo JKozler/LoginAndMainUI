@@ -300,9 +300,32 @@
                                     <Ellipse Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Width="0" ToolTip="Time is recording" Height="0" Fill="#FFFF2727" Stroke="White"></Ellipse>
                                     <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Content="Number of events" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="12" FontFamily="Dubai Medium"/>
                                     <Label x:Name="NumOfEvents" Grid.ColumnSpan="3" FontFamily="Dubai Light" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Content="0" FontSize="56" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
-                                    <materialDesign:PackIcon ToolTip="For more information about tasks click" x:Name="moreInfoReminder" MouseDown="moreInfoReminder_MouseDown" Grid.Row="2" Grid.Column="1" Kind="MoreCircle" Height="auto" Width="auto" HorizontalAlignment="Stretch" Margin="0,0,0,0" Foreground="#2E86C1"/>
+                                    <materialDesign:PackIcon ToolTip="For more information about tasks click" x:Name="moreInfoReminder" MouseDown="moreInfoReminder_MouseDown" Grid.Row="2" Grid.Column="1" Kind="MoreCircle" Height="auto" Width="auto" HorizontalAlignment="Stretch" Margin="0,0,0,0" Foreground="#2E86C1">
+
+                                    </materialDesign:PackIcon>
                                 </Grid>
                             </Border>
+                            <!--Petr-->
+                            <Border x:Name="MyTasks" Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Background="White" Margin="20,160,20,20" CornerRadius="20" Visibility="Hidden">
+                            <Border.Effect>
+                                <DropShadowEffect Color="#FF818181"/>
+                            </Border.Effect>
+                                <Grid>
+                                <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="20"/>
+
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <Button Grid.Row="0" ToolTip="Minimaze task bar" x:Name="MinimalizeTasks" Click="MinimalizeTasks_Click" VerticalAlignment="Center" Margin="0,3,15,7" HorizontalAlignment="Right" Background="#FFE9FF09" Height="10" ></Button>
+
+                                    <ListBox x:Name="TaskListBox" Grid.Row="1"></ListBox>
+                                </Grid>
+                            </Border>
+                            <!--Petr-->
                             <Border Panel.ZIndex="2" x:Name="taskBarWholeInfo" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="65,0,10,10" Grid.Column="3" Background="White" CornerRadius="10,0,0,0">
                                 <Border.Effect>
                                     <DropShadowEffect Color="#FF818181"/>

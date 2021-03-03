@@ -259,7 +259,7 @@ namespace LoginAndMainUI
             DataContext = this;
             timer = new Timer(e => { UpdateTask(); }, null, 30000, 60000);
         }
-        public async void UpdateTask() //here you go! http://www.g-pos.8u.cz/api/get-events/{id team}
+        public async void UpdateTask() 
         {
             HttpClient http = new HttpClient();
             try
@@ -1384,6 +1384,12 @@ namespace LoginAndMainUI
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
             }
+            foreach (string item in eventsName)
+            {
+                TaskListBox.Items.Add(item);
+            }
+            NumOfEvents.Content = TaskListBox.Items.Count.ToString();
+
         }
 
         public async Task<string[]> ReturnAllMyTask()
@@ -1514,6 +1520,14 @@ namespace LoginAndMainUI
         private void moreInfoReminder_MouseDown(object sender, MouseButtonEventArgs e)
         {
 
+            MyTasks.Visibility = Visibility.Visible;
+
+        }
+
+        private void MinimalizeTasks_Click(object sender, RoutedEventArgs e)
+        {
+
+            MyTasks.Visibility = Visibility.Hidden;
         }
     }
 }
