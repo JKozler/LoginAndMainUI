@@ -58,5 +58,10 @@ namespace LoginAndMainUI
                 MessageBox.Show("Successfully send.", "Success", MessageBoxButton.OK);
             }
         }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }
 }

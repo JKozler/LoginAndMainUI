@@ -289,5 +289,10 @@ namespace LoginAndMainUI
             else
                 MessageBox.Show("Choose user.", "Error", MessageBoxButton.OK);
         }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }
 }
