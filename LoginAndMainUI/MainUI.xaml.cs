@@ -1536,15 +1536,17 @@ namespace LoginAndMainUI
 
         private void moreInfoReminder_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            DoubleAnimation blurEnable = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(0.3)));
+            MyTasks.BeginAnimation(OpacityProperty, blurEnable);
             MyTasks.Visibility = Visibility.Visible;
-
+            MyTasks.IsEnabled = true;
         }
 
         private void MinimalizeTasks_Click(object sender, RoutedEventArgs e)
         {
-
-            MyTasks.Visibility = Visibility.Hidden;
+            DoubleAnimation blurEnable = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromSeconds(0.3)));
+            MyTasks.BeginAnimation(OpacityProperty, blurEnable);
+            MyTasks.IsEnabled = false;
         }
     }
 }
