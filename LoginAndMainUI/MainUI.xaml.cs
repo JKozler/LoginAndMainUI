@@ -1349,8 +1349,13 @@ namespace LoginAndMainUI
             firstRun = false;
         }
 
-        //Peter
+        #region GetAllEvents
         public async Task GetAllEvents() {
+            App.Current.Dispatcher.Invoke((System.Action)delegate
+            {
+                eventsName.Clear();
+                TaskListBox.Items.Clear();
+            });
             HttpClient http = new HttpClient();
             try
             {
@@ -1362,8 +1367,13 @@ namespace LoginAndMainUI
                 JArray arrayEv = (JArray)events["nazev"];
                 for (int i = 0; i < array.Count; i++)
                 {
-                    if (Convert.ToInt32(jo["nazev"][i]["public"]) == 1 || jo["nazev"][i]["user"] == user["user"]["id"])
-                        eventsName.Add(jo["nazev"][i]["nazev"].ToString());
+                    if (Convert.ToInt32(jo["nazev"][i]["public"]) == 1 || Convert.ToInt32(jo["nazev"][i]["user"]) == Convert.ToInt32(user["user"]["id"]))
+                    {
+                        App.Current.Dispatcher.Invoke((System.Action)delegate
+                        {
+                            eventsName.Add(jo["nazev"][i]["nazev"].ToString());
+                        });
+                    }
                 }
                 if (!firstRun && arrayEv.Count != array.Count)
                 {
@@ -1386,11 +1396,18 @@ namespace LoginAndMainUI
             }
             foreach (string item in eventsName)
             {
-                TaskListBox.Items.Add(item);
+                App.Current.Dispatcher.Invoke((System.Action)delegate
+                {
+                    TaskListBox.Items.Add(item);
+                });
             }
-            NumOfEvents.Content = TaskListBox.Items.Count.ToString();
+            App.Current.Dispatcher.Invoke((System.Action)delegate
+            {
+                NumOfEvents.Content = TaskListBox.Items.Count.ToString();
+            });
 
         }
+        #endregion
 
         public async Task<string[]> ReturnAllMyTask()
         {
